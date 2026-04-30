@@ -1,0 +1,267 @@
+// ================================================================
+// YU-GI-OH! ALBUM - DATABASE SCHEMA (REFINED v3)
+// Based on reference schema structure
+// ================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ================================================================
+// LOOKUP TABLES (Reference Data)
+// ================================================================
+
+// Card Type (Monster, Spell, Trap)
+model CardType {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  cards Card[]
+
+  @@map("card_type")
+}
+
+// Card Attribute (FIRE, WATER, DARK, LIGHT, EARTH, WIND, DIVINE)
+model CardAttribute {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  cards Card[]
+
+  @@map("card_attribute")
+}
+
+// Card Frame (Normal, Effect, Fusion, Synchro, Xyz, Pendulum, Link, Token)
+model CardFrame {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  cards Card[]
+
+  @@map("card_frame")
+}
+
+// Monster Race (Warrior, Dragon, Fiend, Spellcaster, etc.)
+model MonsterRace {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  cards Card[]
+
+  @@map("card_race")
+}
+
+// Rarity (Common, Rare, Super Rare, Ultra Rare, Secret Rare, etc.)
+model Rarity {
+  id        Int          @id @default(autoincrement())
+  name      String       @unique
+  code      String       @unique  // C, R, SR, UR, GR, SECRET, etc.
+  cardSets  CardSet[]
+
+  @@map("rarity")
+}
+
+// ================================================================
+// CORE TABLES
+// ================================================================
+
+// User Model - Admin & User Authentication
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("user")  // "admin" | "user"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // User's card collection/favorites
+  userCards UserCard[]
+
+  @@map("users")
+}
+
+// Category Model - Kategori kartu (archetype/type)
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  slug        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Many-to-many dengan cards
+  cardCategories CardCategory[]
+
+  @@map("categories")
+}
+
+// Card Model - Inti kartu Yu-Gi-Oh
+// (1 record = 1 kartu unik, berdasarkan nama)
+model Card {
+  id          String   @id @default(uuid())
+
+  // Basic Info
+  name        String   // 8-digit card ID dari Konami (UNIQUE)
+  passcode    String?           // 8-digit card ID dari Konami (UNIQUE)
+
+  // FK to lookup tables
+  typeId      Int
+  type        CardType     @relation(fields: [typeId], references: [id])
+  attributeId Int?
+  attribute   CardAttribute? @relation(fields: [attributeId], references: [id])
+  frameId     Int?
+  frame       CardFrame?   @relation(fields: [frameId], references: [id])
+  raceId      Int?
+  race        MonsterRace? @relation(fields: [raceId], references: [id])
+
+  // Monster Stats
+  level       Int?     // Level 1-12 (normal/tuner/pendulum)
+  rank        Int?     // Rank 0-13 (Xyz monsters)
+  linkRating Int?     // Link 1-6 (Link monsters)
+
+  // ATK & DEF
+  attack      Int?
+  defense     Int?
+
+  // Card Description
+  description String?
+
+  // Image (YGOPRODeck image URL)
+  imageUrl    String?
+
+  // Link Markers (JSON array - untuk Link monsters)
+  // Contoh: ["Top", "Top-Right", "Right"]
+  linkMarkers String?
+
+  // Market Prices (realtime dari YGOPRODeck)
+  price              Float?  // Legacy - main price (TCGPlayer)
+  cardMarketPrice    Float?  // CardMarket (EUR)
+  tcgPlayerPrice     Float?  // TCGPlayer (USD)
+  eBayPrice          Float?  // eBay (USD)
+  amazonPrice        Float?  // Amazon (USD)
+  coolStuffIncPrice  Float?  // CoolStuffInc (USD)
+  priceUpdatedAt     DateTime?  // Last price update timestamp
+
+  // SubType untuk display (contoh: "[Dragon／Effect]", "Continuous")
+  subType     String?
+
+  // Metadata
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  cardSets        CardSet[]
+  cardCategories  CardCategory[]
+  userCards       UserCard[]
+
+  @@index([name])
+  @@index([passcode])
+  @@map("cards")
+}
+
+// ================================================================
+// CARD SET - Set/Booster pack tempat kartu muncul
+// (1 kartu bisa muncul di banyak set berbeda)
+// ================================================================
+model CardSet {
+  id          Int      @id @default(autoincrement())
+
+  // Set Info
+  setName     String    // e.g., "LED4-EN034"
+  setCode     String    // e.g., "LED4-EN034"
+
+  // FK to Rarity
+  rarityId    Int
+  rarity      Rarity   @relation(fields: [rarityId], references: [id])
+
+  releaseDate DateTime?
+  price       Float?   // Legacy price field
+
+  // Relations
+  cardId      String    // FK to Card
+  card        Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  // Prices for this card-set (multiple price sources)
+  cardSetPrices CardSetPrice[]
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([cardId, setCode])  // 1 card per set combination
+  @@index([setName])
+  @@index([cardId])
+  @@map("card_sets")
+}
+
+// ================================================================
+// CARD SET PRICE - Harga dari berbagai sumber
+// (Separate table untuk price tracking dari multiple sources)
+// ================================================================
+model CardSetPrice {
+  id          Int      @id @default(autoincrement())
+
+  // Price Source
+  source      String   // "CardMarket", "TCGPlayer", "eBay", "Amazon"
+  currency    String   @default("USD")
+
+  // Price Values
+  price       Float?            // Current price
+  priceHigh   Float?            // Highest price
+  priceLow    Float?            // Lowest price
+
+  // Market Info
+  url         String?           // URL ke product page
+  lastUpdated DateTime @default(now())
+
+  // Relations
+  cardSetId   Int
+  cardSet     CardSet   @relation(fields: [cardSetId], references: [id], onDelete: Cascade)
+
+  @@index([source])
+  @@index([cardSetId])
+  @@map("card_set_price")
+}
+
+// ================================================================
+// CARD CATEGORY (Many-to-Many junction)
+// Card bisa punya banyak category, category bisa punya banyak card
+// ================================================================
+model CardCategory {
+  cardId      String
+  categoryId  Int
+
+  card        Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([cardId, categoryId])
+  @@map("card_categories")
+}
+
+// ================================================================
+// USER CARD - User's card collection/favorites
+// ================================================================
+model UserCard {
+  id          Int      @id @default(autoincrement())
+
+  // User reference
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Card reference
+  cardId      String
+  card        Card     @relation(fields: [cardId], references: [id], onDelete: Cascade)
+
+  // Collection info
+  isFavorite  Boolean  @default(false)
+  quantity    Int      @default(1)
+  condition   String?           // "Mint", "Near Mint", "Played", etc.
+  notes       String?
+  addedAt     DateTime @default(now())
+
+  @@unique([userId, cardId])
+  @@index([userId])
+  @@index([cardId])
+  @@map("user_cards")
+}

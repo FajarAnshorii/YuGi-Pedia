@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Next.js
+.next/
+out/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Debug
+.npm
+.yarn-integrity
+
+# Misc
+.DS_Store
+*.pem
+*.local
+
+# Prisma
+prisma/*.db
+prisma/*.db-journal
+
+# Images (generated)
+public/images/hero-bg.jpg
+
+# Claude
+.agents/
+.claude/
+skills-lock.json

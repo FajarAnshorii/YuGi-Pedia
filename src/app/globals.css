@@ -1,0 +1,115 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 15, 23, 42;
+  --background-start-rgb: 248, 250, 252;
+  --background-end-rgb: 255, 255, 255;
+}
+
+.dark {
+  --foreground-rgb: 248, 250, 254;
+  --background-start-rgb: 15, 23, 42;
+  --background-end-rgb: 30, 41, 59;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background-color: rgb(var(--background-start-rgb));
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode body */
+.dark body {
+  color: rgb(var(--foreground-rgb));
+  background-color: rgb(var(--background-start-rgb));
+}
+
+/* Light mode card styling */
+.card-border {
+  @apply border-2 border-gray-200 rounded-xl overflow-hidden transition-all duration-300;
+  @apply hover:border-yellow-400 hover:shadow-xl hover:shadow-yellow-400/20 hover:-translate-y-1;
+  @apply dark:border-slate-700 dark:hover:border-yellow-400;
+}
+
+/* Dark mode card styling */
+.dark .card-border {
+  @apply bg-slate-800 border-slate-700;
+  @apply hover:border-yellow-400 hover:shadow-xl hover:shadow-yellow-400/20 hover:-translate-y-1;
+}
+
+/* Gold accent */
+.gold-accent {
+  @apply text-yellow-500 font-bold;
+}
+
+/* Admin sidebar */
+.admin-sidebar {
+  @apply fixed left-0 top-0 h-screen w-64 bg-slate-900 text-white z-50;
+}
+
+/* Table styling - Light mode */
+.admin-table {
+  @apply w-full border-collapse;
+}
+
+.admin-table th {
+  @apply bg-slate-800 text-white p-4 text-left font-semibold text-sm uppercase tracking-wide;
+}
+
+.admin-table td {
+  @apply p-4 border-b border-gray-100;
+}
+
+.admin-table tr:hover td {
+  @apply bg-gray-50;
+}
+
+/* Table styling - Dark mode */
+.dark .admin-table th {
+  @apply bg-slate-700;
+}
+
+.dark .admin-table td {
+  @apply border-b border-slate-700;
+}
+
+.dark .admin-table tr:hover td {
+  @apply bg-slate-700;
+}
+
+/* Attribute colors */
+.attr-fire { @apply text-red-500; }
+.attr-water { @apply text-blue-500; }
+.attr-earth { @apply text-yellow-600; }
+.attr-wind { @apply text-green-400; }
+.attr-light { @apply text-yellow-400; }
+.attr-dark { @apply text-purple-500; }
+.attr-divine { @apply text-amber-400; }
+
+/* Card type colors */
+.type-monster { @apply bg-red-500 text-white; }
+.type-spell { @apply bg-green-500 text-white; }
+.type-trap { @apply bg-purple-500 text-white; }
+
+/* Loading spinner */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Responsive table */
+@media (max-width: 768px) {
+  .admin-table {
+    font-size: 0.875rem;
+  }
+  .admin-table th,
+  .admin-table td {
+    padding: 0.75rem 0.5rem;
+  }
+}

@@ -1,0 +1,161 @@
+'use client'
+
+import Link from 'next/link'
+import Image from 'next/image'
+import { Card } from '@/lib/types'
+
+interface CardCardProps {
+  card: Card
+}
+
+export default function CardCard({ card }: CardCardProps) {
+  // Get type info
+  const typeName = card.type?.name || card.typeId?.toString() || 'Unknown'
+  const typeSlug = typeName.toLowerCase()
+
+  // Get attribute info
+  const attributeName = card.attribute?.name || null
+
+  // Type badge styling
+  const getTypeBadge = () => {
+    if (typeSlug.includes('monster')) return 'bg-red-500'
+    if (typeSlug.includes('spell')) return 'bg-green-500'
+    if (typeSlug.includes('trap')) return 'bg-purple-500'
+    return 'bg-gray-500'
+  }
+
+  // Attribute styling
+  const getAttributeColor = () => {
+    if (!attributeName) return ''
+    const attr = attributeName.toLowerCase()
+    if (attr === 'fire') return 'text-red-500'
+    if (attr === 'water') return 'text-blue-500'
+    if (attr === 'earth') return 'text-yellow-600'
+    if (attr === 'wind') return 'text-green-400'
+    if (attr === 'light') return 'text-yellow-400'
+    if (attr === 'dark') return 'text-purple-500'
+    if (attr === 'divine') return 'text-amber-400'
+    return ''
+  }
+
+  // Attribute emoji
+  const getAttributeEmoji = () => {
+    if (!attributeName) return ''
+    const attr = attributeName.toUpperCase()
+    const emojis: Record<string, string> = {
+      FIRE: '🔥',
+      WATER: '💧',
+      EARTH: '🌍',
+      WIND: '💨',
+      LIGHT: '☀️',
+      DARK: '🌑',
+      DIVINE: '⭐',
+    }
+    return emojis[attr] || ''
+  }
+
+  // Card image URL - use imageUrl from database first, then fallback
+  const getCardImageUrl = () => {
+    // If imageUrl exists in database, use it
+    if (card.imageUrl) {
+      return card.imageUrl
+    }
+    // Fallback to placeholder with card name
+    return `https://via.placeholder.com/300x420/1e293b/ffffff?text=${encodeURIComponent(card.name)}`
+  }
+
+  return (
+    <Link href={`/cards/${card.id}`}>
+      <div className="card-border bg-white dark:bg-slate-800 cursor-pointer h-full flex flex-col transition-colors duration-200">
+        {/* Card Image */}
+        <div className="aspect-[3/4] relative bg-gradient-to-br from-slate-700 to-slate-900 overflow-hidden">
+          <img
+            src={getCardImageUrl()}
+            alt={card.name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              // If YGOPRODeck image fails, use placeholder with card name
+              e.currentTarget.src = `https://via.placeholder.com/300x420/1e293b/ffffff?text=${encodeURIComponent(card.name)}`
+            }}
+          />
+
+          {/* Type badge */}
+          <div className="absolute top-2 right-2">
+            <span className={`${getTypeBadge()} text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg`}>
+              {typeName}
+            </span>
+          </div>
+
+          {/* Attribute badge (for monsters) */}
+          {attributeName && (
+            <div className="absolute top-2 left-2">
+              <span className={`${getAttributeColor()} bg-black/60 backdrop-blur text-xs px-2 py-1 rounded-full font-bold shadow-lg`}>
+                {getAttributeEmoji()} {attributeName}
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Card Info */}
+        <div className="p-3 flex-1 flex flex-col">
+          <h3 className="font-bold text-sm text-slate-900 dark:text-white line-clamp-2 mb-2" title={card.name}>
+            {card.name}
+          </h3>
+
+          {/* SubType */}
+          {card.subType && (
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 line-clamp-1">
+              {card.subType}
+            </p>
+          )}
+
+          {/* Level/Rank/Link */}
+          <div className="mt-auto">
+            {card.level && (
+              <div className="flex items-center gap-1 text-xs text-yellow-500 mb-1">
+                <span>★</span>
+                <span>Level {card.level}</span>
+              </div>
+            )}
+            {card.rank && (
+              <div className="flex items-center gap-1 text-xs text-purple-500 mb-1">
+                <span>☆</span>
+                <span>Rank {card.rank}</span>
+              </div>
+            )}
+            {card.linkRating && (
+              <div className="flex items-center gap-1 text-xs text-cyan-500 mb-1">
+                <span>⚡</span>
+                <span>Link {card.linkRating}</span>
+              </div>
+            )}
+          </div>
+
+          {/* ATK/DEF for monsters */}
+          {card.type?.name?.toLowerCase() === 'monster' && (
+            <div className="flex justify-between mt-auto text-sm font-bold">
+              <span className="text-red-500">ATK {card.attack ?? '?'}</span>
+              <span className="text-blue-500">DEF {card.defense ?? '?'}</span>
+            </div>
+          )}
+
+          {/* Price Display */}
+          {(card.tcgPlayerPrice || card.cardMarketPrice) && (
+            <div className="mt-2 pt-2 border-t border-gray-100 dark:border-slate-700">
+              <div className="flex items-center gap-1 text-xs">
+                <span className="text-green-600 dark:text-green-400 font-bold">
+                  {card.tcgPlayerPrice
+                    ? `$${card.tcgPlayerPrice.toFixed(2)}`
+                    : card.cardMarketPrice
+                    ? `€${card.cardMarketPrice.toFixed(2)}`
+                    : '-'}
+                </span>
+                <span className="text-gray-400 dark:text-gray-500">USD</span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </Link>
+  )
+}
