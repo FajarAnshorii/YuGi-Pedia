@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import Navbar from '@/components/Navbar'
-import { Search, Calendar, ExternalLink, Hash, Award } from 'lucide-react'
+import { Search, Calendar, Hash, Image as ImageIcon } from 'lucide-react'
 
 interface YGOPack {
   set_name: string
@@ -18,6 +18,9 @@ export default function BoosterPackPage() {
   const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'most_cards' | 'least_cards'>('newest')
 
+  // Keep track of image loading errors to render beautiful fallbacks
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
+
   // Fetch live booster packs from YGOPRODeck API
   useEffect(() => {
     fetch('https://db.ygoprodeck.com/api/v7/cardsets.php')
@@ -27,7 +30,6 @@ export default function BoosterPackPage() {
       })
       .then((data) => {
         if (Array.isArray(data)) {
-          // Clean up and store
           setPacks(data)
         } else {
           throw new Error('Data format error')
@@ -77,6 +79,13 @@ export default function BoosterPackPage() {
     return result
   }, [packs, search, sortBy])
 
+  const handleImageError = (setName: string) => {
+    setImageErrors(prev => ({
+      ...prev,
+      [setName]: true
+    }))
+  }
+
   return (
     <main className="min-h-screen transition-colors duration-200">
       <Navbar />
@@ -106,7 +115,7 @@ export default function BoosterPackPage() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                 <input
                   type="text"
-                  placeholder="Cari booster pack (contoh: Rarity, Chaos, LOB, dll)..."
+                  placeholder="Cari booster pack (contoh: Legend of Blue Eyes, Rarity, LOB, etc)..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 text-sm font-medium"
@@ -180,74 +189,93 @@ export default function BoosterPackPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPacks.map((pack) => {
               const isFuture = pack.tcg_date && new Date(pack.tcg_date).getTime() > Date.now()
+              const hasImageError = imageErrors[pack.set_name]
+
+              // Clean name to construct the live set cover URL
+              const imageUrl = `https://images.ygoprodeck.com/images/sets/${encodeURIComponent(pack.set_name)}.jpg`
 
               return (
                 <div 
                   key={pack.set_name}
-                  className="group relative flex flex-col justify-between rounded-2xl border border-gray-100 dark:border-slate-800/40 p-6 bg-white dark:bg-slate-900/40 hover:border-yellow-500/40 dark:hover:border-yellow-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/5 hover:-translate-y-1"
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-gray-100 dark:border-slate-800/40 bg-white dark:bg-slate-900/40 hover:border-yellow-500/40 dark:hover:border-yellow-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/5 hover:-translate-y-1"
                 >
                   {/* Subtle inner radial glow */}
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-yellow-500/0 via-transparent to-yellow-500/0 group-hover:from-yellow-500/[0.02] group-hover:to-yellow-500/[0.03] transition-all duration-300 pointer-events-none"></div>
 
                   <div>
-                    {/* Pack Badge Code & Status */}
-                    <div className="flex items-center justify-between mb-4">
-                      {pack.set_code ? (
-                        <span className="px-3 py-1 bg-yellow-500/10 text-yellow-500 dark:text-yellow-400 border border-yellow-500/20 rounded-full text-xs font-bold uppercase tracking-wider">
-                          {pack.set_code}
-                        </span>
+                    {/* Cover Pack Image Header */}
+                    <div className="relative h-48 w-full bg-slate-950/40 border-b border-gray-100 dark:border-slate-800/40 overflow-hidden flex items-center justify-center">
+                      {!hasImageError ? (
+                        <img 
+                          src={imageUrl} 
+                          alt={pack.set_name}
+                          onError={() => handleImageError(pack.set_name)}
+                          className="h-full w-full object-contain p-2 group-hover:scale-105 transition duration-300"
+                        />
                       ) : (
-                        <span className="px-3 py-1 bg-slate-500/10 text-slate-500 dark:text-slate-400 border border-slate-500/20 rounded-full text-xs font-bold uppercase tracking-wider">
-                          SET
-                        </span>
+                        /* Beautiful Fallback Hologram Pack */
+                        <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 via-slate-950 to-purple-500/5 flex flex-col items-center justify-center p-4 text-center">
+                          <div className="h-14 w-10 border-2 border-dashed border-yellow-500/30 rounded-md flex items-center justify-center bg-yellow-500/5 shadow-[0_0_15px_rgba(234,179,8,0.1)] mb-2 group-hover:border-yellow-400 transition">
+                            <span className="text-yellow-500 font-extrabold text-[10px] tracking-widest uppercase">YGO</span>
+                          </div>
+                          <span className="text-[10px] font-extrabold text-yellow-500/80 tracking-widest uppercase">
+                            {pack.set_code || 'SET'} PACK
+                          </span>
+                        </div>
                       )}
+
+                      {/* Floating badging status over cover */}
+                      <div className="absolute top-3 left-3">
+                        {pack.set_code ? (
+                          <span className="px-2.5 py-1 bg-slate-900/90 text-yellow-400 border border-yellow-500/20 backdrop-blur-md rounded-lg text-[10px] font-black uppercase tracking-wider shadow-md">
+                            {pack.set_code}
+                          </span>
+                        ) : (
+                          <span className="px-2.5 py-1 bg-slate-900/90 text-gray-400 border border-slate-800 backdrop-blur-md rounded-lg text-[10px] font-black uppercase tracking-wider shadow-md">
+                            SET
+                          </span>
+                        )}
+                      </div>
+
                       {isFuture && (
-                        <span className="px-2.5 py-0.5 bg-rose-500/10 text-rose-500 dark:text-rose-400 border border-rose-500/20 rounded-full text-[10px] font-extrabold uppercase tracking-wide flex items-center gap-1 animate-pulse">
-                          🔮 Upcoming
-                        </span>
+                        <div className="absolute top-3 right-3">
+                          <span className="px-2.5 py-1 bg-rose-500 text-white rounded-lg text-[9px] font-extrabold uppercase tracking-widest shadow-md animate-pulse">
+                            🔮 Upcoming
+                          </span>
+                        </div>
                       )}
                     </div>
 
-                    {/* Title */}
-                    <h3 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-3 group-hover:text-yellow-500 transition-colors duration-200 leading-snug">
-                      {pack.set_name}
-                    </h3>
+                    <div className="p-6">
+                      {/* Title */}
+                      <h3 className="text-lg font-extrabold text-slate-800 dark:text-slate-100 mb-4 group-hover:text-yellow-500 transition-colors duration-200 leading-snug line-clamp-2">
+                        {pack.set_name}
+                      </h3>
 
-                    {/* Stats Badges */}
-                    <div className="space-y-2 mb-4">
-                      {/* Release Date */}
-                      <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-800/30 p-2.5 rounded-xl border border-gray-100/50 dark:border-slate-800/30">
-                        <Calendar size={14} className="text-yellow-500 shrink-0" />
-                        <span>Rilis: {formatDate(pack.tcg_date)}</span>
-                      </div>
+                      {/* Stats Badges */}
+                      <div className="space-y-2 mb-2">
+                        {/* Release Date */}
+                        <div className="flex items-center gap-2.5 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-800/30 p-2.5 rounded-xl border border-gray-100/50 dark:border-slate-800/30">
+                          <Calendar size={14} className="text-yellow-500 shrink-0" />
+                          <span>Rilis: {formatDate(pack.tcg_date)}</span>
+                        </div>
 
-                      {/* Number of cards */}
-                      <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-800/30 p-2.5 rounded-xl border border-gray-100/50 dark:border-slate-800/30">
-                        <Hash size={14} className="text-yellow-500 shrink-0" />
-                        <span>Jumlah: <span className="text-yellow-600 dark:text-yellow-400 font-bold">{pack.num_of_cards || 0}</span> kartu terdaftar</span>
+                        {/* Number of cards */}
+                        <div className="flex items-center gap-2.5 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-800/30 p-2.5 rounded-xl border border-gray-100/50 dark:border-slate-800/30">
+                          <Hash size={14} className="text-yellow-500 shrink-0" />
+                          <span>Jumlah: <span className="text-yellow-600 dark:text-yellow-400 font-bold">{pack.num_of_cards || 0}</span> kartu terdaftar</span>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* External lookup reference buttons */}
-                  <div className="pt-4 border-t border-gray-100 dark:border-slate-800/40 flex items-center justify-between gap-4">
-                    {/* Search inside website */}
+                  {/* Internal search button */}
+                  <div className="mx-6 mb-6 pt-4 border-t border-gray-100 dark:border-slate-800/40">
                     <a
                       href={`/album?search=${encodeURIComponent(pack.set_name)}`}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-yellow-600 dark:text-yellow-400 hover:underline hover:text-yellow-500"
+                      className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-yellow-500 hover:bg-yellow-400 text-slate-900 text-xs font-bold rounded-xl transition shadow-md shadow-yellow-500/10 hover:shadow-yellow-500/20 active:scale-95"
                     >
-                      <span>Temukan Kartu →</span>
-                    </a>
-
-                    {/* DB Link */}
-                    <a
-                      href={`https://db.ygoprodeck.com/set/?set=${encodeURIComponent(pack.set_name)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-400 hover:text-gray-200 transition-colors duration-150"
-                    >
-                      <span>YGOPRODeck</span>
-                      <ExternalLink size={11} />
+                      <span>Temukan Kartu di Album</span>
                     </a>
                   </div>
                 </div>
