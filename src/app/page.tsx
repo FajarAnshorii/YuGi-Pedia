@@ -36,7 +36,7 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/album"
-              className="px-8 py-4 bg-yellow-500 text-slate-900 rounded-xl font-bold text-lg hover:bg-yellow-400 transition shadow-lg shadow-yellow-500/30"
+              className="px-5 py-3 sm:px-8 sm:py-4 bg-yellow-500 text-slate-900 rounded-xl font-bold text-sm sm:text-lg hover:bg-yellow-400 transition shadow-lg shadow-yellow-500/30"
             >
               🃏 Lihat Semua Kartu
             </Link>
@@ -77,34 +77,40 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8 text-slate-900 dark:text-white">📂 Kategori Kartu</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6 max-w-5xl mx-auto">
             {/* Monster Cards */}
             <Link href="/album?typeId=4" className="group">
-              <div className="bg-gradient-to-br from-red-500 to-red-600 p-8 rounded-2xl text-white text-center hover:scale-105 transition shadow-lg h-full">
-                <div className="text-6xl mb-4">👹</div>
-                <h3 className="text-2xl font-bold mb-2">Monster Cards</h3>
-                <p className="text-red-100">8,724 kartu</p>
-                <p className="text-sm mt-4 text-red-200 group-hover:underline">Lihat semua Monster →</p>
+              <div className="bg-gradient-to-br from-red-500 to-red-600 p-4 sm:p-8 rounded-xl sm:rounded-2xl text-white text-center hover:scale-105 transition shadow-lg h-full flex flex-col justify-between">
+                <div>
+                  <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">👹</div>
+                  <h3 className="text-base sm:text-2xl font-bold mb-1 sm:mb-2">Monster</h3>
+                  <p className="text-xs sm:text-base text-red-100">8,724 kartu</p>
+                </div>
+                <p className="text-[10px] sm:text-sm mt-3 sm:mt-4 text-red-200 group-hover:underline">Lihat semua →</p>
               </div>
             </Link>
 
             {/* Spell Cards */}
             <Link href="/album?typeId=5" className="group">
-              <div className="bg-gradient-to-br from-green-500 to-green-600 p-8 rounded-2xl text-white text-center hover:scale-105 transition shadow-lg h-full">
-                <div className="text-6xl mb-4">✨</div>
-                <h3 className="text-2xl font-bold mb-2">Spell Cards</h3>
-                <p className="text-green-100">2,688 kartu</p>
-                <p className="text-sm mt-4 text-green-200 group-hover:underline">Lihat semua Spell →</p>
+              <div className="bg-gradient-to-br from-green-500 to-green-600 p-4 sm:p-8 rounded-xl sm:rounded-2xl text-white text-center hover:scale-105 transition shadow-lg h-full flex flex-col justify-between">
+                <div>
+                  <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">✨</div>
+                  <h3 className="text-base sm:text-2xl font-bold mb-1 sm:mb-2">Spell</h3>
+                  <p className="text-xs sm:text-base text-green-100">2,688 kartu</p>
+                </div>
+                <p className="text-[10px] sm:text-sm mt-3 sm:mt-4 text-green-200 group-hover:underline">Lihat semua →</p>
               </div>
             </Link>
 
             {/* Trap Cards */}
-            <Link href="/album?typeId=6" className="group">
-              <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-8 rounded-2xl text-white text-center hover:scale-105 transition shadow-lg h-full">
-                <div className="text-6xl mb-4">🛡️</div>
-                <h3 className="text-2xl font-bold mb-2">Trap Cards</h3>
-                <p className="text-purple-100">1,984 kartu</p>
-                <p className="text-sm mt-4 text-purple-200 group-hover:underline">Lihat semua Trap →</p>
+            <Link href="/album?typeId=6" className="group col-span-2 md:col-span-1">
+              <div className="bg-gradient-to-br from-purple-500 to-purple-600 p-4 sm:p-8 rounded-xl sm:rounded-2xl text-white text-center hover:scale-105 transition shadow-lg h-full flex flex-col justify-between">
+                <div>
+                  <div className="text-4xl sm:text-6xl mb-2 sm:mb-4">🛡️</div>
+                  <h3 className="text-base sm:text-2xl font-bold mb-1 sm:mb-2">Trap</h3>
+                  <p className="text-xs sm:text-base text-purple-100">1,984 kartu</p>
+                </div>
+                <p className="text-[10px] sm:text-sm mt-3 sm:mt-4 text-purple-200 group-hover:underline">Lihat semua →</p>
               </div>
             </Link>
           </div>
