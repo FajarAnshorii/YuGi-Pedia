@@ -229,15 +229,29 @@ export default function QuizPage() {
                     /* Artwork Guess: Show cropped artwork only */
                     <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-3xl overflow-hidden border-4 border-yellow-500/30 bg-slate-950 shadow-2xl relative">
                       <img 
-                        src={`https://images.ygoprodeck.com/images/cards_cropped/${question.card.passcode}.jpg`} 
+                        src={
+                          question.card.imageUrl 
+                            ? question.card.imageUrl.replace('/cards/', '/cards_cropped/') 
+                            : `https://images.ygoprodeck.com/images/cards_cropped/${question.card.passcode || question.card.id}.jpg`
+                        } 
                         alt="Guess Me" 
                         className="w-full h-full object-cover" 
+                        onError={(e) => {
+                          e.currentTarget.src = question.card.imageUrl || `https://via.placeholder.com/300x420/1e293b/ffffff?text=${encodeURIComponent(question.card.name)}`
+                        }}
                       />
                     </div>
                   ) : (
                     /* Attribute Guess: Show full card image */
                     <div className="w-44 h-64 sm:w-52 sm:h-76 rounded-2xl overflow-hidden shadow-2xl bg-slate-950 border border-slate-800">
-                      <img src={question.card.imageUrl} alt="Guess Me" className="w-full h-full object-contain" />
+                      <img 
+                        src={question.card.imageUrl || `https://via.placeholder.com/300x420/1e293b/ffffff?text=${encodeURIComponent(question.card.name)}`} 
+                        alt="Guess Me" 
+                        className="w-full h-full object-contain" 
+                        onError={(e) => {
+                          e.currentTarget.src = `https://via.placeholder.com/300x420/1e293b/ffffff?text=${encodeURIComponent(question.card.name)}`
+                        }}
+                      />
                     </div>
                   )}
                 </div>

@@ -51,6 +51,35 @@ export default function BanlistPage() {
     return semiLimited.filter(card => card.name.toLowerCase().includes(searchQuery.toLowerCase()))
   }, [semiLimited, searchQuery])
 
+  // Pagination Configuration
+  const ITEMS_PER_PAGE = 12
+  const [forbiddenPage, setForbiddenPage] = useState(1)
+  const [limitedPage, setLimitedPage] = useState(1)
+  const [semiLimitedPage, setSemiLimitedPage] = useState(1)
+
+  // Reset pagination when format or search query changes
+  useEffect(() => {
+    setForbiddenPage(1)
+    setLimitedPage(1)
+    setSemiLimitedPage(1)
+  }, [format, searchQuery])
+
+  // Paginated Slices
+  const paginatedForbidden = useMemo(() => {
+    const start = (forbiddenPage - 1) * ITEMS_PER_PAGE
+    return filteredForbidden.slice(start, start + ITEMS_PER_PAGE)
+  }, [filteredForbidden, forbiddenPage])
+
+  const paginatedLimited = useMemo(() => {
+    const start = (limitedPage - 1) * ITEMS_PER_PAGE
+    return filteredLimited.slice(start, start + ITEMS_PER_PAGE)
+  }, [filteredLimited, limitedPage])
+
+  const paginatedSemiLimited = useMemo(() => {
+    const start = (semiLimitedPage - 1) * ITEMS_PER_PAGE
+    return filteredSemiLimited.slice(start, start + ITEMS_PER_PAGE)
+  }, [filteredSemiLimited, semiLimitedPage])
+
   return (
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-250">
       <Navbar />
@@ -152,29 +181,54 @@ export default function BanlistPage() {
               {filteredForbidden.length === 0 ? (
                 <p className="text-center py-8 text-sm text-gray-400 italic">Tidak ada kartu terlarang yang cocok.</p>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                  {filteredForbidden.map(card => (
-                    <div 
-                      key={card.id}
-                      onClick={() => setSelectedCard(card)}
-                      className="group cursor-pointer p-2.5 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-row items-center gap-3 hover:border-red-500/30 transition shadow-inner"
-                    >
-                      <div className="w-11 h-16 rounded-md overflow-hidden bg-slate-900 flex-shrink-0 relative">
-                        {card.croppedUrl ? (
-                          <img src={card.croppedUrl} alt="" className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-500">YGO</div>
-                        )}
-                        <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors"></div>
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {paginatedForbidden.map(card => (
+                      <div 
+                        key={card.id}
+                        onClick={() => setSelectedCard(card)}
+                        className="group cursor-pointer p-2.5 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-row items-center gap-3 hover:border-red-500/30 transition shadow-inner"
+                      >
+                        <div className="w-11 h-16 rounded-md overflow-hidden bg-slate-900 flex-shrink-0 relative">
+                          {card.croppedUrl ? (
+                            <img src={card.croppedUrl} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-500">YGO</div>
+                          )}
+                          <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors"></div>
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="font-bold text-xs truncate group-hover:text-red-500 dark:group-hover:text-red-400 transition leading-snug">{card.name}</h4>
+                          <p className="text-[8px] text-gray-400 font-mono mt-0.5">ID: {card.passcode}</p>
+                          <p className="text-[7px] font-black text-red-500 mt-0.5 tracking-wider uppercase">Forbidden 0</p>
+                        </div>
                       </div>
-                      <div className="min-w-0">
-                        <h4 className="font-bold text-xs truncate group-hover:text-red-500 dark:group-hover:text-red-400 transition leading-snug">{card.name}</h4>
-                        <p className="text-[8px] text-gray-400 font-mono mt-0.5">ID: {card.passcode}</p>
-                        <p className="text-[7px] font-black text-red-500 mt-0.5 tracking-wider uppercase">Forbidden 0</p>
-                      </div>
+                    ))}
+                  </div>
+
+                  {/* Pagination Control */}
+                  {filteredForbidden.length > ITEMS_PER_PAGE && (
+                    <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-100 dark:border-slate-850/60 text-xs font-bold">
+                      <button
+                        onClick={() => setForbiddenPage(p => Math.max(1, p - 1))}
+                        disabled={forbiddenPage === 1}
+                        className="px-3.5 py-2 bg-slate-50 dark:bg-slate-950 border dark:border-slate-850 hover:bg-yellow-500 hover:text-slate-950 rounded-lg transition disabled:opacity-30 disabled:hover:bg-slate-50 disabled:hover:text-current cursor-pointer"
+                      >
+                        ◀ Sebelumnya
+                      </button>
+                      <span className="text-gray-400">
+                        Halaman {forbiddenPage} dari {Math.ceil(filteredForbidden.length / ITEMS_PER_PAGE)}
+                      </span>
+                      <button
+                        onClick={() => setForbiddenPage(p => Math.min(Math.ceil(filteredForbidden.length / ITEMS_PER_PAGE), p + 1))}
+                        disabled={forbiddenPage === Math.ceil(filteredForbidden.length / ITEMS_PER_PAGE)}
+                        className="px-3.5 py-2 bg-slate-50 dark:bg-slate-950 border dark:border-slate-850 hover:bg-yellow-500 hover:text-slate-950 rounded-lg transition disabled:opacity-30 disabled:hover:bg-slate-50 disabled:hover:text-current cursor-pointer"
+                      >
+                        Berikutnya ▶
+                      </button>
                     </div>
-                  ))}
-                </div>
+                  )}
+                </>
               )}
             </div>
 
@@ -194,29 +248,54 @@ export default function BanlistPage() {
               {filteredLimited.length === 0 ? (
                 <p className="text-center py-8 text-sm text-gray-400 italic">Tidak ada kartu terbatas yang cocok.</p>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                  {filteredLimited.map(card => (
-                    <div 
-                      key={card.id}
-                      onClick={() => setSelectedCard(card)}
-                      className="group cursor-pointer p-2.5 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-row items-center gap-3 hover:border-orange-500/30 transition shadow-inner"
-                    >
-                      <div className="w-11 h-16 rounded-md overflow-hidden bg-slate-900 flex-shrink-0 relative">
-                        {card.croppedUrl ? (
-                          <img src={card.croppedUrl} alt="" className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-500">YGO</div>
-                        )}
-                        <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors"></div>
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {paginatedLimited.map(card => (
+                      <div 
+                        key={card.id}
+                        onClick={() => setSelectedCard(card)}
+                        className="group cursor-pointer p-2.5 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-row items-center gap-3 hover:border-orange-500/30 transition shadow-inner"
+                      >
+                        <div className="w-11 h-16 rounded-md overflow-hidden bg-slate-900 flex-shrink-0 relative">
+                          {card.croppedUrl ? (
+                            <img src={card.croppedUrl} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-500">YGO</div>
+                          )}
+                          <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors"></div>
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="font-bold text-xs truncate group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug">{card.name}</h4>
+                          <p className="text-[8px] text-gray-400 font-mono mt-0.5">ID: {card.passcode}</p>
+                          <p className="text-[7px] font-black text-orange-500 mt-0.5 tracking-wider uppercase">Limited 1</p>
+                        </div>
                       </div>
-                      <div className="min-w-0">
-                        <h4 className="font-bold text-xs truncate group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug">{card.name}</h4>
-                        <p className="text-[8px] text-gray-400 font-mono mt-0.5">ID: {card.passcode}</p>
-                        <p className="text-[7px] font-black text-orange-500 mt-0.5 tracking-wider uppercase">Limited 1</p>
-                      </div>
+                    ))}
+                  </div>
+
+                  {/* Pagination Control */}
+                  {filteredLimited.length > ITEMS_PER_PAGE && (
+                    <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-100 dark:border-slate-850/60 text-xs font-bold">
+                      <button
+                        onClick={() => setLimitedPage(p => Math.max(1, p - 1))}
+                        disabled={limitedPage === 1}
+                        className="px-3.5 py-2 bg-slate-50 dark:bg-slate-950 border dark:border-slate-850 hover:bg-yellow-500 hover:text-slate-950 rounded-lg transition disabled:opacity-30 disabled:hover:bg-slate-50 disabled:hover:text-current cursor-pointer"
+                      >
+                        ◀ Sebelumnya
+                      </button>
+                      <span className="text-gray-400">
+                        Halaman {limitedPage} dari {Math.ceil(filteredLimited.length / ITEMS_PER_PAGE)}
+                      </span>
+                      <button
+                        onClick={() => setLimitedPage(p => Math.min(Math.ceil(filteredLimited.length / ITEMS_PER_PAGE), p + 1))}
+                        disabled={limitedPage === Math.ceil(filteredLimited.length / ITEMS_PER_PAGE)}
+                        className="px-3.5 py-2 bg-slate-50 dark:bg-slate-950 border dark:border-slate-850 hover:bg-yellow-500 hover:text-slate-950 rounded-lg transition disabled:opacity-30 disabled:hover:bg-slate-50 disabled:hover:text-current cursor-pointer"
+                      >
+                        Berikutnya ▶
+                      </button>
                     </div>
-                  ))}
-                </div>
+                  )}
+                </>
               )}
             </div>
 
@@ -236,29 +315,54 @@ export default function BanlistPage() {
               {filteredSemiLimited.length === 0 ? (
                 <p className="text-center py-8 text-sm text-gray-400 italic">Tidak ada kartu semi-terbatas yang cocok.</p>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                  {filteredSemiLimited.map(card => (
-                    <div 
-                      key={card.id}
-                      onClick={() => setSelectedCard(card)}
-                      className="group cursor-pointer p-2.5 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-row items-center gap-3 hover:border-yellow-500/30 transition shadow-inner"
-                    >
-                      <div className="w-11 h-16 rounded-md overflow-hidden bg-slate-900 flex-shrink-0 relative">
-                        {card.croppedUrl ? (
-                          <img src={card.croppedUrl} alt="" className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-500">YGO</div>
-                        )}
-                        <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors"></div>
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {paginatedSemiLimited.map(card => (
+                      <div 
+                        key={card.id}
+                        onClick={() => setSelectedCard(card)}
+                        className="group cursor-pointer p-2.5 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-row items-center gap-3 hover:border-yellow-500/30 transition shadow-inner"
+                      >
+                        <div className="w-11 h-16 rounded-md overflow-hidden bg-slate-900 flex-shrink-0 relative">
+                          {card.croppedUrl ? (
+                            <img src={card.croppedUrl} alt="" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-500">YGO</div>
+                          )}
+                          <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors"></div>
+                        </div>
+                        <div className="min-w-0">
+                          <h4 className="font-bold text-xs truncate group-hover:text-yellow-500 transition leading-snug">{card.name}</h4>
+                          <p className="text-[8px] text-gray-400 font-mono mt-0.5">ID: {card.passcode}</p>
+                          <p className="text-[7px] font-black text-yellow-500 mt-0.5 tracking-wider uppercase">Semi-Limited 2</p>
+                        </div>
                       </div>
-                      <div className="min-w-0">
-                        <h4 className="font-bold text-xs truncate group-hover:text-yellow-500 transition leading-snug">{card.name}</h4>
-                        <p className="text-[8px] text-gray-400 font-mono mt-0.5">ID: {card.passcode}</p>
-                        <p className="text-[7px] font-black text-yellow-500 mt-0.5 tracking-wider uppercase">Semi-Limited 2</p>
-                      </div>
+                    ))}
+                  </div>
+
+                  {/* Pagination Control */}
+                  {filteredSemiLimited.length > ITEMS_PER_PAGE && (
+                    <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-100 dark:border-slate-850/60 text-xs font-bold">
+                      <button
+                        onClick={() => setSemiLimitedPage(p => Math.max(1, p - 1))}
+                        disabled={semiLimitedPage === 1}
+                        className="px-3.5 py-2 bg-slate-50 dark:bg-slate-950 border dark:border-slate-850 hover:bg-yellow-500 hover:text-slate-950 rounded-lg transition disabled:opacity-30 disabled:hover:bg-slate-50 disabled:hover:text-current cursor-pointer"
+                      >
+                        ◀ Sebelumnya
+                      </button>
+                      <span className="text-gray-400">
+                        Halaman {semiLimitedPage} dari {Math.ceil(filteredSemiLimited.length / ITEMS_PER_PAGE)}
+                      </span>
+                      <button
+                        onClick={() => setSemiLimitedPage(p => Math.min(Math.ceil(filteredSemiLimited.length / ITEMS_PER_PAGE), p + 1))}
+                        disabled={semiLimitedPage === Math.ceil(filteredSemiLimited.length / ITEMS_PER_PAGE)}
+                        className="px-3.5 py-2 bg-slate-50 dark:bg-slate-950 border dark:border-slate-850 hover:bg-yellow-500 hover:text-slate-950 rounded-lg transition disabled:opacity-30 disabled:hover:bg-slate-50 disabled:hover:text-current cursor-pointer"
+                      >
+                        Berikutnya ▶
+                      </button>
                     </div>
-                  ))}
-                </div>
+                  )}
+                </>
               )}
             </div>
 
