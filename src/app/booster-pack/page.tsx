@@ -2,17 +2,18 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import Navbar from '@/components/Navbar'
-import { Search, Calendar, Hash, Image as ImageIcon } from 'lucide-react'
+import { Search, Calendar, Hash } from 'lucide-react'
 
-interface YGOPack {
-  set_name: string
-  set_code: string
+interface BoosterPack {
+  setName: string
+  setCode: string
   num_of_cards: number
-  tcg_date: string
+  releaseDate: string
+  imageUrl: string | null
 }
 
 export default function BoosterPackPage() {
-  const [packs, setPacks] = useState<YGOPack[]>([])
+  const [packs, setPacks] = useState<BoosterPack[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
   const [search, setSearch] = useState('')
@@ -21,9 +22,9 @@ export default function BoosterPackPage() {
   // Keep track of image loading errors to render beautiful fallbacks
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
 
-  // Fetch live booster packs from YGOPRODeck API
+  // Fetch booster packs from our local database-backed API
   useEffect(() => {
-    fetch('https://db.ygoprodeck.com/api/v7/cardsets.php')
+    fetch('/api/booster-pack')
       .then((res) => {
         if (!res.ok) throw new Error('API request failed')
         return res.json()
@@ -37,7 +38,7 @@ export default function BoosterPackPage() {
         setLoading(false)
       })
       .catch((err) => {
-        console.error('Error fetching card sets:', err)
+        console.error('Error fetching booster packs:', err)
         setError(true)
         setLoading(false)
       })
@@ -59,15 +60,15 @@ export default function BoosterPackPage() {
     let result = packs.filter(pack => {
       const q = search.toLowerCase()
       return (
-        pack.set_name.toLowerCase().includes(q) ||
-        (pack.set_code && pack.set_code.toLowerCase().includes(q))
+        pack.setName.toLowerCase().includes(q) ||
+        (pack.setCode && pack.setCode.toLowerCase().includes(q))
       )
     })
 
     result.sort((a, b) => {
       if (sortBy === 'newest' || sortBy === 'oldest') {
-        const timeA = a.tcg_date ? new Date(a.tcg_date).getTime() : 0
-        const timeB = b.tcg_date ? new Date(b.tcg_date).getTime() : 0
+        const timeA = a.releaseDate ? new Date(a.releaseDate).getTime() : 0
+        const timeB = b.releaseDate ? new Date(b.releaseDate).getTime() : 0
         return sortBy === 'newest' ? timeB - timeA : timeA - timeB
       } else {
         const cardsA = a.num_of_cards || 0
@@ -102,7 +103,7 @@ export default function BoosterPackPage() {
             Booster Pack Releases
           </h1>
           <p className="text-gray-600 dark:text-gray-400 font-semibold text-sm sm:pl-[60px]">
-            Informasi rilis booster pack & card set langsung secara real-time dari YGOPRODeck API
+            Daftar rilis booster pack & card set langsung secara instan dari database lokal Yu-Gi-Oh! Anda
           </p>
         </div>
 
@@ -115,7 +116,7 @@ export default function BoosterPackPage() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                 <input
                   type="text"
-                  placeholder="Cari booster pack (contoh: Legend of Blue Eyes, Rarity, LOB, etc)..."
+                  placeholder="Cari booster pack (contoh: Legend of Blue Eyes, LOB, SDY, dsb)..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 text-sm font-medium"
@@ -149,21 +150,21 @@ export default function BoosterPackPage() {
                 className="h-20 w-20 animate-spin object-contain drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]" 
               />
             </div>
-            <p className="text-gray-500 dark:text-gray-400 font-bold text-lg tracking-wider animate-pulse">Menghubungkan ke YGOPRODeck...</p>
-            <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">Mengunduh database set kartu...</p>
+            <p className="text-gray-500 dark:text-gray-400 font-bold text-lg tracking-wider animate-pulse">Menghubungkan ke Database...</p>
+            <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">Mengunduh daftar rilis set kartu...</p>
           </div>
         ) : error ? (
           <div className="text-center py-16 bg-red-500/5 rounded-2xl border border-red-500/10 max-w-lg mx-auto p-8">
             <div className="text-5xl mb-4">⚠️</div>
             <h3 className="text-lg font-bold text-red-500 mb-2">Gagal Mengunduh Data</h3>
             <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-              Ada kendala koneksi saat menghubungi server API YGOPRODeck.
+              Ada kendala koneksi saat menghubungi server lokal database.
             </p>
             <button
               onClick={() => {
                 setLoading(true)
                 setError(false)
-                fetch('https://db.ygoprodeck.com/api/v7/cardsets.php')
+                fetch('/api/booster-pack')
                   .then(res => res.json())
                   .then(data => {
                     setPacks(data)
@@ -188,15 +189,12 @@ export default function BoosterPackPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPacks.map((pack) => {
-              const isFuture = pack.tcg_date && new Date(pack.tcg_date).getTime() > Date.now()
-              const hasImageError = imageErrors[pack.set_name]
-
-              // Clean name to construct the live set cover URL
-              const imageUrl = `https://images.ygoprodeck.com/images/sets/${encodeURIComponent(pack.set_name)}.jpg`
+              const isFuture = pack.releaseDate && new Date(pack.releaseDate).getTime() > Date.now()
+              const hasImageError = imageErrors[pack.setName] || !pack.imageUrl
 
               return (
                 <div 
-                  key={pack.set_name}
+                  key={pack.setName}
                   className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-gray-100 dark:border-slate-800/40 bg-white dark:bg-slate-900/40 hover:border-yellow-500/40 dark:hover:border-yellow-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/5 hover:-translate-y-1"
                 >
                   {/* Subtle inner radial glow */}
@@ -207,10 +205,10 @@ export default function BoosterPackPage() {
                     <div className="relative h-48 w-full bg-slate-950/40 border-b border-gray-100 dark:border-slate-800/40 overflow-hidden flex items-center justify-center">
                       {!hasImageError ? (
                         <img 
-                          src={imageUrl} 
-                          alt={pack.set_name}
-                          onError={() => handleImageError(pack.set_name)}
-                          className="h-full w-full object-contain p-2 group-hover:scale-105 transition duration-300"
+                          src={pack.imageUrl!} 
+                          alt={pack.setName}
+                          onError={() => handleImageError(pack.setName)}
+                          className="h-full w-auto object-contain p-2 group-hover:scale-105 transition duration-300"
                         />
                       ) : (
                         /* Beautiful Fallback Hologram Pack */
@@ -219,16 +217,16 @@ export default function BoosterPackPage() {
                             <span className="text-yellow-500 font-extrabold text-[10px] tracking-widest uppercase">YGO</span>
                           </div>
                           <span className="text-[10px] font-extrabold text-yellow-500/80 tracking-widest uppercase">
-                            {pack.set_code || 'SET'} PACK
+                            {pack.setCode || 'SET'} PACK
                           </span>
                         </div>
                       )}
 
                       {/* Floating badging status over cover */}
                       <div className="absolute top-3 left-3">
-                        {pack.set_code ? (
+                        {pack.setCode ? (
                           <span className="px-2.5 py-1 bg-slate-900/90 text-yellow-400 border border-yellow-500/20 backdrop-blur-md rounded-lg text-[10px] font-black uppercase tracking-wider shadow-md">
-                            {pack.set_code}
+                            {pack.setCode}
                           </span>
                         ) : (
                           <span className="px-2.5 py-1 bg-slate-900/90 text-gray-400 border border-slate-800 backdrop-blur-md rounded-lg text-[10px] font-black uppercase tracking-wider shadow-md">
@@ -249,7 +247,7 @@ export default function BoosterPackPage() {
                     <div className="p-6">
                       {/* Title */}
                       <h3 className="text-lg font-extrabold text-slate-800 dark:text-slate-100 mb-4 group-hover:text-yellow-500 transition-colors duration-200 leading-snug line-clamp-2">
-                        {pack.set_name}
+                        {pack.setName}
                       </h3>
 
                       {/* Stats Badges */}
@@ -257,7 +255,7 @@ export default function BoosterPackPage() {
                         {/* Release Date */}
                         <div className="flex items-center gap-2.5 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-800/30 p-2.5 rounded-xl border border-gray-100/50 dark:border-slate-800/30">
                           <Calendar size={14} className="text-yellow-500 shrink-0" />
-                          <span>Rilis: {formatDate(pack.tcg_date)}</span>
+                          <span>Rilis: {formatDate(pack.releaseDate)}</span>
                         </div>
 
                         {/* Number of cards */}
@@ -272,7 +270,7 @@ export default function BoosterPackPage() {
                   {/* Internal search button */}
                   <div className="mx-6 mb-6 pt-4 border-t border-gray-100 dark:border-slate-800/40">
                     <a
-                      href={`/album?search=${encodeURIComponent(pack.set_name)}`}
+                      href={`/album?search=${encodeURIComponent(pack.setName)}`}
                       className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-yellow-500 hover:bg-yellow-400 text-slate-900 text-xs font-bold rounded-xl transition shadow-md shadow-yellow-500/10 hover:shadow-yellow-500/20 active:scale-95"
                     >
                       <span>Temukan Kartu di Album</span>
