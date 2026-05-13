@@ -28,37 +28,43 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-1">
             <Link
               href="/"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium"
+              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
             >
               🏠 Home
             </Link>
             <Link
               href="/album"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium"
+              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
             >
               🃏 Album
             </Link>
             <Link
               href="/album?typeId=4"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium"
+              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
             >
               👹 Monster
             </Link>
             <Link
               href="/album?typeId=5"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium"
+              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
             >
               ✨ Spell
             </Link>
             <Link
               href="/album?typeId=6"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium"
+              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
             >
               🛡️ Trap
             </Link>
             <Link
+              href="/booster-pack"
+              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm text-yellow-400"
+            >
+              📦 Booster Pack
+            </Link>
+            <Link
               href="/market"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium"
+              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
             >
               📊 Market
             </Link>
@@ -158,6 +164,13 @@ export default function Navbar() {
                 className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2"
               >
                 <span>🛡️</span> Trap Cards
+              </Link>
+              <Link
+                href="/booster-pack"
+                onClick={() => setIsMenuOpen(false)}
+                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2 text-yellow-400 font-bold"
+              >
+                <span>📦</span> Booster Pack
               </Link>
               <Link
                 href="/market"
