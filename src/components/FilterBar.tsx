@@ -9,25 +9,32 @@ export default function FilterBar() {
   const searchParams = useSearchParams()
   const [search, setSearch] = useState(searchParams.get('search') || '')
   const [cardTypes, setCardTypes] = useState<any[]>([])
-  const [selectedTypeId, setSelectedTypeId] = useState<string>('')
-  const [selectedAttribute, setSelectedAttribute] = useState<string>('')
+  const [selectedTypeId, setSelectedTypeId] = useState(searchParams.get('typeId') || '')
+  const [selectedAttribute, setSelectedAttribute] = useState(searchParams.get('attribute') || '')
+  const [selectedSort, setSelectedSort] = useState(searchParams.get('sortBy') || '')
 
   useEffect(() => {
     fetch('/api/cards/lookup')
       .then(res => res.json())
       .then(data => {
         setCardTypes(data.cardTypes || [])
-        // Set initial type from URL
-        const typeFromUrl = searchParams.get('typeId')
-        if (typeFromUrl) setSelectedTypeId(typeFromUrl)
       })
   }, [])
+
+  // Sync state with search params (e.g. back button, category clicks)
+  useEffect(() => {
+    setSelectedTypeId(searchParams.get('typeId') || '')
+    setSelectedAttribute(searchParams.get('attribute') || '')
+    setSelectedSort(searchParams.get('sortBy') || '')
+    setSearch(searchParams.get('search') || '')
+  }, [searchParams])
 
   const applyFilters = () => {
     const params = new URLSearchParams()
     if (search) params.set('search', search)
     if (selectedTypeId) params.set('typeId', selectedTypeId)
     if (selectedAttribute) params.set('attribute', selectedAttribute)
+    if (selectedSort) params.set('sortBy', selectedSort)
     router.push(`/album${params.toString() ? '?' + params.toString() : ''}`)
   }
 
@@ -35,34 +42,20 @@ export default function FilterBar() {
     setSearch('')
     setSelectedTypeId('')
     setSelectedAttribute('')
+    setSelectedSort('')
     router.push('/album')
   }
 
-  const hasFilters = search || selectedTypeId || selectedAttribute
+  const hasFilters = search || selectedTypeId || selectedAttribute || selectedSort
 
   return (
-    <div className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-md mb-6 transition-colors duration-200">
-      <div className="flex flex-col md:flex-row gap-4">
-        {/* Search Input */}
-        <div className="order-1 md:order-3 flex-1">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-            <input
-              type="text"
-              placeholder="Cari nama kartu..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-700 dark:text-white dark:placeholder-gray-400"
-            />
-          </div>
-        </div>
-
+    <div className="bg-white dark:bg-slate-900/60 border border-gray-100 dark:border-slate-800/40 p-4 rounded-xl shadow-md mb-6 transition-colors duration-200">
+      <div className="flex flex-col md:flex-row gap-3">
         {/* Type Filter */}
         <select
           value={selectedTypeId}
           onChange={(e) => setSelectedTypeId(e.target.value)}
-          className="order-2 md:order-1 px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-700 dark:text-white"
+          className="order-2 md:order-1 px-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white text-sm font-semibold transition"
         >
           <option value="">All Types</option>
           {cardTypes.map(type => (
@@ -76,7 +69,7 @@ export default function FilterBar() {
         <select
           value={selectedAttribute}
           onChange={(e) => setSelectedAttribute(e.target.value)}
-          className="order-3 md:order-2 px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-700 dark:text-white"
+          className="order-3 md:order-2 px-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white text-sm font-semibold transition"
           disabled={!!selectedTypeId && cardTypes.find(t => t.id == selectedTypeId)?.name?.toLowerCase() !== 'monster'}
         >
           <option value="">All Attributes</option>
@@ -89,18 +82,48 @@ export default function FilterBar() {
           <option value="DIVINE">⭐ DIVINE</option>
         </select>
 
+        {/* Sort/Order Filter */}
+        <select
+          value={selectedSort}
+          onChange={(e) => setSelectedSort(e.target.value)}
+          className="order-4 md:order-3 px-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white text-sm font-semibold transition"
+        >
+          <option value="">Urutan: Default</option>
+          <option value="atk_desc">⚔️ Attack Terbesar</option>
+          <option value="atk_asc">⚔️ Attack Terlemah</option>
+          <option value="def_desc">🛡️ Defense Terbesar</option>
+          <option value="def_asc">🛡️ Defense Terlemah</option>
+          <option value="price_desc">💰 Harga Termahal</option>
+          <option value="price_asc">💰 Harga Termurah</option>
+        </select>
+
+        {/* Search Input */}
+        <div className="order-1 md:order-4 flex-1">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+            <input
+              type="text"
+              placeholder="Cari nama kartu..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
+              className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 text-sm"
+            />
+          </div>
+        </div>
+
         {/* Buttons */}
-        <div className="order-4 flex gap-2 w-full md:w-auto">
+        <div className="order-5 flex gap-2 w-full md:w-auto">
           <button
             onClick={applyFilters}
-            className="flex-1 md:flex-none px-6 py-3 bg-yellow-500 text-white rounded-xl hover:bg-yellow-400 font-semibold transition shadow-md"
+            className="flex-1 md:flex-none px-6 py-3 bg-yellow-500 text-slate-900 rounded-xl hover:bg-yellow-400 font-bold transition shadow-md shadow-yellow-500/10 text-sm"
           >
             🔍 Filter
           </button>
           {hasFilters && (
             <button
               onClick={clearAll}
-              className="px-4 py-3 bg-gray-200 dark:bg-slate-600 text-gray-700 dark:text-white rounded-xl hover:bg-gray-300 dark:hover:bg-slate-500 transition"
+              className="px-4 py-3 bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700/60 text-gray-700 dark:text-white rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 transition"
             >
               <X size={18} />
             </button>

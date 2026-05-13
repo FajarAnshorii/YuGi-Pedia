@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
     const attribute = searchParams.get('attribute') // string: FIRE, WATER, etc.
     const search = searchParams.get('search')
     const categoryId = searchParams.get('categoryId')
+    const sortBy = searchParams.get('sortBy')
 
     // Build where clause
     const where: any = {}
@@ -59,6 +60,23 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // Build orderBy clause
+    let orderBy: any = { name: 'asc' }
+
+    if (sortBy === 'atk_desc') {
+      orderBy = { attack: { sort: 'desc', nulls: 'last' } }
+    } else if (sortBy === 'atk_asc') {
+      orderBy = { attack: { sort: 'asc', nulls: 'last' } }
+    } else if (sortBy === 'def_desc') {
+      orderBy = { defense: { sort: 'desc', nulls: 'last' } }
+    } else if (sortBy === 'def_asc') {
+      orderBy = { defense: { sort: 'asc', nulls: 'last' } }
+    } else if (sortBy === 'price_desc') {
+      orderBy = { tcgPlayerPrice: { sort: 'desc', nulls: 'last' } }
+    } else if (sortBy === 'price_asc') {
+      orderBy = { tcgPlayerPrice: { sort: 'asc', nulls: 'last' } }
+    }
+
     // Get total count
     const total = await prisma.card.count({ where })
 
@@ -72,9 +90,7 @@ export async function GET(request: NextRequest) {
       },
       skip: (page - 1) * limit,
       take: limit,
-      orderBy: {
-        name: 'asc',
-      },
+      orderBy,
     })
 
     const response = NextResponse.json({
