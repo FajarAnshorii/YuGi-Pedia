@@ -3,13 +3,25 @@
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { User, LogOut, Menu, Sun, Moon } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTheme } from './ThemeProvider'
 
 export default function Navbar() {
   const { data: session } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
+  const [cardCount, setCardCount] = useState<number | null>(null)
+
+  useEffect(() => {
+    fetch('/api/cards/count')
+      .then(res => res.json())
+      .then(data => {
+        if (typeof data.count === 'number') {
+          setCardCount(data.count)
+        }
+      })
+      .catch(err => console.error('Failed to fetch card count:', err))
+  }, [])
 
   return (
     <nav className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-xl sticky top-0 z-50">
@@ -20,7 +32,9 @@ export default function Navbar() {
             <img src="/images/logo.png" alt="YuGi Pedia" className="h-9 sm:h-10 w-auto object-contain" />
             <div>
               <span className="font-bold text-lg sm:text-xl tracking-tight">YuGi Pedia</span>
-              <p className="text-[10px] sm:text-xs text-gray-400 hidden sm:block">13,396 Cards</p>
+              <p className="text-[10px] sm:text-xs text-gray-400 hidden sm:block">
+                {cardCount !== null ? `${cardCount.toLocaleString('id-ID')} Cards` : '14,523 Cards'}
+              </p>
             </div>
           </Link>
  

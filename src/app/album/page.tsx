@@ -48,10 +48,7 @@ function AlbumContent() {
 
       const query = params.toString() ? `?${params.toString()}` : ''
 
-      const res = await fetch(`/api/cards${query}`, {
-        cache: 'force-cache',
-        next: { revalidate: 60 } // Cache for 60 seconds
-      })
+      const res = await fetch(`/api/cards${query}`)
       const data = await res.json()
 
       setCards(data.cards || [])
