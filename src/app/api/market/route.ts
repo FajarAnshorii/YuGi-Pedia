@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 const YGOPRODECK_API = 'https://db.ygoprodeck.com/api/v7/cardinfo.php'
 
 // GET /api/market - Get card prices

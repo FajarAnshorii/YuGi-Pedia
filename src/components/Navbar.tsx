@@ -1,13 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { useSession, signOut } from 'next-auth/react'
-import { User, LogOut, Menu, Sun, Moon } from 'lucide-react'
+import { Menu, Sun, Moon } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useTheme } from './ThemeProvider'
 
 export default function Navbar() {
-  const { data: session } = useSession()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const [cardCount, setCardCount] = useState<number | null>(null)
@@ -99,37 +97,6 @@ export default function Navbar() {
               )}
             </button>
  
-            {/* Desktop Auth Actions */}
-            <div className="hidden md:flex items-center gap-3">
-              {session?.user ? (
-                <div className="flex items-center gap-3">
-                  {session.user.role === 'admin' && (
-                    <Link
-                      href="/admin/dashboard"
-                      className="bg-yellow-500 text-slate-900 px-4 py-2 rounded-lg font-bold hover:bg-yellow-400 transition text-sm"
-                    >
-                      ⚙️ Admin
-                    </Link>
-                  )}
-                  <button
-                    onClick={() => signOut()}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-500/20 text-red-400 hover:text-red-300 transition"
-                  >
-                    <LogOut size={18} />
-                    <span>Logout</span>
-                  </button>
-                </div>
-              ) : (
-                <Link
-                  href="/login"
-                  className="flex items-center gap-2 bg-blue-600 px-4 py-2 rounded-lg hover:bg-blue-500 transition font-medium"
-                >
-                  <User size={18} />
-                  <span>Login</span>
-                </Link>
-              )}
-            </div>
- 
             {/* Mobile menu button */}
             <button
               className="md:hidden p-2 rounded-lg hover:bg-slate-700 transition-colors"
@@ -193,42 +160,6 @@ export default function Navbar() {
               >
                 <span>📊</span> Market
               </Link>
-              
-              {/* Divider */}
-              <div className="border-t border-slate-700/50 my-2"></div>
- 
-              {/* Mobile Auth Actions */}
-              {session?.user ? (
-                <div className="flex flex-col gap-2 px-2 mt-1">
-                  {session.user.role === 'admin' && (
-                    <Link
-                      href="/admin/dashboard"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="px-4 py-3 rounded-lg bg-yellow-500 text-slate-900 font-bold hover:bg-yellow-400 transition flex items-center justify-center gap-2"
-                    >
-                      <span>⚙️</span> Admin Dashboard
-                    </Link>
-                  )}
-                  <button
-                    onClick={() => { setIsMenuOpen(false); signOut(); }}
-                    className="w-full px-4 py-3 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition flex items-center justify-center gap-2 font-semibold"
-                  >
-                    <LogOut size={18} />
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <div className="px-2 mt-1">
-                  <Link
-                    href="/login"
-                    onClick={() => setIsMenuOpen(false)}
-                    className="px-4 py-3 rounded-lg bg-blue-600 text-white hover:bg-blue-500 font-semibold transition flex items-center justify-center gap-2"
-                  >
-                    <User size={18} />
-                    Login
-                  </Link>
-                </div>
-              )}
             </div>
           </div>
         )}
