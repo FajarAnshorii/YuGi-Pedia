@@ -11,6 +11,7 @@ export default async function AdminDashboard() {
       orderBy: { createdAt: 'desc' },
       include: {
         type: true,
+        attribute: true,
       },
     }),
   ])

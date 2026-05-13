@@ -62,7 +62,7 @@ export default function FilterBar() {
           value={selectedAttribute}
           onChange={(e) => setSelectedAttribute(e.target.value)}
           className="px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-700 dark:text-white"
-          disabled={selectedTypeId && cardTypes.find(t => t.id == selectedTypeId)?.name?.toLowerCase() !== 'monster'}
+          disabled={!!selectedTypeId && cardTypes.find(t => t.id == selectedTypeId)?.name?.toLowerCase() !== 'monster'}
         >
           <option value="">All Attributes</option>
           <option value="FIRE">🔥 FIRE</option>

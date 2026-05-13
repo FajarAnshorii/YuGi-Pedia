@@ -37,3 +37,5 @@ public/images/hero-bg.jpg
 .agents/
 .claude/
 skills-lock.json
+
+.vercel

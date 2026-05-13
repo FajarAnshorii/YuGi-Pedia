@@ -10,7 +10,11 @@ export async function GET(
     const category = await prisma.category.findUnique({
       where: { id: parseInt(params.id) },
       include: {
-        cards: true,
+        cardCategories: {
+          include: {
+            card: true,
+          },
+        },
       },
     })
 

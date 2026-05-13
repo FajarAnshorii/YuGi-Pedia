@@ -91,7 +91,7 @@ export async function GET(request: NextRequest) {
     response.headers.set('Cache-Control', 's-maxage=60, stale-while-revalidate=300')
 
     return response
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching cards:', error)
     return NextResponse.json(
       { error: `Failed to fetch cards: ${error.message}` },

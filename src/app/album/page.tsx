@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Navbar from '@/components/Navbar'
 import CardGrid from '@/components/CardGrid'
@@ -8,7 +8,7 @@ import FilterBar from '@/components/FilterBar'
 import Pagination from '@/components/Pagination'
 import { Card } from '@/lib/types'
 
-export default function AlbumPage() {
+function AlbumContent() {
   const searchParams = useSearchParams()
   const [cards, setCards] = useState<Card[]>([])
   const [loading, setLoading] = useState(true)
@@ -124,5 +124,23 @@ export default function AlbumPage() {
         )}
       </div>
     </main>
+  )
+}
+
+export default function AlbumPage() {
+  return (
+    <Suspense fallback={
+      <main className="min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-200">
+        <Navbar />
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center py-16">
+            <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-yellow-400 border-t-transparent mb-4"></div>
+            <p className="text-gray-500 dark:text-gray-400 text-lg">Loading...</p>
+          </div>
+        </div>
+      </main>
+    }>
+      <AlbumContent />
+    </Suspense>
   )
 }
