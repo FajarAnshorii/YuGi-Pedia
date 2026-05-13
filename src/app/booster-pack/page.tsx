@@ -1,243 +1,49 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Navbar from '@/components/Navbar'
-import { Search, Calendar, ExternalLink, RefreshCw } from 'lucide-react'
+import { Search, Calendar, ExternalLink, Hash, Award } from 'lucide-react'
 
-interface BoosterPack {
-  name: string
-  releaseDate: string
-  description: string
-  code: string
-  link: string
+interface YGOPack {
+  set_name: string
+  set_code: string
+  num_of_cards: number
+  tcg_date: string
 }
 
-const BOOSTER_PACKS: BoosterPack[] = [
-  {
-    name: "Chaos Origins",
-    releaseDate: "2026-07-03",
-    description: "Chaos Origins brings back the one-and-only legendary King of Games, with some of his favorite monsters from the original Yu-Gi-Oh! manga and anime!",
-    code: "CORI",
-    link: "https://www.yugioh-card.com/en/products/cori/"
-  },
-  {
-    name: "Battles of Legend: Glorious Gallery",
-    releaseDate: "2026-06-05",
-    description: "Battles of Legend: Glorious Gallery comes with more extended art cards, chibi cards, and blinged-out upgrades to make your Deck as glorious as it can be!",
-    code: "BLGG",
-    link: "https://www.yugioh-card.com/en/products/blgg/"
-  },
-  {
-    name: "Blazing Dominion",
-    releaseDate: "2026-05-08",
-    description: "Blazing Dominion burns bright with fantastic and fearsome new cards you won’t want to miss, starting off with Fairy Tails, Anna Kaboom, and the Master of Faster himself!",
-    code: "BLZD",
-    link: "https://www.yugioh-card.com/en/products/blzd/"
-  },
-  {
-    name: "Rarity Collection V",
-    releaseDate: "2026-04-17",
-    description: "Rarity Collection V gives you a special variant art card in every pack, like you’ve never seen before! It’s still All-Foil, it’s still All-Amazing, but it’s also your first crack at some unique cards.",
-    code: "RA05",
-    link: "https://www.yugioh-card.com/en/products/ra05/"
-  },
-  {
-    name: "Maze of Muertos",
-    releaseDate: "2026-02-20",
-    description: "Join Pumpking and his Pals for Halloween in the Spring, with Maze of Muertos!",
-    code: "MZMU",
-    link: "https://www.yugioh-card.com/en/products/mzmu/"
-  },
-  {
-    name: "Burst Protocol",
-    releaseDate: "2026-02-06",
-    description: "Add a little New Year’s fireworks show to your Deck with Burst Protocol!",
-    code: "BPRO",
-    link: "https://www.yugioh-card.com/en/products/bpro/"
-  },
-  {
-    name: "Phantom Revenge",
-    releaseDate: "2025-12-19",
-    description: "Phantom Revenge brings three brand-new themes so you can take vengeance on your competition!",
-    code: "PHRE",
-    link: "https://www.yugioh-card.com/en/products/phre/"
-  },
-  {
-    name: "Doom of Dimensions",
-    releaseDate: "2025-09-26",
-    description: "Dare to descend into different domains and demolish the defining divisions of the different Dueling dimensions with Doom of Dimensions!",
-    code: "DOOD",
-    link: "https://www.yugioh-card.com/en/products/dood/"
-  },
-  {
-    name: "Retro Pack 2",
-    releaseDate: "2025-08-29",
-    description: "Retro Pack 2 is an oft-requested time capsule from the past, but now with increased foil drop rates!",
-    code: "RP02",
-    link: "https://www.yugioh-card.com/en/products/rp02_2025/"
-  },
-  {
-    name: "Limited Pack World Championship 2025",
-    releaseDate: "2025-08-30",
-    description: "Celebrate a whole year of incredible Dueling stories with Limited Pack World Championship 2025 booster set!",
-    code: "WCS2025",
-    link: "https://www.yugioh-card.com/en/products/wcs2025booster/"
-  },
-  {
-    name: "Justice Hunters",
-    releaseDate: "2025-08-01",
-    description: "Justice Hunters brings you three brand-new themes ready to shake up the Yu-Gi-Oh! TRADING CARD GAME, each focusing on a different type of Extra Deck monster!",
-    code: "JUSH",
-    link: "https://www.yugioh-card.com/en/products/jush/"
-  },
-  {
-    name: "Duelist’s Advance",
-    releaseDate: "2025-07-04",
-    description: "Do do do do Duel, with Duelist’s Advance!",
-    code: "DUAD",
-    link: "https://www.yugioh-card.com/en/products/duad/"
-  },
-  {
-    name: "Battles of Legend: Monster Mayhem",
-    releaseDate: "2025-06-13",
-    description: "This year’s Battles of Legend set, Battles of Legend: Monster Mayhem, comes with three new surprises!",
-    code: "BLMM",
-    link: "https://www.yugioh-card.com/en/products/blmm/"
-  },
-  {
-    name: "Alliance Insight",
-    releaseDate: "2025-05-02",
-    description: "Alliance Insight is the last call for Quarter Century Secret Rares!",
-    code: "ALIN",
-    link: "https://www.yugioh-card.com/en/products/alin/"
-  },
-  {
-    name: "Quarter Century Stampede",
-    releaseDate: "2025-04-11",
-    description: "Quarter Century Stampede will be your last chance to get some of your all-time favorite cards as Quarter Century Secret Rares before this spectacular, shining rarity is gone forever.",
-    code: "QCS",
-    link: "https://www.yugioh-card.com/en/products/qcs/"
-  },
-  {
-    name: "Maze of the Master",
-    releaseDate: "2025-03-14",
-    description: "Explore the Deck ideas of your favorite Duelists with the anime-themed Maze of the Master!",
-    code: "MZTM",
-    link: "https://www.yugioh-card.com/en/products/mztm/"
-  },
-  {
-    name: "Supreme Darkness",
-    releaseDate: "2025-01-24",
-    description: "Supreme King Jaden’s “Evil HERO” monsters are back in a big way in Supreme Darkness, with new “Evil HERO” monsters and incredible support cards!",
-    code: "SUDA",
-    link: "https://www.yugioh-card.com/en/products/suda/"
-  },
-  {
-    name: "Crossover Breakers",
-    releaseDate: "2024-12-06",
-    description: "Jump into the action with all-new themes in Crossover Breakers!",
-    code: "CRBR",
-    link: "https://www.yugioh-card.com/en/products/crbr/"
-  },
-  {
-    name: "Quarter Century Bonanza",
-    releaseDate: "2024-11-08",
-    description: "Quarter Century Bonanza picks up where the Rarity Collection sets left off, with a bunch of new twists! Get ready for a wild ride!",
-    code: "QCB",
-    link: "https://www.yugioh-card.com/en/products/qcb/"
-  },
-  {
-    name: "Rage of the Abyss",
-    releaseDate: "2024-10-11",
-    description: "Descend to the deepest depths of the ocean with Rage of the Abyss!",
-    code: "ROTA",
-    link: "https://www.yugioh-card.com/en/products/rota/"
-  },
-  {
-    name: "Retro Pack",
-    releaseDate: "2024-08-23",
-    description: "Celebrate the 25th Anniversary of the Yu-Gi-Oh! Card Game with Retro Pack, the booster set that never was!",
-    code: "RP01",
-    link: "https://www.yugioh-card.com/en/products/rp01/"
-  },
-  {
-    name: "The Infinite Forbidden",
-    releaseDate: "2024-07-19",
-    description: "Return to where it all began with a new strategy featuring the unstoppable Exodia in The Infinite Forbidden!",
-    code: "INFO",
-    link: "https://www.yugioh-card.com/en/products/info/"
-  },
-  {
-    name: "Battles of Legend: Terminal Revenge",
-    releaseDate: "2024-06-21",
-    description: "Get awesome foil upgrades as well as sought-after tournament cards in Battles of Legend: Terminal Revenge.",
-    code: "BLTR",
-    link: "https://www.yugioh-card.com/en/products/bltr/"
-  },
-  {
-    name: "25th Anniversary Rarity Collection II",
-    releaseDate: "2024-05-24",
-    description: "The 25th Anniversary Rarity Collection II is a rapid-fire waterfall of high-powered cards, in seven of the game’s most popular foil rarities!",
-    code: "RA02",
-    link: "https://www.yugioh-card.com/en/products/ra02/"
-  },
-  {
-    name: "Legacy of Destruction",
-    releaseDate: "2024-04-26",
-    description: "Cement your legend as a top-level Duelist with the latest core booster set, Legacy of Destruction!",
-    code: "LEDE",
-    link: "https://www.yugioh-card.com/en/products/lede/"
-  },
-  {
-    name: "Phantom Nightmare",
-    releaseDate: "2024-02-09",
-    description: "Unlock the terrifying secrets of new themes, find brand-new cards for recent favorites, and meet more memorable monsters!",
-    code: "PHNI",
-    link: "https://www.yugioh-card.com/en/products/phni/"
-  },
-  {
-    name: "Maze of Millennia",
-    releaseDate: "2024-01-19",
-    description: "Maze of Millennia contains new long-thought-lost cards seen in the TV series, and some of today’s hottest tournament-level cards!",
-    code: "MZMI",
-    link: "https://www.yugioh-card.com/en/products/mzmi/"
-  },
-  {
-    name: "Valiant Smashers",
-    releaseDate: "2023-11-17",
-    description: "Take to the front lines and lead an all-out attack against your opponent with 3 new themes in Valiant Smashers!",
-    code: "VASM",
-    link: "https://www.yugioh-card.com/en/products/vasm/"
-  },
-  {
-    name: "25th Anniversary Rarity Collection",
-    releaseDate: "2023-11-03",
-    description: "Get your hands on two new card technologies with the 25th Anniversary Rarity Collection!",
-    code: "RA01",
-    link: "https://www.yugioh-card.com/en/products/ra01/"
-  },
-  {
-    name: "Age of Overlord",
-    releaseDate: "2023-10-20",
-    description: "A new age dawns this Fall with Age of Overlord, the latest core booster set!",
-    code: "AGOV",
-    link: "https://www.yugioh-card.com/en/products/agov/"
-  },
-  {
-    name: "Invasion of Chaos",
-    releaseDate: "2004-03-01",
-    description: "Invasion of Chaos is one of the most iconic Yu-Gi-Oh! TRADING CARD GAME booster sets of all time!",
-    code: "IOC",
-    link: "https://www.yugioh-card.com/en/products/ioc/"
-  }
-]
-
 export default function BoosterPackPage() {
+  const [packs, setPacks] = useState<YGOPack[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
   const [search, setSearch] = useState('')
-  const [sortBy, setSortBy] = useState<'newest' | 'oldest'>('newest')
+  const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'most_cards' | 'least_cards'>('newest')
+
+  // Fetch live booster packs from YGOPRODeck API
+  useEffect(() => {
+    fetch('https://db.ygoprodeck.com/api/v7/cardsets.php')
+      .then((res) => {
+        if (!res.ok) throw new Error('API request failed')
+        return res.json()
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          // Clean up and store
+          setPacks(data)
+        } else {
+          throw new Error('Data format error')
+        }
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.error('Error fetching card sets:', err)
+        setError(true)
+        setLoading(false)
+      })
+  }, [])
 
   // Format date helper
-  const formatDate = (dateStr: string) => {
+  const formatDate = (dateStr: string | null | undefined) => {
+    if (!dateStr) return 'Tanggal tidak diketahui'
     try {
       const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
       return new Date(dateStr).toLocaleDateString('id-ID', options)
@@ -248,23 +54,28 @@ export default function BoosterPackPage() {
 
   // Filter & Sort
   const filteredPacks = useMemo(() => {
-    let result = BOOSTER_PACKS.filter(pack => {
+    let result = packs.filter(pack => {
       const q = search.toLowerCase()
       return (
-        pack.name.toLowerCase().includes(q) ||
-        pack.code.toLowerCase().includes(q) ||
-        pack.description.toLowerCase().includes(q)
+        pack.set_name.toLowerCase().includes(q) ||
+        (pack.set_code && pack.set_code.toLowerCase().includes(q))
       )
     })
 
     result.sort((a, b) => {
-      const timeA = new Date(a.releaseDate).getTime()
-      const timeB = new Date(b.releaseDate).getTime()
-      return sortBy === 'newest' ? timeB - timeA : timeA - timeB
+      if (sortBy === 'newest' || sortBy === 'oldest') {
+        const timeA = a.tcg_date ? new Date(a.tcg_date).getTime() : 0
+        const timeB = b.tcg_date ? new Date(b.tcg_date).getTime() : 0
+        return sortBy === 'newest' ? timeB - timeA : timeA - timeB
+      } else {
+        const cardsA = a.num_of_cards || 0
+        const cardsB = b.num_of_cards || 0
+        return sortBy === 'most_cards' ? cardsB - cardsA : cardsA - cardsB
+      }
     })
 
     return result
-  }, [search, sortBy])
+  }, [packs, search, sortBy])
 
   return (
     <main className="min-h-screen transition-colors duration-200">
@@ -282,7 +93,7 @@ export default function BoosterPackPage() {
             Booster Pack Releases
           </h1>
           <p className="text-gray-600 dark:text-gray-400 font-semibold text-sm sm:pl-[60px]">
-            Daftar booster pack resmi Yu-Gi-Oh! dari Konami Trading Card Game
+            Informasi rilis booster pack & card set langsung secara real-time dari YGOPRODeck API
           </p>
         </div>
 
@@ -295,7 +106,7 @@ export default function BoosterPackPage() {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
                 <input
                   type="text"
-                  placeholder="Cari booster pack (contoh: Rarity, Chaos, dll)..."
+                  placeholder="Cari booster pack (contoh: Rarity, Chaos, LOB, dll)..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 text-sm font-medium"
@@ -306,30 +117,73 @@ export default function BoosterPackPage() {
             {/* Sort Dropdown */}
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'newest' | 'oldest')}
+              onChange={(e) => setSortBy(e.target.value as any)}
               className="px-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white text-sm font-semibold transition"
             >
               <option value="newest">📅 Rilis: Terbaru</option>
               <option value="oldest">📅 Rilis: Terlama</option>
+              <option value="most_cards">🎴 Jumlah Kartu: Terbanyak</option>
+              <option value="least_cards">🎴 Jumlah Kartu: Tersedikit</option>
             </select>
           </div>
         </div>
 
-        {/* Grid Listings */}
-        {filteredPacks.length === 0 ? (
+        {/* Content States */}
+        {loading ? (
+          /* Custom Rotating Logo summon circle */
+          <div className="flex flex-col items-center justify-center py-24">
+            <div className="relative mb-4 h-24 w-24 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full border-2 border-dashed border-yellow-400/30 animate-[spin_10s_linear_infinite]"></div>
+              <img 
+                src="/images/logo.png" 
+                alt="Loading..." 
+                className="h-20 w-20 animate-spin object-contain drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]" 
+              />
+            </div>
+            <p className="text-gray-500 dark:text-gray-400 font-bold text-lg tracking-wider animate-pulse">Menghubungkan ke YGOPRODeck...</p>
+            <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">Mengunduh database set kartu...</p>
+          </div>
+        ) : error ? (
+          <div className="text-center py-16 bg-red-500/5 rounded-2xl border border-red-500/10 max-w-lg mx-auto p-8">
+            <div className="text-5xl mb-4">⚠️</div>
+            <h3 className="text-lg font-bold text-red-500 mb-2">Gagal Mengunduh Data</h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+              Ada kendala koneksi saat menghubungi server API YGOPRODeck.
+            </p>
+            <button
+              onClick={() => {
+                setLoading(true)
+                setError(false)
+                fetch('https://db.ygoprodeck.com/api/v7/cardsets.php')
+                  .then(res => res.json())
+                  .then(data => {
+                    setPacks(data)
+                    setLoading(false)
+                  })
+                  .catch(() => {
+                    setError(true)
+                    setLoading(false)
+                  })
+              }}
+              className="px-6 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-slate-900 rounded-xl font-bold text-xs transition"
+            >
+              Coba Lagi
+            </button>
+          </div>
+        ) : filteredPacks.length === 0 ? (
           <div className="text-center py-16">
-            <div className="text-6xl mb-4">📦</div>
+            <div className="text-6xl mb-4">🔍</div>
             <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">Booster tidak ditemukan</h3>
-            <p className="text-gray-500 dark:text-gray-400">Coba masukkan nama booster pack yang lain.</p>
+            <p className="text-gray-500 dark:text-gray-400">Coba masukkan kata kunci pencarian yang berbeda.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPacks.map((pack) => {
-              const isFuture = new Date(pack.releaseDate).getTime() > Date.now()
+              const isFuture = pack.tcg_date && new Date(pack.tcg_date).getTime() > Date.now()
 
               return (
                 <div 
-                  key={pack.code}
+                  key={pack.set_name}
                   className="group relative flex flex-col justify-between rounded-2xl border border-gray-100 dark:border-slate-800/40 p-6 bg-white dark:bg-slate-900/40 hover:border-yellow-500/40 dark:hover:border-yellow-500/30 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-500/5 hover:-translate-y-1"
                 >
                   {/* Subtle inner radial glow */}
@@ -338,9 +192,15 @@ export default function BoosterPackPage() {
                   <div>
                     {/* Pack Badge Code & Status */}
                     <div className="flex items-center justify-between mb-4">
-                      <span className="px-3 py-1 bg-yellow-500/10 text-yellow-500 dark:text-yellow-400 border border-yellow-500/20 rounded-full text-xs font-bold uppercase tracking-wider">
-                        {pack.code}
-                      </span>
+                      {pack.set_code ? (
+                        <span className="px-3 py-1 bg-yellow-500/10 text-yellow-500 dark:text-yellow-400 border border-yellow-500/20 rounded-full text-xs font-bold uppercase tracking-wider">
+                          {pack.set_code}
+                        </span>
+                      ) : (
+                        <span className="px-3 py-1 bg-slate-500/10 text-slate-500 dark:text-slate-400 border border-slate-500/20 rounded-full text-xs font-bold uppercase tracking-wider">
+                          SET
+                        </span>
+                      )}
                       {isFuture && (
                         <span className="px-2.5 py-0.5 bg-rose-500/10 text-rose-500 dark:text-rose-400 border border-rose-500/20 rounded-full text-[10px] font-extrabold uppercase tracking-wide flex items-center gap-1 animate-pulse">
                           🔮 Upcoming
@@ -349,32 +209,45 @@ export default function BoosterPackPage() {
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-2 group-hover:text-yellow-500 transition-colors duration-200">
-                      {pack.name}
+                    <h3 className="text-xl font-extrabold text-slate-800 dark:text-slate-100 mb-3 group-hover:text-yellow-500 transition-colors duration-200 leading-snug">
+                      {pack.set_name}
                     </h3>
 
-                    {/* Date and Calendar */}
-                    <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 dark:text-gray-400 mb-4 bg-gray-50 dark:bg-slate-800/30 p-2.5 rounded-xl border border-gray-100/50 dark:border-slate-800/30">
-                      <Calendar size={14} className="text-yellow-500" />
-                      <span>Rilis: {formatDate(pack.releaseDate)}</span>
-                    </div>
+                    {/* Stats Badges */}
+                    <div className="space-y-2 mb-4">
+                      {/* Release Date */}
+                      <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-800/30 p-2.5 rounded-xl border border-gray-100/50 dark:border-slate-800/30">
+                        <Calendar size={14} className="text-yellow-500 shrink-0" />
+                        <span>Rilis: {formatDate(pack.tcg_date)}</span>
+                      </div>
 
-                    {/* Description */}
-                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-6 font-medium">
-                      {pack.description}
-                    </p>
+                      {/* Number of cards */}
+                      <div className="flex items-center gap-2 text-xs font-semibold text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-slate-800/30 p-2.5 rounded-xl border border-gray-100/50 dark:border-slate-800/30">
+                        <Hash size={14} className="text-yellow-500 shrink-0" />
+                        <span>Jumlah: <span className="text-yellow-600 dark:text-yellow-400 font-bold">{pack.num_of_cards || 0}</span> kartu terdaftar</span>
+                      </div>
+                    </div>
                   </div>
 
-                  {/* External official Konami reference button */}
-                  <div className="pt-4 border-t border-gray-100 dark:border-slate-800/40">
+                  {/* External lookup reference buttons */}
+                  <div className="pt-4 border-t border-gray-100 dark:border-slate-800/40 flex items-center justify-between gap-4">
+                    {/* Search inside website */}
                     <a
-                      href={pack.link}
+                      href={`/album?search=${encodeURIComponent(pack.set_name)}`}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-yellow-600 dark:text-yellow-400 hover:underline hover:text-yellow-500"
+                    >
+                      <span>Temukan Kartu →</span>
+                    </a>
+
+                    {/* DB Link */}
+                    <a
+                      href={`https://db.ygoprodeck.com/set/?set=${encodeURIComponent(pack.set_name)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-xs font-bold text-yellow-600 dark:text-yellow-400 hover:text-yellow-500 dark:hover:text-yellow-300 transition-colors duration-150"
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-gray-400 hover:text-gray-200 transition-colors duration-150"
                     >
-                      <span>Selengkapnya di Konami</span>
-                      <ExternalLink size={12} />
+                      <span>YGOPRODeck</span>
+                      <ExternalLink size={11} />
                     </a>
                   </div>
                 </div>
