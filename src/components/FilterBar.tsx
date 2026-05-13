@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { Search, X } from 'lucide-react'
+import { Search, X, SlidersHorizontal } from 'lucide-react'
 
 export default function FilterBar() {
   const router = useRouter()
@@ -49,86 +49,96 @@ export default function FilterBar() {
   const hasFilters = search || selectedTypeId || selectedAttribute || selectedSort
 
   return (
-    <div className="bg-white dark:bg-slate-900/60 border border-gray-100 dark:border-slate-800/40 p-4 rounded-xl shadow-md mb-6 transition-colors duration-200">
-      <div className="flex flex-col md:flex-row gap-3">
-        {/* Type Filter */}
-        <select
-          value={selectedTypeId}
-          onChange={(e) => setSelectedTypeId(e.target.value)}
-          className="order-2 md:order-1 px-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white text-sm font-semibold transition"
-        >
-          <option value="">All Types</option>
-          {cardTypes.map(type => (
-            <option key={type.id} value={type.id}>
-              {type.name}
-            </option>
-          ))}
-        </select>
+    <div className="relative overflow-hidden bg-slate-900/70 border border-yellow-500/15 backdrop-blur-md p-5 rounded-2xl shadow-xl shadow-yellow-500/[0.02] mb-8 transition-all duration-300">
+      {/* Decorative Golden Ambient Line */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent"></div>
 
-        {/* Attribute Filter */}
-        <select
-          value={selectedAttribute}
-          onChange={(e) => setSelectedAttribute(e.target.value)}
-          className="order-3 md:order-2 px-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white text-sm font-semibold transition"
-          disabled={!!selectedTypeId && cardTypes.find(t => t.id == selectedTypeId)?.name?.toLowerCase() !== 'monster'}
-        >
-          <option value="">All Attributes</option>
-          <option value="FIRE">🔥 FIRE</option>
-          <option value="WATER">💧 WATER</option>
-          <option value="EARTH">🌍 EARTH</option>
-          <option value="WIND">💨 WIND</option>
-          <option value="LIGHT">☀️ LIGHT</option>
-          <option value="DARK">🌑 DARK</option>
-          <option value="DIVINE">⭐ DIVINE</option>
-        </select>
-
-        {/* Sort/Order Filter */}
-        <select
-          value={selectedSort}
-          onChange={(e) => setSelectedSort(e.target.value)}
-          className="order-4 md:order-3 px-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white text-sm font-semibold transition"
-        >
-          <option value="">Urutan: Default</option>
-          <option value="atk_desc">⚔️ Attack Terbesar</option>
-          <option value="atk_asc">⚔️ Attack Terlemah</option>
-          <option value="def_desc">🛡️ Defense Terbesar</option>
-          <option value="def_asc">🛡️ Defense Terlemah</option>
-          <option value="price_desc">💰 Harga Termahal</option>
-          <option value="price_asc">💰 Harga Termurah</option>
-        </select>
-
-        {/* Search Input */}
-        <div className="order-1 md:order-4 flex-1">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-            <input
-              type="text"
-              placeholder="Cari nama kartu..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
-              className="w-full pl-10 pr-4 py-3 border border-gray-200 dark:border-slate-700/60 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 text-sm"
-            />
-          </div>
+      {/* Grid container with proper hierarchy */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 items-center">
+        
+        {/* 1. Main Search Bar (Left side / first) */}
+        <div className="col-span-1 lg:col-span-4 relative">
+          <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-yellow-500/70" size={16} />
+          <input
+            type="text"
+            placeholder="Cari nama kartu..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
+            className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-700 bg-slate-950/60 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500/30 text-sm font-semibold transition duration-200"
+          />
         </div>
 
-        {/* Buttons */}
-        <div className="order-5 flex gap-2 w-full md:w-auto">
+        {/* 2. Select Dropdowns Filter Section */}
+        <div className="col-span-1 lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          {/* Card Type Dropdown */}
+          <select
+            value={selectedTypeId}
+            onChange={(e) => setSelectedTypeId(e.target.value)}
+            className="w-full h-11 px-3.5 rounded-xl border border-slate-700 bg-slate-950/60 text-slate-200 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500/30 text-xs font-bold transition cursor-pointer"
+          >
+            <option value="" className="bg-slate-900 text-slate-400">🃏 All Types</option>
+            {cardTypes.map(type => (
+              <option key={type.id} value={type.id} className="bg-slate-900 text-slate-200">
+                {type.name}
+              </option>
+            ))}
+          </select>
+
+          {/* Attribute Dropdown */}
+          <select
+            value={selectedAttribute}
+            onChange={(e) => setSelectedAttribute(e.target.value)}
+            className="w-full h-11 px-3.5 rounded-xl border border-slate-700 bg-slate-950/60 text-slate-200 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500/30 text-xs font-bold transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={!!selectedTypeId && cardTypes.find(t => t.id == selectedTypeId)?.name?.toLowerCase() !== 'monster'}
+          >
+            <option value="" className="bg-slate-900 text-slate-400">🔥 All Attributes</option>
+            <option value="FIRE" className="bg-slate-900 text-slate-200">🔥 FIRE</option>
+            <option value="WATER" className="bg-slate-900 text-slate-200">💧 WATER</option>
+            <option value="EARTH" className="bg-slate-900 text-slate-200">🌍 EARTH</option>
+            <option value="WIND" className="bg-slate-900 text-slate-200">💨 WIND</option>
+            <option value="LIGHT" className="bg-slate-900 text-slate-200">☀️ LIGHT</option>
+            <option value="DARK" className="bg-slate-900 text-slate-200">🌑 DARK</option>
+            <option value="DIVINE" className="bg-slate-900 text-slate-200">⭐ DIVINE</option>
+          </select>
+
+          {/* Sort Filter */}
+          <select
+            value={selectedSort}
+            onChange={(e) => setSelectedSort(e.target.value)}
+            className="w-full h-11 px-3.5 rounded-xl border border-slate-700 bg-slate-950/60 text-slate-200 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500/30 text-xs font-bold transition cursor-pointer"
+          >
+            <option value="" className="bg-slate-900 text-slate-400">📊 Urutan: Default</option>
+            <option value="atk_desc" className="bg-slate-900 text-slate-200">⚔️ ATK Terbesar</option>
+            <option value="atk_asc" className="bg-slate-900 text-slate-200">⚔️ ATK Terlemah</option>
+            <option value="def_desc" className="bg-slate-900 text-slate-200">🛡️ DEF Terbesar</option>
+            <option value="def_asc" className="bg-slate-900 text-slate-200">🛡️ DEF Terlemah</option>
+            <option value="price_desc" className="bg-slate-900 text-slate-200">💰 Harga Termahal</option>
+            <option value="price_asc" className="bg-slate-900 text-slate-200">💰 Harga Termurah</option>
+          </select>
+        </div>
+
+        {/* 3. Action Buttons Section (Right side) */}
+        <div className="col-span-1 lg:col-span-2 flex items-center gap-2 w-full">
           <button
             onClick={applyFilters}
-            className="flex-1 md:flex-none px-6 py-3 bg-yellow-500 text-slate-900 rounded-xl hover:bg-yellow-400 font-bold transition shadow-md shadow-yellow-500/10 text-sm"
+            className="flex-1 h-11 flex items-center justify-center gap-1.5 bg-gradient-to-r from-yellow-500 to-yellow-400 hover:from-yellow-400 hover:to-yellow-300 text-slate-950 rounded-xl font-extrabold text-xs tracking-wider uppercase transition-all duration-200 hover:shadow-lg hover:shadow-yellow-500/25 active:scale-[0.98]"
           >
-            🔍 Filter
+            <SlidersHorizontal size={13} strokeWidth={2.5} />
+            Filter
           </button>
+          
           {hasFilters && (
             <button
               onClick={clearAll}
-              className="px-4 py-3 bg-gray-100 dark:bg-slate-800 border border-gray-200 dark:border-slate-700/60 text-gray-700 dark:text-white rounded-xl hover:bg-gray-200 dark:hover:bg-slate-700 transition"
+              title="Reset Filter"
+              className="h-11 w-11 flex items-center justify-center rounded-xl bg-slate-800 hover:bg-slate-700/80 border border-slate-700 hover:border-slate-600 text-slate-300 hover:text-white transition duration-200 active:scale-95"
             >
-              <X size={18} />
+              <X size={16} />
             </button>
           )}
         </div>
+
       </div>
     </div>
   )
