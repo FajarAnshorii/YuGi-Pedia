@@ -43,39 +43,8 @@ export default function FilterBar() {
   return (
     <div className="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-md mb-6 transition-colors duration-200">
       <div className="flex flex-col md:flex-row gap-4">
-        {/* Type Filter */}
-        <select
-          value={selectedTypeId}
-          onChange={(e) => setSelectedTypeId(e.target.value)}
-          className="px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-700 dark:text-white"
-        >
-          <option value="">All Types</option>
-          {cardTypes.map(type => (
-            <option key={type.id} value={type.id}>
-              {type.name}
-            </option>
-          ))}
-        </select>
-
-        {/* Attribute Filter */}
-        <select
-          value={selectedAttribute}
-          onChange={(e) => setSelectedAttribute(e.target.value)}
-          className="px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-700 dark:text-white"
-          disabled={!!selectedTypeId && cardTypes.find(t => t.id == selectedTypeId)?.name?.toLowerCase() !== 'monster'}
-        >
-          <option value="">All Attributes</option>
-          <option value="FIRE">🔥 FIRE</option>
-          <option value="WATER">💧 WATER</option>
-          <option value="EARTH">🌍 EARTH</option>
-          <option value="WIND">💨 WIND</option>
-          <option value="LIGHT">☀️ LIGHT</option>
-          <option value="DARK">🌑 DARK</option>
-          <option value="DIVINE">⭐ DIVINE</option>
-        </select>
-
         {/* Search Input */}
-        <div className="flex-1">
+        <div className="order-1 md:order-3 flex-1">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             <input
@@ -89,11 +58,42 @@ export default function FilterBar() {
           </div>
         </div>
 
+        {/* Type Filter */}
+        <select
+          value={selectedTypeId}
+          onChange={(e) => setSelectedTypeId(e.target.value)}
+          className="order-2 md:order-1 px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-700 dark:text-white"
+        >
+          <option value="">All Types</option>
+          {cardTypes.map(type => (
+            <option key={type.id} value={type.id}>
+              {type.name}
+            </option>
+          ))}
+        </select>
+
+        {/* Attribute Filter */}
+        <select
+          value={selectedAttribute}
+          onChange={(e) => setSelectedAttribute(e.target.value)}
+          className="order-3 md:order-2 px-4 py-3 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-700 dark:text-white"
+          disabled={!!selectedTypeId && cardTypes.find(t => t.id == selectedTypeId)?.name?.toLowerCase() !== 'monster'}
+        >
+          <option value="">All Attributes</option>
+          <option value="FIRE">🔥 FIRE</option>
+          <option value="WATER">💧 WATER</option>
+          <option value="EARTH">🌍 EARTH</option>
+          <option value="WIND">💨 WIND</option>
+          <option value="LIGHT">☀️ LIGHT</option>
+          <option value="DARK">🌑 DARK</option>
+          <option value="DIVINE">⭐ DIVINE</option>
+        </select>
+
         {/* Buttons */}
-        <div className="flex gap-2">
+        <div className="order-4 flex gap-2 w-full md:w-auto">
           <button
             onClick={applyFilters}
-            className="px-6 py-3 bg-yellow-500 text-white rounded-xl hover:bg-yellow-400 font-semibold transition shadow-md"
+            className="flex-1 md:flex-none px-6 py-3 bg-yellow-500 text-white rounded-xl hover:bg-yellow-400 font-semibold transition shadow-md"
           >
             🔍 Filter
           </button>

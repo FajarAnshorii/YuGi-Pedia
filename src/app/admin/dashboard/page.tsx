@@ -82,39 +82,41 @@ export default async function AdminDashboard() {
           </Link>
         </div>
 
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Attribute</th>
-              <th>ATK</th>
-              <th>DEF</th>
-            </tr>
-          </thead>
-          <tbody>
-            {recentCards.map((card) => (
-              <tr key={card.id}>
-                <td className="dark:text-white">
-                  <Link href={`/cards/${card.id}`} target="_blank" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
-                    {card.name}
-                  </Link>
-                </td>
-                <td>
-                  <span className={`px-2 py-1 rounded text-xs font-semibold text-white ${
-                    card.type?.name?.toLowerCase() === 'monster' ? 'bg-red-500' :
-                    card.type?.name?.toLowerCase() === 'spell' ? 'bg-green-500' : 'bg-purple-500'
-                  }`}>
-                    {card.type?.name || 'N/A'}
-                  </span>
-                </td>
-                <td>{card.attribute?.name || '-'}</td>
-                <td className="text-red-500 font-semibold">{card.attack ?? '-'}</td>
-                <td className="text-blue-500 font-semibold">{card.defense ?? '-'}</td>
+        <div className="overflow-x-auto">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Attribute</th>
+                <th>ATK</th>
+                <th>DEF</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {recentCards.map((card) => (
+                <tr key={card.id}>
+                  <td className="dark:text-white">
+                    <Link href={`/cards/${card.id}`} target="_blank" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
+                      {card.name}
+                    </Link>
+                  </td>
+                  <td>
+                    <span className={`px-2 py-1 rounded text-xs font-semibold text-white ${
+                      card.type?.name?.toLowerCase() === 'monster' ? 'bg-red-500' :
+                      card.type?.name?.toLowerCase() === 'spell' ? 'bg-green-500' : 'bg-purple-500'
+                    }`}>
+                      {card.type?.name || 'N/A'}
+                    </span>
+                  </td>
+                  <td>{card.attribute?.name || '-'}</td>
+                  <td className="text-red-500 font-semibold">{card.attack ?? '-'}</td>
+                  <td className="text-blue-500 font-semibold">{card.defense ?? '-'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )

@@ -79,26 +79,66 @@ export default function Pagination({ currentPage, totalPages, baseUrl = '/album'
   }
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-8">
-      {currentPage > 1 && (
-        <Link
-          href={getPageUrl(currentPage - 1)}
-          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition text-slate-700 dark:text-slate-300"
-        >
-          <ChevronLeft size={20} />
-        </Link>
-      )}
+    <div className="mt-8 flex flex-col items-center gap-4">
+      {/* Desktop Pagination */}
+      <div className="hidden sm:flex items-center justify-center gap-2">
+        {currentPage > 1 && (
+          <Link
+            href={getPageUrl(currentPage - 1)}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition text-slate-700 dark:text-slate-300"
+          >
+            <ChevronLeft size={20} />
+          </Link>
+        )}
 
-      {renderPages()}
+        {renderPages()}
 
-      {currentPage < totalPages && (
-        <Link
-          href={getPageUrl(currentPage + 1)}
-          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition text-slate-700 dark:text-slate-300"
-        >
-          <ChevronRight size={20} />
-        </Link>
-      )}
+        {currentPage < totalPages && (
+          <Link
+            href={getPageUrl(currentPage + 1)}
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition text-slate-700 dark:text-slate-300"
+          >
+            <ChevronRight size={20} />
+          </Link>
+        )}
+      </div>
+
+      {/* Mobile Pagination */}
+      <div className="flex sm:hidden items-center justify-between w-full max-w-xs px-4">
+        {currentPage > 1 ? (
+          <Link
+            href={getPageUrl(currentPage - 1)}
+            className="flex items-center gap-1 px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 transition text-sm font-semibold text-slate-700 dark:text-slate-300"
+          >
+            <ChevronLeft size={16} />
+            Prev
+          </Link>
+        ) : (
+          <div className="flex items-center gap-1 px-4 py-2 border border-gray-100 dark:border-slate-800 rounded-lg bg-gray-50 dark:bg-slate-900/30 text-sm font-semibold text-gray-300 dark:text-slate-600 cursor-not-allowed">
+            <ChevronLeft size={16} />
+            Prev
+          </div>
+        )}
+
+        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
+          Page {currentPage} of {totalPages}
+        </span>
+
+        {currentPage < totalPages ? (
+          <Link
+            href={getPageUrl(currentPage + 1)}
+            className="flex items-center gap-1 px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 transition text-sm font-semibold text-slate-700 dark:text-slate-300"
+          >
+            Next
+            <ChevronRight size={16} />
+          </Link>
+        ) : (
+          <div className="flex items-center gap-1 px-4 py-2 border border-gray-100 dark:border-slate-800 rounded-lg bg-gray-50 dark:bg-slate-900/30 text-sm font-semibold text-gray-300 dark:text-slate-600 cursor-not-allowed">
+            Next
+            <ChevronRight size={16} />
+          </div>
+        )}
+      </div>
     </div>
   )
 }

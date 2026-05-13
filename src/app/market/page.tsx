@@ -111,7 +111,7 @@ export default function MarketPage() {
 
         {/* Search */}
         <div className="max-w-2xl mx-auto mb-8">
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1 relative">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
               <input
@@ -126,7 +126,7 @@ export default function MarketPage() {
             <button
               onClick={handleSearch}
               disabled={loading}
-              className="px-8 py-4 bg-yellow-500 text-white rounded-xl hover:bg-yellow-400 font-semibold transition shadow-md disabled:opacity-50"
+              className="w-full sm:w-auto px-8 py-4 bg-yellow-500 text-white rounded-xl hover:bg-yellow-400 font-semibold transition shadow-md disabled:opacity-50"
             >
               {loading ? 'Loading...' : '🔍 Cek Harga'}
             </button>
@@ -180,12 +180,12 @@ export default function MarketPage() {
               >
                 <div className="flex flex-col md:flex-row">
                   {/* Card Image */}
-                  <div className="md:w-48 aspect-[3/4] bg-gradient-to-br from-slate-700 to-slate-900 flex-shrink-0">
+                  <div className="w-48 aspect-[3/4] mx-auto md:w-48 md:mx-0 bg-gradient-to-br from-slate-700 to-slate-900 flex-shrink-0 flex items-center justify-center p-4">
                     {card.imageUrl ? (
                       <img
                         src={card.imageUrl}
                         alt={card.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain rounded-lg shadow-md"
                         onError={(e) => {
                           e.currentTarget.src = `https://via.placeholder.com/200x280/1e293b/ffffff?text=${encodeURIComponent(card.name)}`
                         }}
