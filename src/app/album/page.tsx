@@ -90,10 +90,17 @@ function AlbumContent() {
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-extrabold yugioh-glow-text uppercase tracking-wider mb-2">
-            🃏 {getTypeName()}
+          <h1 className="text-3xl font-extrabold yugioh-glow-text uppercase tracking-wider mb-2 flex items-center">
+            <div className="inline-flex items-center justify-center p-2 rounded-lg bg-yellow-500/10 border border-yellow-500/20 mr-3 shadow-inner">
+              <svg className="w-6 h-6 text-yellow-400 drop-shadow-[0_0_6px_rgba(234,179,8,0.6)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="6" width="12" height="15" rx="2" stroke="currentColor" strokeOpacity="0.5" />
+                <rect x="6" y="4" width="12" height="15" rx="2" stroke="currentColor" strokeOpacity="0.75" />
+                <rect x="9" y="2" width="12" height="15" rx="2" stroke="currentColor" fill="currentColor" fillOpacity="0.1" />
+              </svg>
+            </div>
+            {getTypeName()}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 font-semibold text-sm">
+          <p className="text-gray-600 dark:text-gray-400 font-semibold text-sm pl-[52px]">
             {pagination.total ? pagination.total.toLocaleString() : '0'} kartu ditemukan
           </p>
         </div>
@@ -103,9 +110,16 @@ function AlbumContent() {
 
         {/* Loading State */}
         {loading ? (
-          <div className="text-center py-16">
-            <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-yellow-400 border-t-transparent mb-4"></div>
-            <p className="text-gray-500 dark:text-gray-400 text-lg">Loading cards...</p>
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="relative mb-4 h-20 w-20 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full border-2 border-dashed border-yellow-400/30 animate-[spin_10s_linear_infinite]"></div>
+              <img 
+                src="/images/logo.png" 
+                alt="Loading..." 
+                className="h-16 w-16 animate-spin object-contain drop-shadow-[0_0_12px_rgba(234,179,8,0.5)]" 
+              />
+            </div>
+            <p className="text-gray-500 dark:text-gray-400 font-semibold text-lg tracking-wider animate-pulse">Loading cards...</p>
           </div>
         ) : (
           <>
@@ -133,9 +147,16 @@ export default function AlbumPage() {
       <main className="min-h-screen transition-colors duration-200">
         <Navbar />
         <div className="container mx-auto px-4 py-8">
-          <div className="text-center py-16">
-            <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-yellow-400 border-t-transparent mb-4"></div>
-            <p className="text-gray-500 dark:text-gray-400 text-lg">Loading...</p>
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="relative mb-4 h-20 w-20 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full border-2 border-dashed border-yellow-400/30 animate-[spin_10s_linear_infinite]"></div>
+              <img 
+                src="/images/logo.png" 
+                alt="Loading..." 
+                className="h-16 w-16 animate-spin object-contain drop-shadow-[0_0_12px_rgba(234,179,8,0.5)]" 
+              />
+            </div>
+            <p className="text-gray-500 dark:text-gray-400 font-semibold text-lg tracking-wider animate-pulse">Loading...</p>
           </div>
         </div>
       </main>

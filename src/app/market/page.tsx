@@ -161,9 +161,16 @@ export default function MarketPage() {
 
         {/* Results */}
         {loading ? (
-          <div className="text-center py-16">
-            <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-yellow-400 border-t-transparent mb-4"></div>
-            <p className="text-gray-500 dark:text-gray-400 text-lg">Fetching prices...</p>
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="relative mb-4 h-20 w-20 flex items-center justify-center">
+              <div className="absolute inset-0 rounded-full border-2 border-dashed border-yellow-400/30 animate-[spin_10s_linear_infinite]"></div>
+              <img 
+                src="/images/logo.png" 
+                alt="Loading..." 
+                className="h-16 w-16 animate-spin object-contain drop-shadow-[0_0_12px_rgba(234,179,8,0.5)]" 
+              />
+            </div>
+            <p className="text-gray-500 dark:text-gray-400 font-semibold text-lg tracking-wider animate-pulse">Fetching prices...</p>
           </div>
         ) : hasSearched && cards.length === 0 ? (
           <div className="text-center py-16">

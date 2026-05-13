@@ -34,9 +34,16 @@ export default function CardDetailPage() {
     return (
       <main className="min-h-screen">
         <Navbar />
-        <div className="container mx-auto px-4 py-12 text-center">
-          <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-yellow-400 border-t-transparent"></div>
-          <p className="mt-4 text-gray-500 dark:text-gray-400">Loading...</p>
+        <div className="container mx-auto px-4 py-16 flex flex-col items-center justify-center">
+          <div className="relative mb-4 h-20 w-20 flex items-center justify-center">
+            <div className="absolute inset-0 rounded-full border-2 border-dashed border-yellow-400/30 animate-[spin_10s_linear_infinite]"></div>
+            <img 
+              src="/images/logo.png" 
+              alt="Loading..." 
+              className="h-16 w-16 animate-spin object-contain drop-shadow-[0_0_12px_rgba(234,179,8,0.5)]" 
+            />
+          </div>
+          <p className="text-gray-500 dark:text-gray-400 font-semibold text-lg tracking-wider animate-pulse">Loading...</p>
         </div>
       </main>
     )
