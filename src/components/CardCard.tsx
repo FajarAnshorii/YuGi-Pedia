@@ -65,14 +65,14 @@ export default function CardCard({ card }: CardCardProps) {
   }
 
   return (
-    <Link href={`/cards/${card.id}`}>
+    <Link href={`/cards/${card.id}`} className="group">
       <div className="card-border bg-white dark:bg-slate-800 cursor-pointer h-full flex flex-col transition-colors duration-200">
         {/* Card Image */}
         <div className="aspect-[3/4] relative bg-gradient-to-br from-slate-700 to-slate-900 overflow-hidden">
           <img
             src={getCardImageUrl()}
             alt={card.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             onError={(e) => {
               // If YGOPRODeck image fails, use placeholder with card name
               e.currentTarget.src = `https://via.placeholder.com/300x420/1e293b/ffffff?text=${encodeURIComponent(card.name)}`
@@ -81,7 +81,7 @@ export default function CardCard({ card }: CardCardProps) {
 
           {/* Type badge */}
           <div className="absolute top-2 right-2">
-            <span className={`${getTypeBadge()} text-white text-xs px-2 py-1 rounded-full font-bold shadow-lg`}>
+            <span className={`${getTypeBadge()} text-white text-[10px] sm:text-xs px-2 py-0.5 sm:py-1 rounded-full font-bold shadow-lg`}>
               {typeName}
             </span>
           </div>
@@ -89,7 +89,7 @@ export default function CardCard({ card }: CardCardProps) {
           {/* Attribute badge (for monsters) */}
           {attributeName && (
             <div className="absolute top-2 left-2">
-              <span className={`${getAttributeColor()} bg-black/60 backdrop-blur text-xs px-2 py-1 rounded-full font-bold shadow-lg`}>
+              <span className={`${getAttributeColor()} bg-black/60 backdrop-blur text-[10px] sm:text-xs px-2 py-0.5 sm:py-1 rounded-full font-bold shadow-lg`}>
                 {getAttributeEmoji()} {attributeName}
               </span>
             </div>
@@ -98,7 +98,7 @@ export default function CardCard({ card }: CardCardProps) {
 
         {/* Card Info */}
         <div className="p-3 flex-1 flex flex-col">
-          <h3 className="font-bold text-sm text-slate-900 dark:text-white line-clamp-2 mb-2" title={card.name}>
+          <h3 className="font-extrabold text-sm text-slate-900 dark:text-amber-100/90 group-hover:text-yellow-400 transition-colors line-clamp-2 mb-1" title={card.name}>
             {card.name}
           </h3>
 
@@ -141,16 +141,16 @@ export default function CardCard({ card }: CardCardProps) {
 
           {/* Price Display */}
           {(card.tcgPlayerPrice || card.cardMarketPrice) && (
-            <div className="mt-2 pt-2 border-t border-gray-100 dark:border-slate-700">
+            <div className="mt-2 pt-2 border-t border-gray-100 dark:border-slate-700/60 flex items-center justify-between">
+              <span className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Cek Harga</span>
               <div className="flex items-center gap-1 text-xs">
-                <span className="text-green-600 dark:text-green-400 font-bold">
+                <span className="text-emerald-600 dark:text-emerald-400 font-extrabold text-sm">
                   {card.tcgPlayerPrice
                     ? `$${card.tcgPlayerPrice.toFixed(2)}`
                     : card.cardMarketPrice
                     ? `€${card.cardMarketPrice.toFixed(2)}`
                     : '-'}
                 </span>
-                <span className="text-gray-400 dark:text-gray-500">USD</span>
               </div>
             </div>
           )}

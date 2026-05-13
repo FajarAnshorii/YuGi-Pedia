@@ -90,13 +90,13 @@ export default function MarketPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 dark:bg-slate-900 transition-colors duration-200">
+    <main className="min-h-screen transition-colors duration-200">
       <Navbar />
 
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-2">
+          <h1 className="text-4xl font-extrabold yugioh-glow-text tracking-wider uppercase mb-2">
             📊 Market Prices
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
@@ -120,13 +120,13 @@ export default function MarketPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                className="w-full pl-12 pr-4 py-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-800 dark:text-white dark:placeholder-gray-400 text-lg"
+                className="w-full pl-12 pr-4 py-4 border border-gray-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-yellow-400 bg-white dark:bg-slate-900/60 dark:text-white dark:placeholder-gray-400 text-lg shadow-sm"
               />
             </div>
             <button
               onClick={handleSearch}
               disabled={loading}
-              className="w-full sm:w-auto px-8 py-4 bg-yellow-500 text-white rounded-xl hover:bg-yellow-400 font-semibold transition shadow-md disabled:opacity-50"
+              className="w-full sm:w-auto px-8 py-4 bg-yellow-500 text-slate-900 rounded-xl hover:bg-yellow-400 font-bold transition shadow-md disabled:opacity-50"
             >
               {loading ? 'Loading...' : '🔍 Cek Harga'}
             </button>
@@ -176,7 +176,7 @@ export default function MarketPage() {
             {cards.map((card) => (
               <div
                 key={card.id}
-                className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
+                className="bg-white dark:bg-slate-900/60 border border-gray-100 dark:border-slate-800/40 rounded-2xl shadow-lg overflow-hidden transition-all hover:shadow-xl"
               >
                 <div className="flex flex-col md:flex-row">
                   {/* Card Image */}
@@ -201,7 +201,7 @@ export default function MarketPage() {
                   <div className="flex-1 p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div>
-                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
+                        <h3 className="text-xl font-extrabold text-slate-900 dark:text-amber-100/90 tracking-wide mb-1">
                           {card.name}
                         </h3>
                         <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -215,7 +215,7 @@ export default function MarketPage() {
                       </div>
                       <Link
                         href={`/cards/${card.id}`}
-                        className="text-blue-500 hover:text-blue-400 text-sm flex items-center gap-1"
+                        className="text-blue-500 dark:text-yellow-400 hover:underline text-sm flex items-center gap-1 font-semibold"
                       >
                         <ExternalLink size={14} />
                         Detail
@@ -225,63 +225,63 @@ export default function MarketPage() {
                     {/* Prices Grid */}
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                       {/* CardMarket */}
-                      <div className="bg-blue-50 dark:bg-blue-900/30 p-3 rounded-xl">
+                      <div className="price-source-card price-source-cardmarket">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">CardMarket</span>
+                          <span className="text-xs opacity-80 uppercase tracking-wider font-semibold">CardMarket</span>
                         </div>
-                        <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                        <p className="text-lg font-extrabold mt-1">
                           {formatPrice(getPrice(card, 'cardMarket'))}
                         </p>
-                        <p className="text-xs text-gray-400">EUR</p>
+                        <p className="text-[10px] opacity-60">EUR</p>
                       </div>
 
                       {/* TCGPlayer */}
-                      <div className="bg-green-50 dark:bg-green-900/30 p-3 rounded-xl">
+                      <div className="price-source-card price-source-tcg">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">TCGPlayer</span>
+                          <span className="text-xs opacity-80 uppercase tracking-wider font-semibold">TCGPlayer</span>
                         </div>
-                        <p className="text-lg font-bold text-green-600 dark:text-green-400">
+                        <p className="text-lg font-extrabold mt-1">
                           {formatPrice(getPrice(card, 'tcgPlayer'))}
                         </p>
-                        <p className="text-xs text-gray-400">USD</p>
+                        <p className="text-[10px] opacity-60">USD</p>
                       </div>
 
                       {/* eBay */}
-                      <div className="bg-red-50 dark:bg-red-900/30 p-3 rounded-xl">
+                      <div className="price-source-card price-source-ebay">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="w-2 h-2 rounded-full bg-red-500"></span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">eBay</span>
+                          <span className="text-xs opacity-80 uppercase tracking-wider font-semibold">eBay</span>
                         </div>
-                        <p className="text-lg font-bold text-red-600 dark:text-red-400">
+                        <p className="text-lg font-extrabold mt-1">
                           {formatPrice(getPrice(card, 'eBay'))}
                         </p>
-                        <p className="text-xs text-gray-400">USD</p>
+                        <p className="text-[10px] opacity-60">USD</p>
                       </div>
 
                       {/* Amazon */}
-                      <div className="bg-orange-50 dark:bg-orange-900/30 p-3 rounded-xl">
+                      <div className="price-source-card price-source-amazon">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="w-2 h-2 rounded-full bg-orange-500"></span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">Amazon</span>
+                          <span className="text-xs opacity-80 uppercase tracking-wider font-semibold">Amazon</span>
                         </div>
-                        <p className="text-lg font-bold text-orange-600 dark:text-orange-400">
+                        <p className="text-lg font-extrabold mt-1">
                           {formatPrice(getPrice(card, 'amazon'))}
                         </p>
-                        <p className="text-xs text-gray-400">USD</p>
+                        <p className="text-[10px] opacity-60">USD</p>
                       </div>
 
                       {/* CoolStuffInc */}
-                      <div className="bg-purple-50 dark:bg-purple-900/30 p-3 rounded-xl">
+                      <div className="price-source-card price-source-coolstuff">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="w-2 h-2 rounded-full bg-purple-500"></span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">CoolStuffInc</span>
+                          <span className="text-xs opacity-80 uppercase tracking-wider font-semibold">CoolStuffInc</span>
                         </div>
-                        <p className="text-lg font-bold text-purple-600 dark:text-purple-400">
+                        <p className="text-lg font-extrabold mt-1">
                           {formatPrice(getPrice(card, 'coolStuffInc'))}
                         </p>
-                        <p className="text-xs text-gray-400">USD</p>
+                        <p className="text-[10px] opacity-60">USD</p>
                       </div>
                     </div>
 
@@ -295,30 +295,30 @@ export default function MarketPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-16 max-w-md mx-auto">
-            <div className="text-8xl mb-6">📊</div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
+          <div className="text-center py-16 max-w-lg mx-auto bg-white/40 dark:bg-slate-900/40 border border-gray-100 dark:border-slate-800/40 rounded-2xl p-8 shadow-lg">
+            <div className="text-8xl mb-6 drop-shadow-[0_0_15px_rgba(234,179,8,0.2)]">📊</div>
+            <h2 className="text-2xl font-extrabold tracking-wide yugioh-glow-text mb-2">
               Cek Harga Kartu
             </h2>
             <p className="text-gray-500 dark:text-gray-400">
-              Masukkan nama kartu untuk melihat harga dari berbagai marketplace
+              Masukkan nama kartu untuk melihat harga dari berbagai marketplace secara realtime
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               <button
                 onClick={() => { setSearch('Dark Magician'); handleSearch(); }}
-                className="px-4 py-2 bg-slate-100 dark:bg-slate-700 rounded-lg text-sm text-gray-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-slate-600"
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-slate-700 dark:border dark:border-slate-700/60 transition"
               >
                 Dark Magician
               </button>
               <button
                 onClick={() => { setSearch('Blue-Eyes White Dragon'); handleSearch(); }}
-                className="px-4 py-2 bg-slate-100 dark:bg-slate-700 rounded-lg text-sm text-gray-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-slate-600"
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-slate-700 dark:border dark:border-slate-700/60 transition"
               >
                 Blue-Eyes White Dragon
               </button>
               <button
                 onClick={() => { setSearch('Pot of Greed'); handleSearch(); }}
-                className="px-4 py-2 bg-slate-100 dark:bg-slate-700 rounded-lg text-sm text-gray-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-slate-600"
+                className="px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-lg text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-slate-200 dark:hover:bg-slate-700 dark:border dark:border-slate-700/60 transition"
               >
                 Pot of Greed
               </button>
