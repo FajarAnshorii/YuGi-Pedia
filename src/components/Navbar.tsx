@@ -23,60 +23,66 @@ export default function Navbar() {
 
   return (
     <nav className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white shadow-xl sticky top-0 z-50">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 sm:gap-3 hover:opacity-90 transition">
             <img src="/images/logo.png" alt="YuGi Pedia" className="h-9 sm:h-10 w-auto object-contain" />
             <div>
               <span className="font-bold text-lg sm:text-xl tracking-tight">YuGi Pedia</span>
-              <p className="text-[10px] sm:text-xs text-gray-400 hidden sm:block">
-                {cardCount !== null ? `${cardCount.toLocaleString('id-ID')} Cards` : '14,523 Cards'}
+              <p className="text-[10px] sm:text-xs text-yellow-400 font-extrabold">
+                {cardCount !== null ? `${cardCount.toLocaleString('id-ID')} Cards` : '14.523 Cards'}
               </p>
             </div>
           </Link>
  
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1.5">
             <Link
               href="/"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
+              className="px-3 py-2 rounded-lg hover:bg-slate-700/50 transition font-bold text-xs uppercase tracking-wide"
             >
               🏠 Home
             </Link>
             <Link
               href="/album"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
+              className="px-3 py-2 rounded-lg hover:bg-slate-700/50 transition font-bold text-xs uppercase tracking-wide"
             >
               🃏 Album
             </Link>
             <Link
-              href="/album?typeId=4"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
-            >
-              👹 Monster
-            </Link>
-            <Link
-              href="/album?typeId=5"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
-            >
-              ✨ Spell
-            </Link>
-            <Link
-              href="/album?typeId=6"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
-            >
-              🛡️ Trap
-            </Link>
-            <Link
               href="/booster-pack"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm text-yellow-400"
+              className="px-3 py-2 rounded-lg hover:bg-slate-700/50 transition font-bold text-xs uppercase tracking-wide text-yellow-400"
             >
               📦 Booster Pack
             </Link>
             <Link
+              href="/deck-builder"
+              className="px-3 py-2 rounded-lg hover:bg-slate-700/50 transition font-bold text-xs uppercase tracking-wide"
+            >
+              🛠️ Deck Builder
+            </Link>
+            <Link
+              href="/banlist"
+              className="px-3 py-2 rounded-lg hover:bg-slate-700/50 transition font-bold text-xs uppercase tracking-wide"
+            >
+              🚫 Banlist
+            </Link>
+            <Link
+              href="/compare"
+              className="px-3 py-2 rounded-lg hover:bg-slate-700/50 transition font-bold text-xs uppercase tracking-wide"
+            >
+              🆚 Comparer
+            </Link>
+            <Link
+              href="/quiz"
+              className="px-3 py-2 rounded-lg hover:bg-slate-700/50 transition font-bold text-xs uppercase tracking-wide"
+            >
+              🎮 Quiz
+            </Link>
+            <Link
               href="/market"
-              className="px-4 py-2 rounded-lg hover:bg-slate-700/50 transition font-medium text-sm"
+              className="px-3 py-2 rounded-lg hover:bg-slate-700/50 transition font-bold text-xs uppercase tracking-wide"
             >
               📊 Market
             </Link>
@@ -99,7 +105,7 @@ export default function Navbar() {
  
             {/* Mobile menu button */}
             <button
-              className="md:hidden p-2 rounded-lg hover:bg-slate-700 transition-colors"
+              className="lg:hidden p-2 rounded-lg hover:bg-slate-700 transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <Menu size={24} />
@@ -109,54 +115,61 @@ export default function Navbar() {
  
         {/* Mobile menu drawer */}
         {isMenuOpen && (
-          <div className="md:hidden pb-4 border-t border-slate-700/50 animate-in fade-in slide-in-from-top-2 duration-150">
+          <div className="lg:hidden pb-4 border-t border-slate-700/50 animate-in fade-in slide-in-from-top-2 duration-150">
             <div className="flex flex-col gap-1 mt-3">
               <Link
                 href="/"
                 onClick={() => setIsMenuOpen(false)}
-                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2"
+                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2 font-bold text-sm uppercase tracking-wide"
               >
                 <span>🏠</span> Home
               </Link>
               <Link
                 href="/album"
                 onClick={() => setIsMenuOpen(false)}
-                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2"
+                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2 font-bold text-sm uppercase tracking-wide"
               >
                 <span>🃏</span> Album
               </Link>
               <Link
-                href="/album?typeId=4"
-                onClick={() => setIsMenuOpen(false)}
-                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2"
-              >
-                <span>👹</span> Monster Cards
-              </Link>
-              <Link
-                href="/album?typeId=5"
-                onClick={() => setIsMenuOpen(false)}
-                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2"
-              >
-                <span>✨</span> Spell Cards
-              </Link>
-              <Link
-                href="/album?typeId=6"
-                onClick={() => setIsMenuOpen(false)}
-                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2"
-              >
-                <span>🛡️</span> Trap Cards
-              </Link>
-              <Link
                 href="/booster-pack"
                 onClick={() => setIsMenuOpen(false)}
-                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2 text-yellow-400 font-bold"
+                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2 text-yellow-400 font-extrabold text-sm uppercase tracking-wide"
               >
                 <span>📦</span> Booster Pack
               </Link>
               <Link
+                href="/deck-builder"
+                onClick={() => setIsMenuOpen(false)}
+                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2 font-bold text-sm uppercase tracking-wide"
+              >
+                <span>🛠️</span> Deck Builder
+              </Link>
+              <Link
+                href="/banlist"
+                onClick={() => setIsMenuOpen(false)}
+                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2 font-bold text-sm uppercase tracking-wide"
+              >
+                <span>🚫</span> Banlist
+              </Link>
+              <Link
+                href="/compare"
+                onClick={() => setIsMenuOpen(false)}
+                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2 font-bold text-sm uppercase tracking-wide"
+              >
+                <span>🆚</span> Card Comparer
+              </Link>
+              <Link
+                href="/quiz"
+                onClick={() => setIsMenuOpen(false)}
+                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2 font-bold text-sm uppercase tracking-wide"
+              >
+                <span>🎮</span> Trivia Quiz
+              </Link>
+              <Link
                 href="/market"
                 onClick={() => setIsMenuOpen(false)}
-                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2"
+                className="px-4 py-3 rounded-lg hover:bg-slate-700/50 transition flex items-center gap-2 font-bold text-sm uppercase tracking-wide"
               >
                 <span>📊</span> Market
               </Link>
