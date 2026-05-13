@@ -2,7 +2,7 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState, useEffect } from 'react'
-import { Search, X, SlidersHorizontal } from 'lucide-react'
+import { Search, X, SlidersHorizontal, ChevronDown } from 'lucide-react'
 
 export default function FilterBar() {
   const router = useRouter()
@@ -71,51 +71,68 @@ export default function FilterBar() {
 
         {/* 2. Select Dropdowns Filter Section */}
         <div className="col-span-1 lg:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+          
           {/* Card Type Dropdown */}
-          <select
-            value={selectedTypeId}
-            onChange={(e) => setSelectedTypeId(e.target.value)}
-            className="w-full h-11 px-3.5 rounded-xl border border-slate-700 bg-slate-950/60 text-slate-200 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500/30 text-xs font-bold transition cursor-pointer"
-          >
-            <option value="" className="bg-slate-900 text-slate-400">🃏 All Types</option>
-            {cardTypes.map(type => (
-              <option key={type.id} value={type.id} className="bg-slate-900 text-slate-200">
-                {type.name}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={selectedTypeId}
+              onChange={(e) => setSelectedTypeId(e.target.value)}
+              className="w-full h-11 pl-4 pr-10 appearance-none rounded-xl border border-slate-700 bg-slate-950/60 text-slate-200 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500/30 text-xs font-bold transition cursor-pointer"
+            >
+              <option value="" className="bg-slate-900 text-slate-400">🃏 All Types</option>
+              {cardTypes.map(type => (
+                <option key={type.id} value={type.id} className="bg-slate-900 text-slate-200">
+                  {type.name}
+                </option>
+              ))}
+            </select>
+            <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-yellow-500/70">
+              <ChevronDown size={14} strokeWidth={2.5} />
+            </div>
+          </div>
 
           {/* Attribute Dropdown */}
-          <select
-            value={selectedAttribute}
-            onChange={(e) => setSelectedAttribute(e.target.value)}
-            className="w-full h-11 px-3.5 rounded-xl border border-slate-700 bg-slate-950/60 text-slate-200 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500/30 text-xs font-bold transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={!!selectedTypeId && cardTypes.find(t => t.id == selectedTypeId)?.name?.toLowerCase() !== 'monster'}
-          >
-            <option value="" className="bg-slate-900 text-slate-400">🔥 All Attributes</option>
-            <option value="FIRE" className="bg-slate-900 text-slate-200">🔥 FIRE</option>
-            <option value="WATER" className="bg-slate-900 text-slate-200">💧 WATER</option>
-            <option value="EARTH" className="bg-slate-900 text-slate-200">🌍 EARTH</option>
-            <option value="WIND" className="bg-slate-900 text-slate-200">💨 WIND</option>
-            <option value="LIGHT" className="bg-slate-900 text-slate-200">☀️ LIGHT</option>
-            <option value="DARK" className="bg-slate-900 text-slate-200">🌑 DARK</option>
-            <option value="DIVINE" className="bg-slate-900 text-slate-200">⭐ DIVINE</option>
-          </select>
+          <div className="relative">
+            <select
+              value={selectedAttribute}
+              onChange={(e) => setSelectedAttribute(e.target.value)}
+              className="w-full h-11 pl-4 pr-10 appearance-none rounded-xl border border-slate-700 bg-slate-950/60 text-slate-200 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500/30 text-xs font-bold transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={!!selectedTypeId && cardTypes.find(t => t.id == selectedTypeId)?.name?.toLowerCase() !== 'monster'}
+            >
+              <option value="" className="bg-slate-900 text-slate-400">🔥 All Attributes</option>
+              <option value="FIRE" className="bg-slate-900 text-slate-200">FIRE</option>
+              <option value="WATER" className="bg-slate-900 text-slate-200">WATER</option>
+              <option value="EARTH" className="bg-slate-900 text-slate-200">EARTH</option>
+              <option value="WIND" className="bg-slate-900 text-slate-200">WIND</option>
+              <option value="LIGHT" className="bg-slate-900 text-slate-200">LIGHT</option>
+              <option value="DARK" className="bg-slate-900 text-slate-200">DARK</option>
+              <option value="DIVINE" className="bg-slate-900 text-slate-200">DIVINE</option>
+            </select>
+            <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-yellow-500/70">
+              <ChevronDown size={14} strokeWidth={2.5} />
+            </div>
+          </div>
 
           {/* Sort Filter */}
-          <select
-            value={selectedSort}
-            onChange={(e) => setSelectedSort(e.target.value)}
-            className="w-full h-11 px-3.5 rounded-xl border border-slate-700 bg-slate-950/60 text-slate-200 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500/30 text-xs font-bold transition cursor-pointer"
-          >
-            <option value="" className="bg-slate-900 text-slate-400">📊 Urutan: Default</option>
-            <option value="atk_desc" className="bg-slate-900 text-slate-200">⚔️ ATK Terbesar</option>
-            <option value="atk_asc" className="bg-slate-900 text-slate-200">⚔️ ATK Terlemah</option>
-            <option value="def_desc" className="bg-slate-900 text-slate-200">🛡️ DEF Terbesar</option>
-            <option value="def_asc" className="bg-slate-900 text-slate-200">🛡️ DEF Terlemah</option>
-            <option value="price_desc" className="bg-slate-900 text-slate-200">💰 Harga Termahal</option>
-            <option value="price_asc" className="bg-slate-900 text-slate-200">💰 Harga Termurah</option>
-          </select>
+          <div className="relative">
+            <select
+              value={selectedSort}
+              onChange={(e) => setSelectedSort(e.target.value)}
+              className="w-full h-11 pl-4 pr-10 appearance-none rounded-xl border border-slate-700 bg-slate-950/60 text-slate-200 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500/30 text-xs font-bold transition cursor-pointer"
+            >
+              <option value="" className="bg-slate-900 text-slate-400">📊 Urutan: Default</option>
+              <option value="atk_desc" className="bg-slate-900 text-slate-200">ATK Terbesar</option>
+              <option value="atk_asc" className="bg-slate-900 text-slate-200">ATK Terlemah</option>
+              <option value="def_desc" className="bg-slate-900 text-slate-200">DEF Terbesar</option>
+              <option value="def_asc" className="bg-slate-900 text-slate-200">DEF Terlemah</option>
+              <option value="price_desc" className="bg-slate-900 text-slate-200">Harga Termahal</option>
+              <option value="price_asc" className="bg-slate-900 text-slate-200">Harga Termurah</option>
+            </select>
+            <div className="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-yellow-500/70">
+              <ChevronDown size={14} strokeWidth={2.5} />
+            </div>
+          </div>
+
         </div>
 
         {/* 3. Action Buttons Section (Right side) */}
