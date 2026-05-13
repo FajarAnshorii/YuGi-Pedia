@@ -19,9 +19,6 @@ export default function BoosterPackPage() {
   const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'most_cards' | 'least_cards'>('newest')
 
-  // Keep track of image loading errors to render beautiful fallbacks
-  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({})
-
   // Fetch booster packs from our local database-backed API
   useEffect(() => {
     fetch('/api/booster-pack')
@@ -80,13 +77,6 @@ export default function BoosterPackPage() {
     return result
   }, [packs, search, sortBy])
 
-  const handleImageError = (setName: string) => {
-    setImageErrors(prev => ({
-      ...prev,
-      [setName]: true
-    }))
-  }
-
   return (
     <main className="min-h-screen transition-colors duration-200">
       <Navbar />
@@ -107,7 +97,7 @@ export default function BoosterPackPage() {
           </p>
         </div>
 
-        {/* Filters and Controls with matching Premium styling */}
+        {/* Filters and Controls */}
         <div className="relative overflow-hidden bg-slate-900/70 border border-yellow-500/15 backdrop-blur-md p-5 rounded-2xl shadow-xl shadow-yellow-500/[0.02] mb-8 transition-all duration-300">
           {/* Decorative Golden Ambient Line */}
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-yellow-500/30 to-transparent"></div>
@@ -125,7 +115,7 @@ export default function BoosterPackPage() {
               />
             </div>
 
-            {/* Sort Dropdown Wrapped with Custom Golden Chevron Down Icon */}
+            {/* Sort Dropdown */}
             <div className="relative w-full md:w-64">
               <select
                 value={sortBy}
@@ -196,7 +186,6 @@ export default function BoosterPackPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPacks.map((pack) => {
               const isFuture = pack.releaseDate && new Date(pack.releaseDate).getTime() > Date.now()
-              const hasImageError = imageErrors[pack.setName] || !pack.imageUrl
 
               return (
                 <div 
@@ -207,42 +196,86 @@ export default function BoosterPackPage() {
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-yellow-500/0 via-transparent to-yellow-500/0 group-hover:from-yellow-500/[0.02] group-hover:to-yellow-500/[0.03] transition-all duration-300 pointer-events-none"></div>
 
                   <div>
-                    {/* Cover Pack Image Header */}
-                    <div className="relative h-48 w-full bg-slate-950/40 border-b border-gray-100 dark:border-slate-800/40 overflow-hidden flex items-center justify-center">
-                      {!hasImageError ? (
-                        <img 
-                          src={pack.imageUrl!} 
-                          alt={pack.setName}
-                          onError={() => handleImageError(pack.setName)}
-                          className="h-full w-auto object-contain p-2 group-hover:scale-105 transition duration-300"
-                        />
-                      ) : (
-                        /* Beautiful Fallback Hologram Pack */
-                        <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 via-slate-950 to-purple-500/5 flex flex-col items-center justify-center p-4 text-center">
-                          <div className="h-14 w-10 border-2 border-dashed border-yellow-500/30 rounded-md flex items-center justify-center bg-yellow-500/5 shadow-[0_0_15px_rgba(234,179,8,0.1)] mb-2 group-hover:border-yellow-400 transition">
-                            <span className="text-yellow-500 font-extrabold text-[10px] tracking-widest uppercase">YGO</span>
-                          </div>
-                          <span className="text-[10px] font-extrabold text-yellow-500/80 tracking-widest uppercase">
-                            {pack.setCode || 'SET'} PACK
-                          </span>
-                        </div>
-                      )}
+                    {/* Cover Pack 3D Showcase Header */}
+                    <div className="relative h-56 w-full bg-slate-950/80 border-b border-gray-100 dark:border-slate-800/40 flex items-center justify-center overflow-hidden">
+                      {/* Technical Blueprint Grid overlay */}
+                      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:14px_24px] opacity-20"></div>
+                      {/* Ambient Golden Radial Light */}
+                      <div className="absolute inset-0 bg-radial-gradient from-yellow-500/5 via-transparent to-transparent pointer-events-none"></div>
 
-                      {/* Floating badging status over cover */}
-                      <div className="absolute top-3 left-3">
+                      {/* 3D Realistic Foil Booster Pack Wrapper mockup */}
+                      <div className="relative w-32 h-44 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 border border-yellow-500/20 rounded-lg shadow-2xl flex flex-col justify-between p-2 transform group-hover:scale-105 group-hover:-translate-y-1.5 group-hover:border-yellow-500/40 transition-all duration-300">
+                        
+                        {/* Metallic foil sweep animation */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-yellow-500/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out pointer-events-none"></div>
+
+                        {/* Top sealed aluminum crimp lines */}
+                        <div className="absolute top-0 left-0 right-0 h-2 bg-slate-800 border-b border-slate-950/50 flex gap-[1px] justify-center overflow-hidden">
+                          {Array.from({ length: 20 }).map((_, i) => (
+                            <div key={i} className="w-[4px] h-full bg-slate-900 border-r border-slate-800/40"></div>
+                          ))}
+                        </div>
+
+                        {/* Bottom sealed aluminum crimp lines */}
+                        <div className="absolute bottom-0 left-0 right-0 h-2 bg-slate-800 border-t border-slate-950/50 flex gap-[1px] justify-center overflow-hidden">
+                          {Array.from({ length: 20 }).map((_, i) => (
+                            <div key={i} className="w-[4px] h-full bg-slate-900 border-r border-slate-800/40"></div>
+                          ))}
+                        </div>
+
+                        {/* Top Header */}
+                        <div className="mt-2 text-center relative z-10">
+                          <div className="text-[6.5px] font-black tracking-[0.2em] text-yellow-500 uppercase drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">
+                            BOOSTER PACK
+                          </div>
+                        </div>
+
+                        {/* Card Art portal frame */}
+                        <div className="relative my-1.5 mx-auto h-24 w-24 flex items-center justify-center">
+                          {/* Spinning holographic outer portal ring */}
+                          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-500/15 via-purple-500/15 to-yellow-500/15 animate-[spin_12s_linear_infinite] border border-yellow-500/20 shadow-[0_0_12px_rgba(234,179,8,0.2)]"></div>
+                          
+                          {/* Inside portal artwork (perfectly circle-cropped card illustration) */}
+                          <div className="relative h-[82px] w-[82px] rounded-full overflow-hidden border border-yellow-500/30 bg-slate-950 flex items-center justify-center shadow-inner">
+                            {pack.imageUrl ? (
+                              <img 
+                                src={pack.imageUrl} 
+                                alt="" 
+                                className="h-full w-full object-cover object-center scale-105 group-hover:scale-115 transition duration-500"
+                              />
+                            ) : (
+                              <div className="text-yellow-500 font-extrabold text-[10px]">YGO</div>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Bottom Pack set metadata banner */}
+                        <div className="mb-2 text-center relative z-10">
+                          <div className="inline-block px-2 py-0.5 bg-gradient-to-r from-yellow-500 to-yellow-400 text-slate-950 font-black text-[8px] rounded uppercase tracking-wider shadow-md">
+                            {pack.setCode || 'SET'}
+                          </div>
+                          <div className="text-[6.5px] font-extrabold text-slate-400 mt-1 uppercase tracking-tight truncate max-w-[105px] mx-auto">
+                            {pack.setName}
+                          </div>
+                        </div>
+
+                      </div>
+
+                      {/* Floating set-code badge */}
+                      <div className="absolute top-3 left-3 z-10">
                         {pack.setCode ? (
-                          <span className="px-2.5 py-1 bg-slate-900/90 text-yellow-400 border border-yellow-500/20 backdrop-blur-md rounded-lg text-[10px] font-black uppercase tracking-wider shadow-md">
+                          <span className="px-2.5 py-1 bg-slate-900/95 text-yellow-400 border border-yellow-500/20 backdrop-blur-md rounded-lg text-[10px] font-black uppercase tracking-wider shadow-md">
                             {pack.setCode}
                           </span>
                         ) : (
-                          <span className="px-2.5 py-1 bg-slate-900/90 text-gray-400 border border-slate-800 backdrop-blur-md rounded-lg text-[10px] font-black uppercase tracking-wider shadow-md">
+                          <span className="px-2.5 py-1 bg-slate-900/95 text-gray-400 border border-slate-800 backdrop-blur-md rounded-lg text-[10px] font-black uppercase tracking-wider shadow-md">
                             SET
                           </span>
                         )}
                       </div>
 
                       {isFuture && (
-                        <div className="absolute top-3 right-3">
+                        <div className="absolute top-3 right-3 z-10">
                           <span className="px-2.5 py-1 bg-rose-500 text-white rounded-lg text-[9px] font-extrabold uppercase tracking-widest shadow-md animate-pulse">
                             🔮 Upcoming
                           </span>
