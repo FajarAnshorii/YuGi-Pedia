@@ -141,46 +141,6 @@ export default function ComparePage() {
           ))}
         </div>
 
-                  {/* Autocomplete Suggestions Panel */}
-                  {activeSearchSlot === slotId && searchResults[slotId].length > 0 && (
-                    <div className="absolute left-5 right-5 mt-2 bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl z-30 overflow-hidden divide-y divide-slate-850">
-                      {searchResults[slotId].map(card => (
-                        <div
-                          key={card.id}
-                          onClick={() => selectCardForSlot(slotId, card)}
-                          className="p-3 hover:bg-slate-800 cursor-pointer flex items-center gap-3 transition"
-                        >
-                          <img src={card.imageUrl} alt="" className="w-8 h-11 object-cover rounded shadow" />
-                          <div className="min-w-0">
-                            <p className="text-xs font-bold text-white truncate">{card.name}</p>
-                            <p className="text-[9px] text-gray-400 font-mono mt-0.5 uppercase">{card.subType || 'Monster'}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="flex justify-between items-center bg-slate-50 dark:bg-slate-950 p-3 rounded-2xl border dark:border-slate-850">
-                  <div className="flex items-center gap-3.5 min-w-0">
-                    <img src={slots[slotId].imageUrl} alt="" className="w-10 h-14 object-cover rounded shadow-lg" />
-                    <div className="min-w-0">
-                      <p className="font-extrabold text-sm text-slate-900 dark:text-white truncate">{slots[slotId].name}</p>
-                      <p className="text-[10px] text-gray-400 font-mono mt-0.5 uppercase">{slots[slotId].subType || 'Card'}</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => removeCardFromSlot(slotId)}
-                    className="p-2 bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white rounded-full transition shrink-0"
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
         {/* Comparison Matrix Table */}
         <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden relative">
           
