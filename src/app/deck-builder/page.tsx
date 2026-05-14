@@ -214,27 +214,27 @@ export default function DeckBuilderPage() {
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-250">
       <Navbar />
 
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-7xl">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-6 sm:mb-8">
           <div>
-            <span className="text-yellow-500 text-xs font-black uppercase tracking-widest bg-yellow-500/10 border border-yellow-500/20 px-3 py-1 rounded-full">Fasilitas Dek</span>
-            <h1 className="text-3xl font-black uppercase mt-3 mb-1 tracking-wider yugioh-glow-text flex items-center gap-2">🛠️ Interactive Deck Builder</h1>
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Rakit deck impian Anda dan unduh sebagai file `.ydk`.</p>
+            <span className="text-yellow-500 text-[10px] font-black uppercase tracking-widest bg-yellow-500/10 border border-yellow-500/20 px-2.5 py-1 rounded-full">Fasilitas Dek</span>
+            <h1 className="text-xl sm:text-3xl font-black uppercase mt-2 mb-1 tracking-wider yugioh-glow-text flex items-center gap-2">🛠️ Deck Builder</h1>
+            <p className="text-[10px] sm:text-sm text-gray-500 dark:text-gray-400">Rakit deck impian Anda dan unduh file `.ydk`.</p>
           </div>
 
-          <div className="flex items-center gap-2.5 shrink-0">
-            <button onClick={generateRandomDeck} className="px-4 py-2 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 border dark:border-slate-800 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-              <RefreshCw size={14} />
-              <span>Acak Deck 🎲</span>
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
+            <button onClick={generateRandomDeck} className="flex-1 sm:flex-none px-2.5 py-1.5 bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 border dark:border-slate-800 rounded-xl text-[9px] font-bold transition flex items-center justify-center gap-1">
+              <RefreshCw size={10} />
+              <span>Acak</span>
             </button>
-            <button onClick={clearAllDecks} className="px-4 py-2 bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-              <Trash2 size={14} />
-              <span>Bersihkan 🧹</span>
+            <button onClick={clearAllDecks} className="flex-1 sm:flex-none px-2.5 py-1.5 bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white rounded-xl text-[9px] font-bold transition flex items-center justify-center gap-1">
+              <Trash2 size={10} />
+              <span>Hapus</span>
             </button>
-            <button onClick={exportToYDK} className="px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-slate-950 rounded-xl text-xs font-black transition flex items-center gap-1.5 shadow-md shadow-yellow-500/10">
-              <Download size={14} />
-              <span>Ekspor .YDK 📥</span>
+            <button onClick={exportToYDK} className="w-full sm:w-auto px-3 py-1.5 bg-yellow-500 hover:bg-yellow-400 text-slate-950 rounded-xl text-[9px] font-black transition flex items-center justify-center gap-1.5 shadow-md uppercase tracking-wider">
+              <Download size={10} />
+              <span>Ekspor .YDK</span>
             </button>
           </div>
         </div>
@@ -242,18 +242,18 @@ export default function DeckBuilderPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* LEFT: Card Search */}
-          <div className="lg:col-span-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-5 rounded-3xl shadow-xl space-y-5">
-            <h2 className="text-base font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">🔍 Cari & Tambah Kartu</h2>
+          <div className="lg:col-span-4 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-xl space-y-4 sm:space-y-5">
+            <h2 className="text-sm sm:text-base font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">🔍 Cari Kartu</h2>
 
             {/* Search Input */}
             <div className="relative">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" size={15} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={13} />
               <input
                 type="text"
-                placeholder="Ketik minimal 2 karakter..."
+                placeholder="Cari kartu..."
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value, filterType)}
-                className="w-full h-11 pl-10 pr-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-sm font-semibold focus:outline-none focus:border-yellow-500 transition"
+                className="w-full h-9 sm:h-11 pl-9 pr-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-[11px] sm:text-sm font-semibold focus:outline-none focus:border-yellow-500 transition"
               />
             </div>
 
@@ -288,20 +288,17 @@ export default function DeckBuilderPage() {
                   const copiesCount = countCardCopies(card.passcode || card.id)
                   return (
                     <div key={card.id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
-                      <img
-                        src={getCardImage(card)}
-                        alt={card.name}
-                        className="w-12 h-16 rounded-lg object-cover bg-slate-900 border border-slate-800 flex-shrink-0"
+                      <img 
+                        src={card.imageUrl || (card.passcode ? `https://images.ygoprodeck.com/images/cards/${card.passcode}.jpg` : `https://via.placeholder.com/168x246/1e293b/ffd700?text=YGO`)} 
+                        alt="" 
+                        className="w-14 h-20 object-cover rounded shadow-md flex-shrink-0" 
                         onError={(e) => {
-                          const t = e.currentTarget as HTMLImageElement
-                          if (t.dataset.fallback) {
-                            t.src = `https://via.placeholder.com/48x64/1e293b/ffd700?text=YGO`
-                          } else if (card.passcode) {
-                            t.dataset.fallback = '1'
-                            t.src = `https://images.ygoprodeck.com/images/cards/${card.passcode}.jpg`
+                          const target = e.currentTarget
+                          if (!target.dataset.fallback && card.passcode) {
+                            target.dataset.fallback = '1'
+                            target.src = `https://images.ygoprodeck.com/images/cards/${card.passcode}.jpg`
                           } else {
-                            t.dataset.fallback = '1'
-                            t.src = `https://via.placeholder.com/48x64/1e293b/ffd700?text=YGO`
+                            target.src = `https://via.placeholder.com/168x246/1e293b/ffd700?text=YGO`
                           }
                         }}
                       />
@@ -348,28 +345,27 @@ export default function DeckBuilderPage() {
           <div className="lg:col-span-8 space-y-6">
 
             {/* Main Deck */}
-            <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-5 rounded-3xl shadow-xl relative overflow-hidden">
+            <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-xl relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-1 bg-amber-500" />
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-base font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
-                  <Layers size={16} className="text-amber-500" />
-                  <span>Main Deck ({mainDeck.length} / 60)</span>
+                <h3 className="text-sm sm:text-base font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2">
+                  <Layers size={14} className="text-amber-500" />
+                  <span>Main ({mainDeck.length})</span>
                 </h3>
                 {mainDeck.length > 0 && mainDeck.length < 40 && (
-                  <span className="text-[10px] text-orange-500 font-extrabold uppercase bg-orange-500/10 px-2.5 py-1 rounded border border-orange-500/10 flex items-center gap-1.5">
-                    <AlertCircle size={11} />
-                    <span>Kurang dari 40</span>
+                  <span className="text-[9px] text-orange-500 font-extrabold uppercase bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/10 flex items-center gap-1">
+                    <AlertCircle size={10} />
+                    <span>Min 40</span>
                   </span>
                 )}
               </div>
 
               {mainDeck.length === 0 ? (
-                <div className="py-14 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl text-center text-gray-400">
-                  <p className="text-xs font-bold uppercase tracking-wider">Main Deck Kosong</p>
-                  <p className="text-[10px] text-gray-500 mt-1">Cari kartu di panel kiri.</p>
+                <div className="py-10 sm:py-14 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl text-center text-gray-400">
+                  <p className="text-[10px] font-bold uppercase tracking-wider">Main Deck Kosong</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
+                <div className="grid grid-cols-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1.5 sm:gap-4">
                   {mainDeck.map((card, i) => (
                     <div
                       key={`main-${i}`}
@@ -403,20 +399,19 @@ export default function DeckBuilderPage() {
             </div>
 
             {/* Extra Deck */}
-            <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-5 rounded-3xl shadow-xl relative overflow-hidden">
+            <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-xl relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-1 bg-purple-500" />
-              <h3 className="text-base font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2 mb-4">
-                <Layers size={16} className="text-purple-500" />
-                <span>Extra Deck ({extraDeck.length} / 15)</span>
+              <h3 className="text-sm sm:text-base font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2 mb-4">
+                <Layers size={14} className="text-purple-500" />
+                <span>Extra ({extraDeck.length})</span>
               </h3>
 
               {extraDeck.length === 0 ? (
-                <div className="py-10 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl text-center text-gray-400">
-                  <p className="text-xs font-bold uppercase tracking-wider">Extra Deck Kosong</p>
-                  <p className="text-[10px] text-gray-500 mt-1">Fusion, Synchro, Xyz, atau Link Monster.</p>
+                <div className="py-8 sm:py-10 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl text-center text-gray-400">
+                  <p className="text-[10px] font-bold uppercase tracking-wider">Extra Deck Kosong</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
+                <div className="grid grid-cols-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1.5 sm:gap-4">
                   {extraDeck.map((card, i) => (
                     <div
                       key={`extra-${i}`}
@@ -450,19 +445,19 @@ export default function DeckBuilderPage() {
             </div>
 
             {/* Side Deck */}
-            <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-5 rounded-3xl shadow-xl relative overflow-hidden">
+            <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-4 sm:p-5 rounded-2xl sm:rounded-3xl shadow-xl relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-1 bg-teal-500" />
-              <h3 className="text-base font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2 mb-4">
-                <Layers size={16} className="text-teal-500" />
-                <span>Side Deck ({sideDeck.length} / 15)</span>
+              <h3 className="text-sm sm:text-base font-black uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-2 mb-4">
+                <Layers size={14} className="text-teal-500" />
+                <span>Side ({sideDeck.length})</span>
               </h3>
 
               {sideDeck.length === 0 ? (
-                <div className="py-10 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl text-center text-gray-400">
-                  <p className="text-xs font-bold uppercase tracking-wider">Side Deck Kosong</p>
+                <div className="py-8 sm:py-10 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl text-center text-gray-400">
+                  <p className="text-[10px] font-bold uppercase tracking-wider">Side Deck Kosong</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-3">
+                <div className="grid grid-cols-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1.5 sm:gap-4">
                   {sideDeck.map((card, i) => (
                     <div
                       key={`side-${i}`}

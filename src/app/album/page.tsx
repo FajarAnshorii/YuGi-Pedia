@@ -84,12 +84,12 @@ function AlbumContent() {
     <main className="min-h-screen transition-colors duration-200">
       <Navbar />
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-4 sm:py-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-extrabold yugioh-glow-text uppercase tracking-wider mb-2 flex items-center">
-            <div className="inline-flex items-center justify-center p-2 rounded-lg bg-yellow-500/10 border border-yellow-500/20 mr-3 shadow-inner">
-              <svg className="w-6 h-6 text-yellow-400 drop-shadow-[0_0_6px_rgba(234,179,8,0.6)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <div className="mb-4 sm:mb-8">
+          <h1 className="text-xl sm:text-3xl font-extrabold yugioh-glow-text uppercase tracking-wider mb-1 flex items-center">
+            <div className="inline-flex items-center justify-center p-1.5 sm:p-2 rounded-lg bg-yellow-500/10 border border-yellow-500/20 mr-2 sm:mr-3 shadow-inner">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-400 drop-shadow-[0_0_6px_rgba(234,179,8,0.6)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="6" width="12" height="15" rx="2" stroke="currentColor" strokeOpacity="0.5" />
                 <rect x="6" y="4" width="12" height="15" rx="2" stroke="currentColor" strokeOpacity="0.75" />
                 <rect x="9" y="2" width="12" height="15" rx="2" stroke="currentColor" fill="currentColor" fillOpacity="0.1" />
@@ -97,7 +97,7 @@ function AlbumContent() {
             </div>
             {getTypeName()}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 font-semibold text-sm pl-[52px]">
+          <p className="text-gray-600 dark:text-gray-400 font-bold text-[10px] sm:text-sm pl-[40px] sm:pl-[52px] opacity-80 uppercase tracking-tight">
             {pagination.total ? pagination.total.toLocaleString() : '0'} kartu ditemukan
           </p>
         </div>

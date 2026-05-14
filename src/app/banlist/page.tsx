@@ -84,59 +84,59 @@ export default function BanlistPage() {
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-250">
       <Navbar />
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Title */}
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="text-yellow-500 text-xs font-black uppercase tracking-widest bg-yellow-500/10 border border-yellow-500/20 px-3 py-1 rounded-full">Turnamen Hub</span>
-          <h1 className="text-3xl md:text-4xl font-black uppercase tracking-wider mt-3 mb-2 yugioh-glow-text">🚫 Official Banlist Hub</h1>
-          <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base leading-relaxed">Daftar kartu terlarang, terbatas, dan setengah terbatas resmi Konami untuk format TCG, OCG, dan format klasik GOAT.</p>
+        <div className="text-center max-w-2xl mx-auto mb-6 sm:mb-10">
+          <span className="text-yellow-500 text-[9px] sm:text-xs font-black uppercase tracking-widest bg-yellow-500/10 border border-yellow-500/20 px-2.5 py-1 rounded-full">Turnamen Hub</span>
+          <h1 className="text-xl sm:text-4xl font-black uppercase tracking-wider mt-2 mb-1.5 yugioh-glow-text">🚫 Banlist Hub</h1>
+          <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-base leading-relaxed opacity-80">Daftar kartu terlarang, terbatas, dan setengah terbatas resmi Konami.</p>
         </div>
 
         {/* Format Switcher & Search Bar */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-5 rounded-3xl shadow-xl flex flex-col md:flex-row gap-4 items-center mb-8">
+        <div className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 p-3 sm:p-5 rounded-2xl sm:rounded-3xl shadow-xl flex flex-col md:flex-row gap-2.5 sm:gap-4 items-center mb-6 sm:mb-8">
           {/* Formats Tabs */}
-          <div className="flex bg-slate-100 dark:bg-slate-950 p-1.5 rounded-2xl w-full md:w-auto">
+          <div className="flex bg-slate-100 dark:bg-slate-950 p-1 rounded-lg sm:rounded-xl w-full md:w-auto">
             <button
               onClick={() => setFormat('tcg')}
-              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition uppercase tracking-wider ${
+              className={`flex-1 md:flex-none px-2.5 sm:px-6 py-1.5 sm:py-2 rounded-md sm:rounded-xl text-[9px] sm:text-xs font-black transition uppercase tracking-wider ${
                 format === 'tcg'
                   ? 'bg-gradient-to-r from-yellow-500 to-yellow-400 text-slate-950 shadow-md'
                   : 'text-gray-500 hover:text-slate-800 dark:hover:text-slate-200'
               }`}
             >
-              TCG (Western)
+              TCG
             </button>
             <button
               onClick={() => setFormat('ocg')}
-              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition uppercase tracking-wider ${
+              className={`flex-1 md:flex-none px-2.5 sm:px-6 py-1.5 sm:py-2 rounded-md sm:rounded-xl text-[9px] sm:text-xs font-black transition uppercase tracking-wider ${
                 format === 'ocg'
                   ? 'bg-gradient-to-r from-yellow-500 to-yellow-400 text-slate-950 shadow-md'
                   : 'text-gray-500 hover:text-slate-800 dark:hover:text-slate-200'
               }`}
             >
-              OCG (Asia)
+              OCG
             </button>
             <button
               onClick={() => setFormat('goat')}
-              className={`flex-1 md:flex-none px-6 py-2.5 rounded-xl text-xs font-bold transition uppercase tracking-wider ${
+              className={`flex-1 md:flex-none px-2.5 sm:px-6 py-1.5 sm:py-2 rounded-md sm:rounded-xl text-[9px] sm:text-xs font-black transition uppercase tracking-wider ${
                 format === 'goat'
                   ? 'bg-gradient-to-r from-yellow-500 to-yellow-400 text-slate-950 shadow-md'
                   : 'text-gray-500 hover:text-slate-800 dark:hover:text-slate-200'
               }`}
             >
-              GOAT (Classic)
+              GOAT
             </button>
           </div>
 
           {/* Search Box */}
           <div className="relative flex-1 w-full">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-yellow-500/70" size={16} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-yellow-500/70" size={14} />
             <input
               type="text"
-              placeholder="Cari kartu terlarang (contoh: Pot of Greed, Raigeki, dsb)..."
+              placeholder="Cari kartu..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-11 pl-11 pr-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 text-sm font-semibold focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500/30 transition duration-200"
+              className="w-full h-9 sm:h-11 pl-9 pr-4 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 text-[11px] sm:text-sm font-semibold focus:outline-none focus:border-yellow-500 transition duration-200"
             />
           </div>
         </div>
@@ -166,15 +166,15 @@ export default function BanlistPage() {
           <div className="space-y-12">
 
             {/* SEKSI 1: FORBIDDEN (BANNED - 0 COPIES) */}
-            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/60 rounded-3xl p-6 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1.5 bg-red-600"></div>
-              <div className="flex items-center gap-3.5 mb-6">
-                <div className="h-10 w-10 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center">
-                  <ShieldAlert size={20} />
+            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/60 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-red-600"></div>
+              <div className="flex items-center gap-2.5 sm:gap-3.5 mb-4 sm:mb-6">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center">
+                  <ShieldAlert size={16} className="sm:size-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-red-500 uppercase tracking-wide">🚫 Forbidden (Kartu Terlarang)</h3>
-                  <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Kartu terlarang yang sama sekali tidak boleh dimasukkan ke dalam Deck Utama, Ekstra, maupun Samping (0 lembar).</p>
+                   <h3 className="text-sm sm:text-xl font-black text-red-500 uppercase tracking-wide">🚫 Forbidden</h3>
+                  <p className="text-[9px] sm:text-xs text-gray-500 dark:text-gray-400 opacity-80">Kartu terlarang (0 lembar).</p>
                 </div>
               </div>
 
@@ -182,25 +182,32 @@ export default function BanlistPage() {
                 <p className="text-center py-8 text-sm text-gray-400 italic">Tidak ada kartu terlarang yang cocok.</p>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-5">
                     {paginatedForbidden.map(card => (
                       <div 
                         key={card.id}
                         onClick={() => setSelectedCard(card)}
-                        className="group cursor-pointer p-2.5 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-row items-center gap-3 hover:border-red-500/30 transition shadow-inner"
+                        className="group cursor-pointer p-2 sm:p-3 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-col items-center gap-3 hover:border-red-500/30 hover:bg-white dark:hover:bg-slate-900 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1"
                       >
-                        <div className="w-11 h-16 rounded-md overflow-hidden bg-slate-900 flex-shrink-0 relative">
+                        <div className="w-full aspect-[3/4.2] rounded-xl overflow-hidden bg-slate-900 relative shadow-md">
                           {card.croppedUrl ? (
-                            <img src={card.croppedUrl} alt="" className="w-full h-full object-cover" />
+                            <img src={card.croppedUrl} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-500">YGO</div>
+                            <div className="w-full h-full flex items-center justify-center text-xs text-gray-500">YGO</div>
                           )}
                           <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors"></div>
+                          
+                          {/* Forbidden Overlay Badge */}
+                          <div className="absolute top-2 left-2 px-2 py-1 bg-red-600/90 text-[8px] font-black text-white rounded-md backdrop-blur-sm shadow-lg uppercase tracking-tighter">
+                            Limit 0
+                          </div>
                         </div>
-                        <div className="min-w-0">
-                          <h4 className="font-bold text-xs truncate group-hover:text-red-500 dark:group-hover:text-red-400 transition leading-snug">{card.name}</h4>
-                          <p className="text-[8px] text-gray-400 font-mono mt-0.5">ID: {card.passcode}</p>
-                          <p className="text-[7px] font-black text-red-500 mt-0.5 tracking-wider uppercase">Forbidden 0</p>
+                        <div className="w-full text-center">
+                          <h4 className="font-extrabold text-[10px] sm:text-[11px] text-slate-900 dark:text-white line-clamp-1 group-hover:text-red-500 dark:group-hover:text-red-400 transition leading-tight px-1">{card.name}</h4>
+                          <div className="flex items-center justify-center gap-2 mt-1.5">
+                            <span className="text-[7px] font-black text-red-500/80 bg-red-500/10 px-1.5 py-0.5 rounded border border-red-500/20 tracking-widest uppercase hidden sm:inline-block">Forbidden</span>
+                            <span className="text-[7px] sm:text-[8px] text-gray-400 font-mono">#{card.passcode}</span>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -233,15 +240,15 @@ export default function BanlistPage() {
             </div>
 
             {/* SEKSI 2: LIMITED (MAX 1 COPY) */}
-            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/60 rounded-3xl p-6 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1.5 bg-orange-500"></div>
-              <div className="flex items-center gap-3.5 mb-6">
-                <div className="h-10 w-10 rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-500 flex items-center justify-center">
-                  <AlertTriangle size={20} />
+            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/60 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-orange-500"></div>
+              <div className="flex items-center gap-2.5 sm:gap-3.5 mb-4 sm:mb-6">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl bg-orange-500/10 border border-orange-500/20 text-orange-500 flex items-center justify-center">
+                  <AlertTriangle size={16} className="sm:size-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-orange-500 uppercase tracking-wide">⚠️ Limited 1 (Maksimal 1 Kartu)</h3>
-                  <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Kartu terbatas yang hanya boleh dimasukkan maksimal 1 lembar saja ke dalam gabungan seluruh susunan Deck.</p>
+                   <h3 className="text-sm sm:text-xl font-black text-orange-500 uppercase tracking-wide">⚠️ Limited 1</h3>
+                  <p className="text-[9px] sm:text-xs text-gray-500 dark:text-gray-400 opacity-80">Maksimal 1 lembar saja.</p>
                 </div>
               </div>
 
@@ -249,25 +256,32 @@ export default function BanlistPage() {
                 <p className="text-center py-8 text-sm text-gray-400 italic">Tidak ada kartu terbatas yang cocok.</p>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-5">
                     {paginatedLimited.map(card => (
                       <div 
                         key={card.id}
                         onClick={() => setSelectedCard(card)}
-                        className="group cursor-pointer p-2.5 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-row items-center gap-3 hover:border-orange-500/30 transition shadow-inner"
+                        className="group cursor-pointer p-2 sm:p-3 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-col items-center gap-3 hover:border-orange-500/30 hover:bg-white dark:hover:bg-slate-900 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1"
                       >
-                        <div className="w-11 h-16 rounded-md overflow-hidden bg-slate-900 flex-shrink-0 relative">
+                        <div className="w-full aspect-[3/4.2] rounded-xl overflow-hidden bg-slate-900 relative shadow-md">
                           {card.croppedUrl ? (
-                            <img src={card.croppedUrl} alt="" className="w-full h-full object-cover" />
+                            <img src={card.croppedUrl} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-500">YGO</div>
+                            <div className="w-full h-full flex items-center justify-center text-xs text-gray-500">YGO</div>
                           )}
                           <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors"></div>
+                          
+                          {/* Limited Overlay Badge */}
+                          <div className="absolute top-2 left-2 px-2 py-1 bg-orange-600/90 text-[8px] font-black text-white rounded-md backdrop-blur-sm shadow-lg uppercase tracking-tighter">
+                            Limit 1
+                          </div>
                         </div>
-                        <div className="min-w-0">
-                          <h4 className="font-bold text-xs truncate group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-snug">{card.name}</h4>
-                          <p className="text-[8px] text-gray-400 font-mono mt-0.5">ID: {card.passcode}</p>
-                          <p className="text-[7px] font-black text-orange-500 mt-0.5 tracking-wider uppercase">Limited 1</p>
+                        <div className="w-full text-center">
+                          <h4 className="font-extrabold text-[10px] sm:text-[11px] text-slate-900 dark:text-white line-clamp-1 group-hover:text-orange-500 dark:group-hover:text-orange-400 transition leading-tight px-1">{card.name}</h4>
+                          <div className="flex items-center justify-center gap-2 mt-1.5">
+                            <span className="text-[7px] font-black text-orange-500/80 bg-orange-500/10 px-1.5 py-0.5 rounded border border-orange-500/20 tracking-widest uppercase hidden sm:inline-block">Limited</span>
+                            <span className="text-[7px] sm:text-[8px] text-gray-400 font-mono">#{card.passcode}</span>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -300,15 +314,15 @@ export default function BanlistPage() {
             </div>
 
             {/* SEKSI 3: SEMI-LIMITED (MAX 2 COPIES) */}
-            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/60 rounded-3xl p-6 shadow-xl relative overflow-hidden">
-              <div className="absolute top-0 left-0 right-0 h-1.5 bg-yellow-500"></div>
-              <div className="flex items-center gap-3.5 mb-6">
-                <div className="h-10 w-10 rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 flex items-center justify-center">
-                  <Info size={20} />
+            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/60 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 right-0 h-1 bg-yellow-500"></div>
+              <div className="flex items-center gap-2.5 sm:gap-3.5 mb-4 sm:mb-6">
+                <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-lg sm:rounded-xl bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 flex items-center justify-center">
+                  <Info size={16} className="sm:size-5" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-black text-yellow-500 uppercase tracking-wide">🟡 Semi-Limited 2 (Maksimal 2 Kartu)</h3>
-                  <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Kartu semi-terbatas yang boleh dimasukkan maksimal hingga 2 lembar saja di dalam susunan Deck.</p>
+                   <h3 className="text-sm sm:text-xl font-black text-yellow-500 uppercase tracking-wide">🟡 Semi-Limited 2</h3>
+                  <p className="text-[9px] sm:text-xs text-gray-500 dark:text-gray-400 opacity-80">Maksimal hingga 2 lembar.</p>
                 </div>
               </div>
 
@@ -316,25 +330,32 @@ export default function BanlistPage() {
                 <p className="text-center py-8 text-sm text-gray-400 italic">Tidak ada kartu semi-terbatas yang cocok.</p>
               ) : (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
                     {paginatedSemiLimited.map(card => (
                       <div 
                         key={card.id}
                         onClick={() => setSelectedCard(card)}
-                        className="group cursor-pointer p-2.5 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-row items-center gap-3 hover:border-yellow-500/30 transition shadow-inner"
+                        className="group cursor-pointer p-3 bg-slate-50 dark:bg-slate-950/60 border dark:border-slate-850 rounded-2xl flex flex-col items-center gap-3 hover:border-yellow-500/30 hover:bg-white dark:hover:bg-slate-900 transition-all duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1"
                       >
-                        <div className="w-11 h-16 rounded-md overflow-hidden bg-slate-900 flex-shrink-0 relative">
+                        <div className="w-full aspect-[3/4.2] rounded-xl overflow-hidden bg-slate-900 relative shadow-md">
                           {card.croppedUrl ? (
-                            <img src={card.croppedUrl} alt="" className="w-full h-full object-cover" />
+                            <img src={card.croppedUrl} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                           ) : (
-                            <div className="w-full h-full flex items-center justify-center text-[8px] text-gray-500">YGO</div>
+                            <div className="w-full h-full flex items-center justify-center text-xs text-gray-500">YGO</div>
                           )}
                           <div className="absolute inset-0 bg-slate-950/20 group-hover:bg-transparent transition-colors"></div>
+                          
+                          {/* Semi Overlay Badge */}
+                          <div className="absolute top-2 left-2 px-2 py-1 bg-yellow-600/90 text-[8px] font-black text-white rounded-md backdrop-blur-sm shadow-lg uppercase tracking-tighter">
+                            Limit 2
+                          </div>
                         </div>
-                        <div className="min-w-0">
-                          <h4 className="font-bold text-xs truncate group-hover:text-yellow-500 transition leading-snug">{card.name}</h4>
-                          <p className="text-[8px] text-gray-400 font-mono mt-0.5">ID: {card.passcode}</p>
-                          <p className="text-[7px] font-black text-yellow-500 mt-0.5 tracking-wider uppercase">Semi-Limited 2</p>
+                        <div className="w-full text-center">
+                          <h4 className="font-extrabold text-[11px] text-slate-900 dark:text-white line-clamp-1 group-hover:text-yellow-500 transition leading-tight px-1">{card.name}</h4>
+                          <div className="flex items-center justify-center gap-2 mt-1.5">
+                            <span className="text-[7px] font-black text-yellow-500/80 bg-yellow-500/10 px-1.5 py-0.5 rounded border border-yellow-500/20 tracking-widest uppercase">Semi-Limit</span>
+                            <span className="text-[8px] text-gray-400 font-mono">#{card.passcode}</span>
+                          </div>
                         </div>
                       </div>
                     ))}

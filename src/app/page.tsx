@@ -84,7 +84,7 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative bg-slate-900 text-white py-16 md:py-24 px-4 overflow-hidden border-b border-yellow-500/10">
+      <section className="relative bg-slate-900 text-white py-12 md:py-24 px-4 overflow-hidden border-b border-yellow-500/10">
         <div className="absolute inset-0">
           <img
             src="https://images.ygoprodeck.com/images/cards_cropped/10286023.jpg"
@@ -95,48 +95,48 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950/90 via-slate-900/95 to-slate-950"></div>
         
         <div className="container mx-auto text-center max-w-4xl relative z-10">
-          <div className="mb-6 animate-[bounce_3s_infinite_ease-in-out]">
-            <img src="/images/logo.png" alt="YuGi Pedia" className="h-28 md:h-32 mx-auto object-contain drop-shadow-[0_0_15px_rgba(234,179,8,0.4)]" />
+          <div className="mb-4 md:mb-6 animate-[bounce_3s_infinite_ease-in-out]">
+            <img src="/images/logo.png" alt="YuGi Pedia" className="h-20 md:h-32 mx-auto object-contain drop-shadow-[0_0_15px_rgba(234,179,8,0.4)]" />
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold mb-4 yugioh-glow-text tracking-wider uppercase">
+          <h1 className="text-2xl md:text-6xl font-extrabold mb-3 yugioh-glow-text tracking-wider uppercase">
             YuGi Pedia
           </h1>
-          <p className="text-lg md:text-xl text-gray-300 mb-2 font-medium">
+          <p className="text-sm md:text-xl text-gray-300 mb-2 font-medium max-w-xs mx-auto md:max-w-none">
             Koleksi kartu Yu-Gi-Oh! terlengkap dan terinteraktif di Indonesia
           </p>
-          <p className="text-sm md:text-lg text-yellow-400 font-bold mb-8 tracking-wide uppercase px-3 py-1.5 bg-yellow-400/10 border border-yellow-400/20 rounded-full inline-block">
+          <p className="text-[10px] md:text-lg text-yellow-400 font-bold mb-6 tracking-wide uppercase px-3 py-1 bg-yellow-400/10 border border-yellow-400/20 rounded-full inline-block">
             🔮 {stats.total.toLocaleString('id-ID')} Kartu | Monster • Spell • Trap
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <Link
               href="/album"
-              className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-yellow-500 to-amber-500 text-slate-900 rounded-xl font-bold text-base sm:text-lg hover:from-yellow-400 hover:to-amber-400 transition transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-yellow-500/20 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-yellow-500 to-amber-500 text-slate-900 rounded-xl font-black text-sm sm:text-lg hover:from-yellow-400 hover:to-amber-400 transition transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg shadow-yellow-500/20 flex items-center justify-center gap-2"
             >
-              🃏 Buka Album Kartu
+              🃏 Album Kartu
             </Link>
             <Link
               href="/deck-builder"
-              className="w-full sm:w-auto px-8 py-4 bg-slate-800 border border-slate-700 rounded-xl font-bold text-base sm:text-lg hover:bg-slate-750 transition flex items-center justify-center gap-2 text-yellow-400 hover:text-yellow-300"
+              className="w-full sm:w-auto px-6 py-3.5 bg-slate-800 border border-slate-700 rounded-xl font-bold text-sm sm:text-lg hover:bg-slate-750 transition flex items-center justify-center gap-2 text-yellow-400 hover:text-yellow-300"
             >
-              🛠️ Rancang Deck Strategi
+              🛠️ Deck Builder
             </Link>
           </div>
         </div>
       </section>
 
       {/* Interactive Lucky Draw (Gacha Card of the Day) */}
-      <section className="py-16 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-b border-slate-800">
+      <section className="py-12 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 border-b border-slate-800">
         <div className="container mx-auto px-4 max-w-4xl">
-          <div className="text-center mb-12">
-            <span className="text-yellow-400 text-xs font-bold uppercase tracking-widest bg-yellow-400/10 border border-yellow-400/20 px-3 py-1 rounded-full">Mini-Game Harian</span>
-            <h2 className="text-3xl md:text-4xl font-black text-white mt-3 mb-2 tracking-wider yugioh-glow-text uppercase">🔮 Gacha Keberuntungan Harian</h2>
-            <p className="text-gray-400 max-w-lg mx-auto text-sm sm:text-base">Tarik kartu harianmu hari ini untuk melihat ramalan duel dan tingkat keberuntunganmu!</p>
+          <div className="text-center mb-10">
+            <span className="text-yellow-400 text-[10px] font-bold uppercase tracking-widest bg-yellow-400/10 border border-yellow-400/20 px-3 py-1 rounded-full">Mini-Game Harian</span>
+            <h2 className="text-xl md:text-4xl font-black text-white mt-3 mb-2 tracking-wider yugioh-glow-text uppercase">🔮 Gacha Keberuntungan</h2>
+            <p className="text-gray-400 max-w-xs mx-auto text-xs sm:text-base opacity-80">Tarik kartu harianmu untuk melihat ramalan duelmu hari ini!</p>
           </div>
 
-          <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-16">
             {/* 3D Flipping Card back */}
-            <div className="relative w-64 h-96 group [perspective:1000px] cursor-pointer" onClick={handleDrawCard}>
+            <div className="relative w-48 h-64 sm:w-64 sm:h-96 group [perspective:1000px] cursor-pointer" onClick={handleDrawCard}>
               <div 
                 className={`relative w-full h-full transition-transform duration-1000 [transform-style:preserve-3d] ${
                   isFlipped ? '[transform:rotateY(180deg)]' : ''
@@ -167,62 +167,62 @@ export default function Home() {
             </div>
 
             {/* Fortune Reading */}
-            <div className="flex-1 text-center md:text-left bg-slate-900/50 border border-slate-800 p-6 md:p-8 rounded-2xl backdrop-blur-md max-w-md w-full">
+            <div className="flex-1 text-center md:text-left bg-slate-900/50 border border-slate-800 p-5 md:p-8 rounded-2xl backdrop-blur-md max-w-md w-full">
               {!drawnCard ? (
-                <div className="h-full flex flex-col justify-center items-center md:items-start py-8">
-                  <h3 className="text-xl font-bold text-white mb-2">Panggil Kartu Keberuntunganmu!</h3>
-                  <p className="text-gray-400 text-sm mb-6 text-center md:text-left">Klik pada punggung kartu misterius di samping atau klik tombol di bawah untuk mulai menarik gacha harian Anda.</p>
+                <div className="h-full flex flex-col justify-center items-center md:items-start py-4 md:py-8">
+                  <h3 className="text-lg md:text-xl font-bold text-white mb-2">Panggil Keberuntunganmu!</h3>
+                  <p className="text-gray-400 text-[11px] md:text-sm mb-6 text-center md:text-left opacity-80">Klik pada punggung kartu misterius atau tombol di bawah untuk mulai menarik gacha harian Anda.</p>
                   <button
                     onClick={handleDrawCard}
                     disabled={isDrawing}
-                    className="px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold rounded-lg transition shadow-lg shadow-yellow-500/10"
+                    className="w-full sm:w-auto px-6 py-3 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black rounded-xl transition shadow-lg shadow-yellow-500/10 text-xs sm:text-sm"
                   >
-                    {isDrawing ? '🔄 Sedang Memanggil...' : '🔮 TARIK KARTU SEKARANG'}
+                    {isDrawing ? '🔄 Memanggil...' : '🔮 TARIK KARTU'}
                   </button>
                 </div>
               ) : (
                 <div>
-                  <span className="px-2.5 py-1 text-[10px] font-bold bg-purple-500/20 border border-purple-500/30 text-purple-400 rounded-md tracking-wider uppercase">Hasil Ramalan Hari Ini</span>
-                  <h3 className="text-2xl font-black text-yellow-400 mt-2.5 mb-1 tracking-wide">{drawnCard.name}</h3>
-                  <p className="text-xs text-gray-400 font-semibold mb-4 uppercase">{drawnCard.subType || drawnCard.type?.name || 'Monster Card'}</p>
+                  <span className="px-2 py-0.5 text-[9px] font-bold bg-purple-500/20 border border-purple-500/30 text-purple-400 rounded-md tracking-wider uppercase">Hasil Ramalan</span>
+                  <h3 className="text-xl md:text-2xl font-black text-yellow-400 mt-2 mb-1 tracking-wide">{drawnCard.name}</h3>
+                  <p className="text-[10px] text-gray-400 font-semibold mb-4 uppercase">{drawnCard.subType || drawnCard.type?.name || 'Monster Card'}</p>
                   
-                  <div className="bg-slate-950/60 p-4 rounded-xl border border-slate-850 mb-5">
-                    <p className="text-sm font-semibold text-gray-100 italic leading-relaxed">
+                  <div className="bg-slate-950/60 p-3.5 rounded-xl border border-slate-850 mb-5">
+                    <p className="text-xs md:text-sm font-semibold text-gray-200 italic leading-relaxed">
                       " {fortuneText} "
                     </p>
                   </div>
 
-                  <div className="flex flex-wrap gap-2.5 mb-6">
+                  <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-6">
                     {drawnCard.attack !== null && (
-                      <span className="px-3 py-1 bg-red-500/10 border border-red-500/20 text-red-400 rounded-md text-xs font-bold">
-                        ⚔️ ATK: {drawnCard.attack}
+                      <span className="px-2.5 py-1 bg-red-500/10 border border-red-500/20 text-red-400 rounded-md text-[10px] font-bold">
+                        ⚔️ {drawnCard.attack}
                       </span>
                     )}
                     {drawnCard.defense !== null && (
-                      <span className="px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-md text-xs font-bold">
-                        🛡️ DEF: {drawnCard.defense}
+                      <span className="px-2.5 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-md text-[10px] font-bold">
+                        🛡️ {drawnCard.defense}
                       </span>
                     )}
                     {drawnCard.level && (
-                      <span className="px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 rounded-md text-xs font-bold">
-                        ⭐ Level: {drawnCard.level}
+                      <span className="px-2.5 py-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 rounded-md text-[10px] font-bold">
+                        ⭐ {drawnCard.level}
                       </span>
                     )}
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex gap-2.5">
                     <Link
                       href={`/cards/${drawnCard.id}`}
-                      className="px-4 py-2.5 bg-slate-800 hover:bg-slate-750 border border-slate-700 text-white font-bold rounded-lg text-center text-sm transition flex-1"
+                      className="px-3 py-2.5 bg-slate-800 hover:bg-slate-750 border border-slate-700 text-white font-bold rounded-lg text-center text-[11px] transition flex-1"
                     >
-                      📖 Detail Kartu
+                      Detail
                     </Link>
                     <button
                       onClick={handleDrawCard}
                       disabled={isDrawing}
-                      className="px-4 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold rounded-lg text-sm transition flex-1 shadow-md shadow-yellow-500/10"
+                      className="px-3 py-2.5 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black rounded-lg text-[11px] transition flex-1 shadow-md"
                     >
-                      🔄 Tarik Lagi
+                      🔄 Ulang
                     </button>
                   </div>
                 </div>
@@ -236,33 +236,38 @@ export default function Home() {
       <section className="py-12 bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
-            <div className="p-5 sm:p-6 bg-gradient-to-br from-red-50 to-red-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-red-500/20 rounded-xl hover:shadow-md transition">
-              <div className="text-3xl sm:text-4xl mb-1.5 sm:mb-2">👹</div>
-              <p className="text-2xl sm:text-3xl font-black text-red-600 dark:text-red-400">
+            <div className="p-4 sm:p-6 bg-gradient-to-br from-red-50 to-red-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-red-500/20 rounded-xl hover:shadow-md transition">
+              <div className="text-2xl sm:text-4xl mb-1.5 sm:mb-2">👹</div>
+      <section className="py-8 bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 text-center">
+            <div className="p-4 bg-gradient-to-br from-red-50 to-red-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-red-500/20 rounded-xl hover:shadow-md transition">
+              <div className="text-xl sm:text-4xl mb-1">👹</div>
+              <p className="text-xl sm:text-3xl font-black text-red-600 dark:text-red-400">
                 {stats.monsters.toLocaleString('id-ID')}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm font-semibold">Monster Cards</p>
+              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold">Monster Cards</p>
             </div>
-            <div className="p-5 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-green-500/20 rounded-xl hover:shadow-md transition">
-              <div className="text-3xl sm:text-4xl mb-1.5 sm:mb-2">✨</div>
-              <p className="text-2xl sm:text-3xl font-black text-green-600 dark:text-green-400">
+            <div className="p-4 bg-gradient-to-br from-green-50 to-green-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-green-500/20 rounded-xl hover:shadow-md transition">
+              <div className="text-xl sm:text-4xl mb-1">✨</div>
+              <p className="text-xl sm:text-3xl font-black text-green-600 dark:text-green-400">
                 {stats.spells.toLocaleString('id-ID')}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm font-semibold">Spell Cards</p>
+              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold">Spell Cards</p>
             </div>
-            <div className="p-5 sm:p-6 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-purple-500/20 rounded-xl hover:shadow-md transition">
-              <div className="text-3xl sm:text-4xl mb-1.5 sm:mb-2">🛡️</div>
-              <p className="text-2xl sm:text-3xl font-black text-purple-600 dark:text-purple-400">
+            <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-purple-500/20 rounded-xl hover:shadow-md transition">
+              <div className="text-xl sm:text-4xl mb-1">🛡️</div>
+              <p className="text-xl sm:text-3xl font-black text-purple-600 dark:text-purple-400">
                 {stats.traps.toLocaleString('id-ID')}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm font-semibold">Trap Cards</p>
+              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold">Trap Cards</p>
             </div>
-            <div className="p-5 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-blue-500/20 rounded-xl hover:shadow-md transition">
-              <div className="text-3xl sm:text-4xl mb-1.5 sm:mb-2">📦</div>
-              <p className="text-2xl sm:text-3xl font-black text-blue-600 dark:text-blue-400">
+            <div className="p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-blue-500/20 rounded-xl hover:shadow-md transition">
+              <div className="text-2xl sm:text-4xl mb-1.5 sm:mb-2">📦</div>
+              <p className="text-xl sm:text-3xl font-black text-blue-600 dark:text-blue-400">
                 {stats.sets.toLocaleString('id-ID')}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm font-semibold">Card Sets</p>
+              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold">Card Sets</p>
             </div>
           </div>
         </div>

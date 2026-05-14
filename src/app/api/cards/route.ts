@@ -36,20 +36,16 @@ export async function GET(request: NextRequest) {
     }
 
     if (search) {
-      // Split search into words and create OR conditions
-      const words = search.trim().split(/\s+/).filter(w => w.length > 0)
+      const trimmed = search.trim()
+      // Use case-insensitive search for the whole phrase OR each individual word
+      const words = trimmed.split(/\s+/).filter(w => w.length > 0)
 
-      where.OR = words.flatMap(word => {
-        const upper = word.toUpperCase()
-        const lower = word.toLowerCase()
-        const title = word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-
-        return [
-          { name: { contains: upper } },
-          { name: { contains: lower } },
-          { name: { contains: title } }
-        ]
-      })
+      where.OR = [
+        // Whole phrase match (highest priority, catches hyphenated names like Blue-Eyes)
+        { name: { contains: trimmed, mode: 'insensitive' } },
+        // Individual word matches
+        ...words.map(word => ({ name: { contains: word, mode: 'insensitive' } }))
+      ]
     }
 
     if (categoryId) {

@@ -80,31 +80,31 @@ export default function CardCard({ card }: CardCardProps) {
           />
 
           {/* Type badge */}
-          <div className="absolute top-2 right-2">
-            <span className={`${getTypeBadge()} text-white text-[10px] sm:text-xs px-2 py-0.5 sm:py-1 rounded-full font-bold shadow-lg`}>
+          <div className="absolute top-1 right-1 sm:top-2 sm:right-2">
+            <span className={`${getTypeBadge()} text-white text-[7px] sm:text-xs px-1 sm:px-2 py-0 sm:py-1 rounded-full font-bold shadow-lg`}>
               {typeName}
             </span>
           </div>
 
           {/* Attribute badge (for monsters) */}
           {attributeName && (
-            <div className="absolute top-2 left-2">
-              <span className={`${getAttributeColor()} bg-black/60 backdrop-blur text-[10px] sm:text-xs px-2 py-0.5 sm:py-1 rounded-full font-bold shadow-lg`}>
-                {getAttributeEmoji()} {attributeName}
+            <div className="absolute top-1 left-1 sm:top-2 sm:left-2">
+              <span className={`${getAttributeColor()} bg-black/60 backdrop-blur text-[7px] sm:text-xs px-1 sm:px-2 py-0 sm:py-1 rounded-full font-bold shadow-lg`}>
+                {getAttributeEmoji()} <span className="hidden xs:inline ml-0.5">{attributeName}</span>
               </span>
             </div>
           )}
         </div>
 
         {/* Card Info */}
-        <div className="p-3 flex-1 flex flex-col">
-          <h3 className="font-extrabold text-sm text-slate-900 dark:text-amber-100/90 group-hover:text-yellow-400 transition-colors line-clamp-2 mb-1" title={card.name}>
+        <div className="p-1 sm:p-3 flex-1 flex flex-col">
+          <h3 className="font-extrabold text-[9px] sm:text-sm text-slate-900 dark:text-amber-100/90 group-hover:text-yellow-400 transition-colors line-clamp-2 mb-0.5 leading-tight" title={card.name}>
             {card.name}
           </h3>
 
           {/* SubType */}
           {card.subType && (
-            <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 line-clamp-1">
+            <p className="text-[8px] sm:text-xs text-gray-500 dark:text-gray-400 mb-0.5 sm:mb-2 line-clamp-1 opacity-80">
               {card.subType}
             </p>
           )}
@@ -112,43 +112,43 @@ export default function CardCard({ card }: CardCardProps) {
           {/* Level/Rank/Link */}
           <div className="mt-auto">
             {card.level && (
-              <div className="flex items-center gap-1 text-xs text-yellow-500 mb-1">
+              <div className="flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-xs text-yellow-500 mb-0.5">
                 <span>★</span>
-                <span>Level {card.level}</span>
+                <span>Lv {card.level}</span>
               </div>
             )}
             {card.rank && (
-              <div className="flex items-center gap-1 text-xs text-purple-500 mb-1">
+              <div className="flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-xs text-purple-500 mb-0.5">
                 <span>☆</span>
-                <span>Rank {card.rank}</span>
+                <span>Rk {card.rank}</span>
               </div>
             )}
             {card.linkRating && (
-              <div className="flex items-center gap-1 text-xs text-cyan-500 mb-1">
+              <div className="flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-xs text-cyan-500 mb-0.5">
                 <span>⚡</span>
-                <span>Link {card.linkRating}</span>
+                <span>Lk {card.linkRating}</span>
               </div>
             )}
           </div>
 
           {/* ATK/DEF for monsters */}
           {card.type?.name?.toLowerCase() === 'monster' && (
-            <div className="flex justify-between mt-auto text-sm font-bold">
-              <span className="text-red-500">ATK {card.attack ?? '?'}</span>
-              <span className="text-blue-500">DEF {card.defense ?? '?'}</span>
+            <div className="flex justify-between mt-auto text-[9px] sm:text-sm font-black">
+              <span className="text-red-500">A {card.attack ?? '?'}</span>
+              <span className="text-blue-500">D {card.defense ?? '?'}</span>
             </div>
           )}
 
           {/* Price Display */}
           {(card.tcgPlayerPrice || card.cardMarketPrice) && (
-            <div className="mt-2 pt-2 border-t border-gray-100 dark:border-slate-700/60 flex items-center justify-between">
-              <span className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Cek Harga</span>
-              <div className="flex items-center gap-1 text-xs">
-                <span className="text-emerald-600 dark:text-emerald-400 font-extrabold text-sm">
+            <div className="mt-1 sm:mt-2 pt-1 sm:pt-2 border-t border-gray-100 dark:border-slate-700/40 flex items-center justify-between">
+              <span className="text-[7px] sm:text-[10px] text-gray-400 uppercase tracking-tighter font-bold">Price</span>
+              <div className="flex items-center gap-0.5 sm:gap-1 text-[8px] sm:text-xs">
+                <span className="text-emerald-600 dark:text-emerald-400 font-black text-[9px] sm:text-sm">
                   {card.tcgPlayerPrice
-                    ? `$${card.tcgPlayerPrice.toFixed(2)}`
+                    ? `$${card.tcgPlayerPrice.toFixed(1)}`
                     : card.cardMarketPrice
-                    ? `€${card.cardMarketPrice.toFixed(2)}`
+                    ? `€${card.cardMarketPrice.toFixed(1)}`
                     : '-'}
                 </span>
               </div>

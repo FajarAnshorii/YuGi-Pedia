@@ -104,38 +104,38 @@ export default function Pagination({ currentPage, totalPages, baseUrl = '/album'
       </div>
 
       {/* Mobile Pagination */}
-      <div className="flex sm:hidden items-center justify-between w-full max-w-xs px-4">
+      <div className="flex sm:hidden items-center justify-between w-full max-w-[280px] px-2">
         {currentPage > 1 ? (
           <Link
             href={getPageUrl(currentPage - 1)}
-            className="flex items-center gap-1 px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 transition text-sm font-semibold text-slate-700 dark:text-slate-300"
+            className="flex items-center gap-1 px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 transition text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tighter"
           >
-            <ChevronLeft size={16} />
+            <ChevronLeft size={14} />
             Prev
           </Link>
         ) : (
-          <div className="flex items-center gap-1 px-4 py-2 border border-gray-100 dark:border-slate-800 rounded-lg bg-gray-50 dark:bg-slate-900/30 text-sm font-semibold text-gray-300 dark:text-slate-600 cursor-not-allowed">
-            <ChevronLeft size={16} />
+          <div className="flex items-center gap-1 px-3 py-1.5 border border-gray-100 dark:border-slate-800 rounded-lg bg-gray-50 dark:bg-slate-900/30 text-[10px] font-bold text-gray-300 dark:text-slate-600 cursor-not-allowed uppercase tracking-tighter">
+            <ChevronLeft size={14} />
             Prev
           </div>
         )}
 
-        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">
-          Page {currentPage} of {totalPages}
+        <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-tighter">
+          {currentPage} / {totalPages}
         </span>
 
         {currentPage < totalPages ? (
           <Link
             href={getPageUrl(currentPage + 1)}
-            className="flex items-center gap-1 px-4 py-2 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 transition text-sm font-semibold text-slate-700 dark:text-slate-300"
+            className="flex items-center gap-1 px-3 py-1.5 border border-gray-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 hover:bg-gray-50 dark:hover:bg-slate-700 transition text-[10px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-tighter"
           >
             Next
-            <ChevronRight size={16} />
+            <ChevronRight size={14} />
           </Link>
         ) : (
-          <div className="flex items-center gap-1 px-4 py-2 border border-gray-100 dark:border-slate-800 rounded-lg bg-gray-50 dark:bg-slate-900/30 text-sm font-semibold text-gray-300 dark:text-slate-600 cursor-not-allowed">
+          <div className="flex items-center gap-1 px-3 py-1.5 border border-gray-100 dark:border-slate-800 rounded-lg bg-gray-50 dark:bg-slate-900/30 text-[10px] font-bold text-gray-300 dark:text-slate-600 cursor-not-allowed uppercase tracking-tighter">
             Next
-            <ChevronRight size={16} />
+            <ChevronRight size={14} />
           </div>
         )}
       </div>

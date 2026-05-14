@@ -216,11 +216,23 @@ export default function BoosterPackPage() {
           <div className="flex flex-col items-center justify-center py-24">
             <div className="relative mb-4 h-24 w-24 flex items-center justify-center">
               <div className="absolute inset-0 rounded-full border-2 border-dashed border-yellow-400/30 animate-[spin_10s_linear_infinite]"></div>
-              <img 
-                src="/images/logo.png" 
-                alt="Loading..." 
-                className="h-20 w-20 animate-spin object-contain drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]" 
-              />
+              <div className="relative h-20 w-20 flex items-center justify-center animate-pulse">
+                <div className="absolute inset-0 bg-yellow-500/20 rounded-full blur-xl"></div>
+                <div className="relative w-12 h-18 bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-yellow-500/60 rounded-xl shadow-[0_0_20px_rgba(234,179,8,0.4)] flex flex-col justify-between p-1.5">
+                  <div className="flex justify-between items-center px-0.5">
+                    <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse"></div>
+                    <div className="w-2 h-[3px] bg-slate-700 rounded-sm"></div>
+                  </div>
+                  <div className="w-5 h-5 mx-auto flex items-center justify-center rounded-full bg-yellow-500/10 border border-yellow-500/30">
+                    <svg className="w-3.5 h-3.5 text-yellow-500 animate-[spin_3s_linear_infinite]" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                  </div>
+                  <div className="w-full flex justify-center">
+                    <div className="w-5 h-[2px] bg-yellow-500/50 rounded-sm"></div>
+                  </div>
+                </div>
+              </div>
             </div>
             <p className="text-gray-500 dark:text-gray-400 font-bold text-lg tracking-wider animate-pulse">Menghubungkan ke Database...</p>
           </div>

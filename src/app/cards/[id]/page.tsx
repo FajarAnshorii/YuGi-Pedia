@@ -197,20 +197,20 @@ export default function CardDetailPage() {
     <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-250">
       <Navbar />
 
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
+      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-7xl">
         {/* Back Button */}
         <Link
           href="/album"
-          className="inline-flex items-center gap-2 text-gray-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white mb-6 font-semibold text-sm transition"
+          className="inline-flex items-center gap-1.5 text-gray-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white mb-4 sm:mb-6 font-bold text-[11px] sm:text-sm transition uppercase tracking-wide"
         >
-          <ChevronLeft size={18} />
-          Kembali ke Album
+          <ChevronLeft size={16} />
+          Album
         </Link>
 
-        <div className="grid md:grid-cols-12 gap-8 items-start">
+        <div className="grid md:grid-cols-12 gap-5 md:gap-8 items-start">
           {/* Card Image Block */}
-          <div className="md:col-span-5 bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-3xl p-6 shadow-xl flex flex-col items-center">
-            <div className="w-full aspect-[3/4] max-w-sm bg-gradient-to-br from-slate-900 to-slate-950 rounded-2xl overflow-hidden shadow-2xl relative group mb-6">
+          <div className="md:col-span-5 bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl flex flex-col items-center">
+            <div className="w-full aspect-[3/4] max-w-[280px] sm:max-w-sm bg-gradient-to-br from-slate-900 to-slate-950 rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl relative group mb-4 sm:mb-6">
               <img
                 src={getCardImageUrl()}
                 alt={card.name}
@@ -224,42 +224,42 @@ export default function CardDetailPage() {
             {/* Premium Wallpaper Downloader Trigger */}
             <button
               onClick={() => setShowWallpaperModal(true)}
-              className="w-full max-w-sm py-3.5 px-5 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 rounded-xl font-extrabold transition shadow-lg shadow-yellow-500/10 flex items-center justify-center gap-2.5 text-sm sm:text-base"
+              className="w-full max-w-[280px] sm:max-w-sm py-3 px-5 bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 rounded-xl font-black transition shadow-lg shadow-yellow-500/10 flex items-center justify-center gap-2 text-xs sm:text-base uppercase tracking-wider"
             >
-              <Sparkles size={18} className="animate-pulse" />
-              <span>DOWNLOAD WALLPAPER HD</span>
+              <Sparkles size={16} className="animate-pulse" />
+              <span>DOWNLOAD WALLPAPER</span>
             </button>
           </div>
 
           {/* Card Info Block */}
-          <div className="md:col-span-7 space-y-6">
+          <div className="md:col-span-7 space-y-4 sm:space-y-6">
             {/* Header */}
-            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-3xl p-6 shadow-xl">
-              <div className="flex items-center gap-2.5 mb-4">
-                <span className="text-3xl">
+            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl">
+              <div className="flex items-center gap-2 mb-2 sm:mb-4">
+                <span className="text-xl sm:text-3xl">
                   {typeSlug === 'monster' ? '👹' : typeSlug === 'spell' ? '✨' : '🛡️'}
                 </span>
-                <span className={`px-4 py-1.5 rounded-full text-xs font-extrabold tracking-wide uppercase text-white ${
+                <span className={`px-3 py-1 rounded-full text-[9px] sm:text-xs font-black tracking-widest uppercase text-white ${
                   typeSlug === 'monster' ? 'bg-red-500 shadow-md shadow-red-500/10' :
                   typeSlug === 'spell' ? 'bg-green-500 shadow-md shadow-green-500/10' : 'bg-purple-500 shadow-md shadow-purple-500/10'
                 }`}>
                   {typeName}
                 </span>
               </div>
-              <h1 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-amber-100/95 yugioh-glow-text tracking-wide uppercase mb-1">{card.name}</h1>
+              <h1 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-amber-100/95 yugioh-glow-text tracking-wide uppercase mb-1">{card.name}</h1>
               {card.passcode && (
-                <p className="text-gray-400 dark:text-gray-500 font-mono text-xs tracking-wider">Passcode ID: {card.passcode}</p>
+                <p className="text-gray-400 dark:text-gray-500 font-mono text-[10px] tracking-widest">ID: {card.passcode}</p>
               )}
             </div>
 
             {/* Statistics */}
-            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-3xl p-6 shadow-xl">
-              <h2 className="text-base font-bold text-slate-900 dark:text-slate-200 tracking-wider uppercase mb-4 flex items-center gap-2">📊 Atribut & Statistik</h2>
-              <div className="grid grid-cols-2 gap-3.5">
+            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl">
+              <h2 className="text-xs sm:text-base font-black text-slate-900 dark:text-slate-200 tracking-widest uppercase mb-3 sm:mb-4 flex items-center gap-2">📊 Statistics</h2>
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3.5">
                 {attributeName && (
-                  <div className="bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-2xl border dark:border-slate-800">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider mb-0.5">Attribute</p>
-                    <p className="text-base font-extrabold dark:text-white flex items-center gap-1.5">
+                  <div className="bg-slate-50 dark:bg-slate-900/80 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border dark:border-slate-800">
+                    <p className="text-[9px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider mb-0.5">Attribute</p>
+                    <p className="text-sm sm:text-base font-black dark:text-white flex items-center gap-1.5">
                       {attributeName === 'FIRE' && '🔥'}
                       {attributeName === 'WATER' && '💧'}
                       {attributeName === 'EARTH' && '🌍'}
@@ -273,49 +273,49 @@ export default function CardDetailPage() {
                 )}
 
                 {raceName && (
-                  <div className="bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-2xl border dark:border-slate-800">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider mb-0.5">Race / Klasifikasi</p>
-                    <p className="text-base font-extrabold dark:text-white">{raceName}</p>
+                  <div className="bg-slate-50 dark:bg-slate-900/80 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border dark:border-slate-800">
+                    <p className="text-[9px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider mb-0.5">Race</p>
+                    <p className="text-sm sm:text-base font-black dark:text-white truncate">{raceName}</p>
                   </div>
                 )}
 
                 {card.subType && (
-                  <div className="bg-slate-50 dark:bg-slate-900/80 p-3.5 rounded-2xl col-span-2 border dark:border-slate-800">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider mb-0.5">Sub-Tipe Deskripsi</p>
-                    <p className="text-base font-extrabold text-slate-900 dark:text-yellow-400">{card.subType}</p>
+                  <div className="bg-slate-50 dark:bg-slate-900/80 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl col-span-2 border dark:border-slate-800">
+                    <p className="text-[9px] text-gray-500 dark:text-gray-400 font-bold uppercase tracking-wider mb-0.5">Type Description</p>
+                    <p className="text-sm sm:text-base font-black text-slate-900 dark:text-yellow-400 truncate">{card.subType}</p>
                   </div>
                 )}
 
                 {card.level && (
-                  <div className="bg-yellow-500/5 p-3.5 rounded-2xl border border-yellow-500/10">
-                    <p className="text-xs text-yellow-600 dark:text-yellow-500 font-bold uppercase tracking-wider mb-0.5">Level Bintang</p>
-                    <p className="text-xl font-extrabold text-yellow-500">★ {card.level}</p>
+                  <div className="bg-yellow-500/5 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-yellow-500/10">
+                    <p className="text-[9px] text-yellow-600 dark:text-yellow-500 font-bold uppercase tracking-wider mb-0.5">Level</p>
+                    <p className="text-lg sm:text-xl font-black text-yellow-500">★ {card.level}</p>
                   </div>
                 )}
 
                 {card.rank && (
-                  <div className="bg-purple-500/5 p-3.5 rounded-2xl border border-purple-500/10">
-                    <p className="text-xs text-purple-600 dark:text-purple-500 font-bold uppercase tracking-wider mb-0.5">Rank Tingkat</p>
-                    <p className="text-xl font-extrabold text-purple-500">☆ {card.rank}</p>
+                  <div className="bg-purple-500/5 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-purple-500/10">
+                    <p className="text-[9px] text-purple-600 dark:text-purple-500 font-bold uppercase tracking-wider mb-0.5">Rank</p>
+                    <p className="text-lg sm:text-xl font-black text-purple-500">☆ {card.rank}</p>
                   </div>
                 )}
 
                 {card.linkRating && (
-                  <div className="bg-cyan-500/5 p-3.5 rounded-2xl border border-cyan-500/10">
-                    <p className="text-xs text-cyan-600 dark:text-cyan-500 font-bold uppercase tracking-wider mb-0.5">Link Rating</p>
-                    <p className="text-xl font-extrabold text-cyan-500">⚡ {card.linkRating}</p>
+                  <div className="bg-cyan-500/5 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-cyan-500/10">
+                    <p className="text-[9px] text-cyan-600 dark:text-cyan-500 font-bold uppercase tracking-wider mb-0.5">Link Rating</p>
+                    <p className="text-lg sm:text-xl font-black text-cyan-500">⚡ {card.linkRating}</p>
                   </div>
                 )}
 
                 {typeSlug === 'monster' && (
                   <>
-                    <div className="bg-red-500/5 p-3.5 rounded-2xl border border-red-500/10">
-                      <p className="text-xs text-red-500 font-bold uppercase tracking-wider mb-0.5">ATK (Serangan)</p>
-                      <p className="text-2xl font-black text-red-500">{card.attack ?? '?'}</p>
+                    <div className="bg-red-500/5 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-red-500/10">
+                      <p className="text-[9px] text-red-500 font-bold uppercase tracking-wider mb-0.5">ATK</p>
+                      <p className="text-xl sm:text-2xl font-black text-red-500">{card.attack ?? '?'}</p>
                     </div>
-                    <div className="bg-blue-500/5 p-3.5 rounded-2xl border border-blue-500/10">
-                      <p className="text-xs text-blue-500 font-bold uppercase tracking-wider mb-0.5">DEF (Pertahanan)</p>
-                      <p className="text-2xl font-black text-blue-500">{card.defense ?? '?'}</p>
+                    <div className="bg-blue-500/5 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border border-blue-500/10">
+                      <p className="text-[9px] text-blue-500 font-bold uppercase tracking-wider mb-0.5">DEF</p>
+                      <p className="text-xl sm:text-2xl font-black text-blue-500">{card.defense ?? '?'}</p>
                     </div>
                   </>
                 )}
@@ -324,68 +324,47 @@ export default function CardDetailPage() {
 
             {/* Description */}
             {card.description && (
-              <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-3xl p-6 shadow-xl">
-                <h2 className="text-base font-bold text-slate-900 dark:text-slate-200 tracking-wider uppercase mb-4">📜 Teks Efek Kartu</h2>
-                <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-2xl border dark:border-slate-800 leading-relaxed text-slate-700 dark:text-gray-300 text-sm sm:text-base">
+              <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl">
+                <h2 className="text-xs sm:text-base font-black text-slate-900 dark:text-slate-200 tracking-widest uppercase mb-3 sm:mb-4">📜 Card Effect</h2>
+                <div className="bg-slate-50 dark:bg-slate-900 p-3 sm:p-4 rounded-xl sm:rounded-2xl border dark:border-slate-800 leading-relaxed text-slate-700 dark:text-gray-300 text-xs sm:text-base">
                   <p className="whitespace-pre-line leading-relaxed">{card.description}</p>
                 </div>
               </div>
             )}
 
             {/* Market Prices */}
-            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-3xl p-6 shadow-xl">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-base font-bold text-slate-900 dark:text-slate-200 tracking-wider uppercase">💰 Harga Pasar Global</h2>
+            <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <h2 className="text-xs sm:text-base font-black text-slate-900 dark:text-slate-200 tracking-widest uppercase">💰 Market Prices</h2>
                 {card.priceUpdatedAt && (
-                  <span className="text-[10px] sm:text-xs text-gray-400 font-semibold uppercase tracking-wider">
-                    Update: {new Date(card.priceUpdatedAt).toLocaleDateString('id-ID')}
+                  <span className="text-[8px] sm:text-xs text-gray-400 font-bold uppercase tracking-widest">
+                    {new Date(card.priceUpdatedAt).toLocaleDateString('id-ID')}
                   </span>
                 )}
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
                 {card.tcgPlayerPrice && (
-                  <div className="price-source-card price-source-tcg rounded-2xl border dark:border-slate-800">
-                    <p className="text-xs font-semibold tracking-wide uppercase opacity-70">TCGPlayer</p>
-                    <p className="text-lg font-black mt-1 text-slate-900 dark:text-white">
+                  <div className="price-source-card price-source-tcg rounded-xl border dark:border-slate-800 p-2 sm:p-3">
+                    <p className="text-[9px] font-bold tracking-widest uppercase opacity-70">TCGPlayer</p>
+                    <p className="text-base sm:text-lg font-black mt-0.5 text-slate-900 dark:text-white">
                       ${card.tcgPlayerPrice.toFixed(2)}
                     </p>
-                    <p className="text-[10px] uppercase opacity-50">USD</p>
                   </div>
                 )}
                 {card.cardMarketPrice && (
-                  <div className="price-source-card price-source-cardmarket rounded-2xl border dark:border-slate-800">
-                    <p className="text-xs font-semibold tracking-wide uppercase opacity-70">CardMarket</p>
-                    <p className="text-lg font-black mt-1 text-slate-900 dark:text-white">
+                  <div className="price-source-card price-source-cardmarket rounded-xl border dark:border-slate-800 p-2 sm:p-3">
+                    <p className="text-[9px] font-bold tracking-widest uppercase opacity-70">CardMarket</p>
+                    <p className="text-base sm:text-lg font-black mt-0.5 text-slate-900 dark:text-white">
                       €{card.cardMarketPrice.toFixed(2)}
                     </p>
-                    <p className="text-[10px] uppercase opacity-50">EUR</p>
                   </div>
                 )}
                 {card.eBayPrice && (
-                  <div className="price-source-card price-source-ebay rounded-2xl border dark:border-slate-800">
-                    <p className="text-xs font-semibold tracking-wide uppercase opacity-70">eBay</p>
-                    <p className="text-lg font-black mt-1 text-slate-900 dark:text-white">
+                  <div className="price-source-card price-source-ebay rounded-xl border dark:border-slate-800 p-2 sm:p-3">
+                    <p className="text-[9px] font-bold tracking-widest uppercase opacity-70">eBay</p>
+                    <p className="text-base sm:text-lg font-black mt-0.5 text-slate-900 dark:text-white">
                       ${card.eBayPrice.toFixed(2)}
                     </p>
-                    <p className="text-[10px] uppercase opacity-50">USD</p>
-                  </div>
-                )}
-                {card.amazonPrice && (
-                  <div className="price-source-card price-source-amazon rounded-2xl border dark:border-slate-800">
-                    <p className="text-xs font-semibold tracking-wide uppercase opacity-70">Amazon</p>
-                    <p className="text-lg font-black mt-1 text-slate-900 dark:text-white">
-                      ${card.amazonPrice.toFixed(2)}
-                    </p>
-                    <p className="text-[10px] uppercase opacity-50">USD</p>
-                  </div>
-                )}
-                {card.coolStuffIncPrice && (
-                  <div className="price-source-card price-source-coolstuff rounded-2xl border dark:border-slate-800">
-                    <p className="text-xs font-semibold tracking-wide uppercase opacity-70">CoolStuffInc</p>
-                    <p className="text-lg font-black mt-1 text-slate-900 dark:text-white">
-                      ${card.coolStuffIncPrice.toFixed(2)}
-                    </p>
-                    <p className="text-[10px] uppercase opacity-50">USD</p>
                   </div>
                 )}
               </div>
@@ -393,23 +372,23 @@ export default function CardDetailPage() {
 
             {/* Sets */}
             {card.cardSets && card.cardSets.length > 0 && (
-              <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-3xl p-6 shadow-xl">
-                <h2 className="text-base font-bold text-slate-900 dark:text-slate-200 tracking-wider uppercase mb-4">📦 Booster Sets Terkait ({card.cardSets.length})</h2>
-                <div className="space-y-2.5 max-h-64 overflow-y-auto pr-1">
-                  {card.cardSets.slice(0, 10).map((set) => (
-                    <div key={set.id} className="flex justify-between items-center p-3.5 bg-slate-50 dark:bg-slate-900/80 border dark:border-slate-800 rounded-2xl transition">
-                      <div>
-                        <p className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">{set.setName}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 font-mono tracking-wider mt-0.5">{set.setCode}</p>
+              <div className="bg-white dark:bg-slate-900/40 border border-slate-100 dark:border-slate-800/40 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl">
+                <h2 className="text-xs sm:text-base font-black text-slate-900 dark:text-slate-200 tracking-widest uppercase mb-3 sm:mb-4 flex items-center gap-2">📦 Sets ({card.cardSets.length})</h2>
+                <div className="space-y-2 max-h-48 sm:max-h-64 overflow-y-auto pr-1">
+                  {card.cardSets.slice(0, 8).map((set) => (
+                    <div key={set.id} className="flex justify-between items-center p-2.5 sm:p-3.5 bg-slate-50 dark:bg-slate-900/80 border dark:border-slate-800 rounded-xl transition">
+                      <div className="min-w-0">
+                        <p className="font-bold text-slate-900 dark:text-white text-xs sm:text-base truncate">{set.setName}</p>
+                        <p className="text-[9px] text-gray-500 dark:text-gray-400 font-mono tracking-widest mt-0.5">{set.setCode}</p>
                       </div>
-                      <div className="text-right">
-                        <span className={`px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider ${
+                      <div className="text-right flex-shrink-0 ml-2">
+                        <span className={`px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-widest ${
                           set.rarity?.code === 'UR' ? 'bg-amber-500/10 border border-amber-500/20 text-yellow-500' :
                           set.rarity?.code === 'SR' ? 'bg-blue-500/10 border border-blue-500/20 text-blue-400' :
                           set.rarity?.code === 'SECRET' ? 'bg-purple-500/10 border border-purple-500/20 text-purple-400' :
                           'bg-gray-100 dark:bg-slate-800 border dark:border-slate-700 text-gray-500 dark:text-gray-400'
                         }`}>
-                          {set.rarity?.name || 'Common'}
+                          {set.rarity?.code || 'C'}
                         </span>
                       </div>
                     </div>
