@@ -233,41 +233,36 @@ export default function Home() {
       </section>
 
       {/* Stats Grid Section */}
-      <section className="py-12 bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 text-center">
-            <div className="p-4 sm:p-6 bg-gradient-to-br from-red-50 to-red-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-red-500/20 rounded-xl hover:shadow-md transition">
-              <div className="text-2xl sm:text-4xl mb-1.5 sm:mb-2">👹</div>
-      <section className="py-8 bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800">
+      <section className="py-8 sm:py-12 bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 text-center">
-            <div className="p-4 bg-gradient-to-br from-red-50 to-red-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-red-500/20 rounded-xl hover:shadow-md transition">
-              <div className="text-xl sm:text-4xl mb-1">👹</div>
+            <div className="p-4 sm:p-6 bg-gradient-to-br from-red-50 to-red-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-red-500/20 rounded-xl hover:shadow-md transition">
+              <div className="text-xl sm:text-4xl mb-1 sm:mb-2">👹</div>
               <p className="text-xl sm:text-3xl font-black text-red-600 dark:text-red-400">
                 {stats.monsters.toLocaleString('id-ID')}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold">Monster Cards</p>
+              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold uppercase tracking-wider">Monster Cards</p>
             </div>
-            <div className="p-4 bg-gradient-to-br from-green-50 to-green-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-green-500/20 rounded-xl hover:shadow-md transition">
-              <div className="text-xl sm:text-4xl mb-1">✨</div>
+            <div className="p-4 sm:p-6 bg-gradient-to-br from-green-50 to-green-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-green-500/20 rounded-xl hover:shadow-md transition">
+              <div className="text-xl sm:text-4xl mb-1 sm:mb-2">✨</div>
               <p className="text-xl sm:text-3xl font-black text-green-600 dark:text-green-400">
                 {stats.spells.toLocaleString('id-ID')}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold">Spell Cards</p>
+              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold uppercase tracking-wider">Spell Cards</p>
             </div>
-            <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-purple-500/20 rounded-xl hover:shadow-md transition">
-              <div className="text-xl sm:text-4xl mb-1">🛡️</div>
+            <div className="p-4 sm:p-6 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-purple-500/20 rounded-xl hover:shadow-md transition">
+              <div className="text-xl sm:text-4xl mb-1 sm:mb-2">🛡️</div>
               <p className="text-xl sm:text-3xl font-black text-purple-600 dark:text-purple-400">
                 {stats.traps.toLocaleString('id-ID')}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold">Trap Cards</p>
+              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold uppercase tracking-wider">Trap Cards</p>
             </div>
             <div className="p-4 sm:p-6 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-900/60 dark:to-slate-950/60 dark:border dark:border-blue-500/20 rounded-xl hover:shadow-md transition">
-              <div className="text-2xl sm:text-4xl mb-1.5 sm:mb-2">📦</div>
+              <div className="text-xl sm:text-4xl mb-1 sm:mb-2">📦</div>
               <p className="text-xl sm:text-3xl font-black text-blue-600 dark:text-blue-400">
                 {stats.sets.toLocaleString('id-ID')}
               </p>
-              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold">Card Sets</p>
+              <p className="text-gray-500 dark:text-gray-400 text-[10px] sm:text-sm font-semibold uppercase tracking-wider">Card Sets</p>
             </div>
           </div>
         </div>
